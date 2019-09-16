@@ -1,4 +1,4 @@
-##Install Process
+Install Process
 
 Global
 ```
@@ -13,7 +13,7 @@ cd src
 npm install
 ```
 
-##Run
+Run
 
 ```
 cd client
