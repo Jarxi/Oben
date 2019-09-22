@@ -1,4 +1,4 @@
-Install Process
+### Install Process
 
 Global
 ```
@@ -9,11 +9,11 @@ cd client
 npm install
 ```
 ```
-cd src
+cd server
 npm install
 ```
 
-Run
+### Run
 
 ```
 cd client
@@ -21,6 +21,6 @@ npm run serve
 ```
 
 ```
-cd src
+cd server
 nodemon start
 ```
