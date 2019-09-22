@@ -1,15 +1,42 @@
 const devEnv = require('../development.config');
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const path = require('path');
 
-if (process.env.Node_ENV !== 'production'){
-    devEnv.init();
-}
+// Correct REST naming
+const {
+
+    userRoutes,
+
+} = require('./routes');
 
 const app = express();
 
+
+// Load 'development' configs for dev environment
+if (process.env.NODE_ENV !== 'production') {
+    devEnv.init();
+}
+
+// Open Mongoose connection to db
+require('../db');
+
+// cors middleware for orign and Headers
+app.use(cors());
+
+// Set Bodyparser middleware
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+
 // Use Morgan middleware for logging every request status on console
 app.use(morgan('dev'));
+
+// Correct REST naming
+app.use('/api/', userRoutes);
 
 // Invalid routes handling middleware
 app.use((req, res, next) => {
