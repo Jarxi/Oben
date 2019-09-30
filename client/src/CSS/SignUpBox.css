@@ -32,3 +32,14 @@
     font-weight: 500;
     margin-top: 10px;
 }
+
+.Succeed_message {
+    color: #00a61b;
+    margin-left: 50px;
+    margin-top: 10px;
+    font-family: Georgia, 'Times New Roman', Times, serif
+}
+
+.Banner {
+    color: red
+}
