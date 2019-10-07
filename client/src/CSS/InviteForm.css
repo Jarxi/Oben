@@ -1,0 +1,61 @@
+.Single_Invite_Box{
+    width: 30%;
+    
+    margin-bottom: 350px;
+    margin-left: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: thin groove rgb(33, 85, 182);
+}
+
+.Form_Row label, .Form_Row input{
+    float: none;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.Form_Label {
+    margin-left: 30px;
+    color : black;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+.Field__Input {
+    width: 85%;
+    background-color: transparent;
+    border: 1px groove hsla(0, 4%, 95%, 0.584);
+    border-width: thin;
+    font-size: 1em;
+    font-weight: 300;
+    height: 30px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 30px;
+}
+
+.Form__Button {
+    width: 40%;
+    margin-left: 30px;
+    background-color: rgb(147, 206, 52);
+    color: white;
+    border: none;
+    padding: 10px 10px;
+    font-size: .8em;
+    font-weight: 500;
+    margin-top: 30px;
+    text-align: center;
+    
+}
+
+.Type_Row {
+    margin-left: 30px;
+}
+
+.Type_Label{
+    color: black;
+}
+
+.Heading {
+    color: rgb(43, 47, 164);
+    margin-bottom: 20px;
+}
+

@@ -23,11 +23,9 @@ class SignInForm extends React.Component {
     handleChange(e) {
         let value = e.target.value;
         let name = e.target.name;
-        this.setState(
-            {
-                [name]: value
-            }
-        )
+        this.setState({
+            [name]: value
+        })
     }
 
     handleSubmit(e){

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios'
 import '../CSS/SignInForm.css'
 
@@ -38,7 +38,7 @@ class SignInForm extends React.Component {
         };
         axios.post(url,params).then((res)=>{
             console.log(res)
-            if(res.status == 200){
+            if(res.status === 200){
                 this.setState({
                     loginfail: false
                 })

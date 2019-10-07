@@ -7,6 +7,7 @@ import '../CSS/Home.css'
 class Sidebar extends React.Component {
   constructor(){
     super();
+    
   }
 
   render(){
@@ -31,7 +32,7 @@ class Sidebar extends React.Component {
 
           <div class="manage">
             <h3>Manage</h3>
-            <p><span><MdPersonAdd/></span>Setup</p>
+            <p class="HARD_CODE_SHADE"><span><MdPersonAdd/></span>Setup</p>
           </div>
         </div>
       </div>
