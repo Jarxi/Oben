@@ -1,0 +1,30 @@
+.row {
+    width: 100%;
+    display: flex;
+  }
+  
+.sidebar {
+  padding: 2%;
+  width: 25%;
+  background-color: #211656;
+}
+
+.sidebar span {
+  font-size: 20px;
+  margin-top: 20px;
+  margin: 10px;
+}
+
+.mainContent {
+  width: 75%;
+  background-color: white;
+}
+
+.TopRow {
+  height: 8em;
+  width: 100%;
+}
+
+.Setting_Icon {
+  float: right;
+}

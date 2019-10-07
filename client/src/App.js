@@ -4,6 +4,7 @@ import './CSS/App.css';
 import SignInForm from './Components/SignInForm';
 import SignUpForm from './Components/SignUpForm';
 import Home from './Pages/home';
+import ResetPasswordForm from './Components/ResetPasswordForm';
 
 function App() {
 
@@ -12,7 +13,8 @@ function App() {
       <Router>
         <Route exact path="/signup" component={SignUpForm} />
         <Route exact path="/login" component={SignInForm} />      
-        <Route exact path="/home"><Home/></Route>
+        <Route exact path="/home" component={Home} />
+        <Route exact path="/resetPassword" component={ResetPasswordForm} />
       </Router>
     </div>
 

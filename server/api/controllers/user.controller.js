@@ -73,9 +73,11 @@ const resetPassword = async (req, res) => {
             return sendErr(res, '', 'Email and Password do not match');
         }
 
-        const update = await User.findOneAndUpdate({
+        const update = await User.findOneAndUpdate(
+            {
                 email: email
-            }, {
+            }, 
+            {
                 $set: {
                     password: encrypted_password.password
                 }

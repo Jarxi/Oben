@@ -1,6 +1,4 @@
-import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import axios from 'axios';
+import React from 'react';
 import Sidebar from '../Components/Sidebar';
 import MainContent from "../Components/MainContent";
 

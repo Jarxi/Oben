@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import axios from 'axios'
+import React from 'react';
+import '../CSS/Home.css';
+import { IconContext } from "react-icons";
+import { TiCog } from "react-icons/ti";
+import { NavLink } from 'react-router-dom';
 
 class MainContent extends React.Component {
 
@@ -8,7 +10,13 @@ class MainContent extends React.Component {
 
     return (
         <div class="mainContent">
-          <h1>MainContent</h1>
+
+          <div class="TopRow">
+            <IconContext.Provider value={{ color: "black", size:"4em" }}>
+              <div className="Setting_Icon"><NavLink to="/resetPassword"><TiCog /></NavLink></div>
+            </IconContext.Provider>            
+          </div>
+
         </div>
     );
   }

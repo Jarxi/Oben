@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import axios from 'axios'
+import React from 'react';
 import { MdPersonOutline, MdPersonAdd } from "react-icons/md";
-import {TiThumbsUp} from "react-icons/ti";
-import {FaAddressBook, FaChartBar} from "react-icons/fa";
+import { TiThumbsUp } from "react-icons/ti";
+import { FaAddressBook, FaChartBar } from "react-icons/fa";
+import '../CSS/Home.css'
+
 class Sidebar extends React.Component {
   constructor(){
     super();

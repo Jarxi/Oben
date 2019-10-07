@@ -42,7 +42,7 @@ class SignInForm extends React.Component {
                 this.setState({
                     loginfail: false
                 })
-                
+                this.props.history.push("/home")
             }
         }).catch((e)=>{
             console.log("Sign in failed")

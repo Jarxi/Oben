@@ -8,6 +8,16 @@
     border: thin groove rgb(33, 85, 182);
 }
 
+.Reset_Container {
+    width: 30%;
+    margin: 0 auto;
+    margin-top: 150px;
+    margin-bottom: 500px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border: thin groove rgb(33, 85, 182);
+}
+
 .SignUpField__Input {
     width: 85%;
     background-color: transparent;

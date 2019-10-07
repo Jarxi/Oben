@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import '../CSS/SignUpForm.css';
 import axios from 'axios';
 
@@ -43,7 +42,7 @@ class SignInForm extends React.Component {
             user_type: "aic"
         }
         axios.post(url, params).then((res)=>{
-            if(res.status == 200){
+            if(res.status === 200){
                 this.setState({
                     success:true
                 })
