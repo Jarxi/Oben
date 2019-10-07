@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
-import SignInForm from './Components/SignInForm'
-import SignUpForm from './Components/SignUpForm'
+import SignInForm from './Components/SignInForm';
+import SignUpForm from './Components/SignUpForm';
+import Home from './Pages/home';
 
 function App() {
 
@@ -18,11 +19,14 @@ function App() {
             <div className="FormTitle">Records Management System</div>
             <SignInForm/>
           </div>
-        </Route>      
+        </Route>
+        <Route exact path="/home">
+          <Home/>
+        </Route>
       </Router>
     </div>
 
-    
+
   );
 }
 
