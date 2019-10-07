@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import '../CSS/SignUpBox.css';
+import '../CSS/SignUpForm.css';
 import axios from 'axios';
 
 
@@ -47,6 +47,10 @@ class SignInForm extends React.Component {
                 this.setState({
                     success:true
                 })
+                setTimeout(()=>{
+                    this.props.history.push("/");
+                }, 1000)
+                
             }
         }).catch((err)=>{
             console.log("failed")

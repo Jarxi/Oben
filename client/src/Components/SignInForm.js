@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios'
+import '../CSS/SignInForm.css'
 
 class SignInForm extends React.Component {
     constructor(){
@@ -41,7 +42,7 @@ class SignInForm extends React.Component {
                 this.setState({
                     loginfail: false
                 })
-                alert("Log In Success")
+                
             }
         }).catch((e)=>{
             console.log("Sign in failed")
@@ -58,30 +59,38 @@ class SignInForm extends React.Component {
             banner = <div class="Banner">Invalid email or password</div>
         }
         return (
-            <form className="FormFields" onSubmit={this.handleSubmit}>
-                <Link to="/signup"><button className="Signup_button">Sign Up</button></Link>
-                <div className="FormField">
-                    <div class="circle">Or</div>
-                </div>
-                <div className="FormField">
-                    <label className="FormField__Label" htmlFor="username">Email Address</label>
-                    <input type="text" id="username" className="FormField__Input" placeholder="Enter your email address" 
-                    name="username" value={this.state.email} onChange={this.handleChange}/>
-                </div>
-                
-                <div className="FormField">
-                    <label className="FormField__Label" htmlFor="password">Password</label>
-                    <input type="password" id="password" className="FormField__Input" placeholder="Enter your pasword" 
-                    name="password" value={this.state.password} onChange={this.handleChange}/>
-                </div> 
+            <div className="SignInContainer">
+                <div className="App__Aside"></div>
+                <div className="App__Form">
+                    <div className="FormTitle">Records Management System</div>
+                    <form className="FormFields" onSubmit={this.handleSubmit}>
+                    <Link to="/signup"><button className="Signup_button">Sign Up</button></Link>
+                    <div className="FormField">
+                        <div class="circle">Or</div>
+                    </div>
+                    <div className="FormField">
+                        <label className="FormField__Label" htmlFor="username">Email Address</label>
+                        <input type="text" id="username" className="FormField__Input" placeholder="Enter your email address" 
+                        name="username" value={this.state.email} onChange={this.handleChange}/>
+                    </div>
+                    
+                    <div className="FormField">
+                        <label className="FormField__Label" htmlFor="password">Password</label>
+                        <input type="password" id="password" className="FormField__Input" placeholder="Enter your pasword" 
+                        name="password" value={this.state.password} onChange={this.handleChange}/>
+                    </div> 
 
-                {banner}
-                
-                <div className="FormField">
-                    <button className="FormField__Button">Log in</button>
-                    <a href="#" className="FormField__Link">Forget your password?</a>
+                    {banner}
+                    
+                    <div className="FormField">
+                        <button className="FormField__Button">Log in</button>
+                        <a href="#" className="FormField__Link">Forget your password?</a>
+                    </div>
+                </form>     
                 </div>
-            </form>
+           
+            </div>
+
         );
     }
 };
