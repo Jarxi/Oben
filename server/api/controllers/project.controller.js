@@ -13,7 +13,7 @@ const create = async (req, res) => {
     };
     const createdProject = await Project.create(project);
     return res.status(200).json({
-      message: "project created!",
+      message: "Project created!",
       createdProject
     })
   }catch (err){
