@@ -1,5 +1,4 @@
 const moment = require('moment');
-const mongoose = require('mongoose');
 const { ExpenseCategory } = require('../models');
 const sendErr = require('../utils/sendErr');
 

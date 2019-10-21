@@ -154,5 +154,6 @@ const updateUserInfo = async (req, res) => {
 module.exports = {
     signUp,
     signIn,
-    resetPassword
+    resetPassword,
+    updateUserInfo
 };

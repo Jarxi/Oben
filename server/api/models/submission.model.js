@@ -9,21 +9,26 @@ const SubmissionSchema = new Schema({
   },
   input:[{
     project_name: String,
-    date: Date,
-    amount: Number,
+    dateAmount: [{
+      date: Date,
+      amount: Number,
+    }]
   }],
   type: {
     type: String,
     required: true,
     enum: ['time', 'expense']
   },
-  total_amount: {
-    type: Number,
-    default: 0
-  },
+  total_amount: [{
+    dateAmount: {
+      date: Date,
+      amount: Number,
+    }
+  }],
   submitter: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    required: true
   },
   status: {
     type: String,
