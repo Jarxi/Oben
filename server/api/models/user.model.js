@@ -118,6 +118,18 @@ const UserSchema = new Schema({
     },
     certification: {
         type: String
+    },
+    leader: { // indicate if the user is a leader of any team
+        type: Boolean
+    },
+    team_led: { // the team that the user leads, only set if leader = true
+        type: String
+    },
+    approve_timesheet: {
+        type: Boolean
+    },
+    approve_invoice: {
+        type: Boolean
     }
 });
 
