@@ -11,7 +11,7 @@ const createCategory = async (req, res) => {
       return res.status(500).json({
         message: "Category already exists!"
       });
-    };
+    }
     const createdCategory = await ExpenseCategory.create(category);
     return res.status(200).json({
       message: "category created!",

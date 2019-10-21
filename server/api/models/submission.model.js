@@ -31,6 +31,9 @@ const SubmissionSchema = new Schema({
     default: 'pending',
     enum: ['pending', 'accepted', 'returned']
   },
+  note: {
+    type: String,
+  },
   attached_filename: {
     type: String
   },
