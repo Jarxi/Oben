@@ -8,7 +8,7 @@ const app = express();
 const path = require("path");
 const db = require('./db');
 const cors = require('cors');
-const { userRoutes, expenseRoutes, projectRoutes } = require("./api/routes");
+const { userRoutes, expenseRoutes, projectRoutes, submissionRoutes } = require("./api/routes");
 
 // Load 'development' configs for dev environment
 if (process.env.NODE_ENV !== 'production') {
@@ -39,6 +39,7 @@ app.use(passport.initialize());
 app.use("/api/user", userRoutes);
 app.use("/api/expense", expenseRoutes);
 app.use("/api/project", projectRoutes);
+app.use("/api/submission", submissionRoutes);
 
 // Invalid routes handling middleware
 app.use((req, res, next) => {

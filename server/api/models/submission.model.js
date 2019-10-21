@@ -7,18 +7,19 @@ const SubmissionSchema = new Schema({
     type: Number,
     required: true
   },
-  project_name: {
-    type: String,
-    required: true
-  },
   input:[{
-      date: Date,
-      amount: Number
+    project_name: String,
+    date: Date,
+    amount: Number,
   }],
   type: {
     type: String,
     required: true,
-    enum: ['time', 'expense', 'invoice']
+    enum: ['time', 'expense']
+  },
+  total_amount: {
+    type: Number,
+    default: 0
   },
   submitter: {
     type: Schema.Types.ObjectId,
@@ -30,7 +31,7 @@ const SubmissionSchema = new Schema({
     default: 'pending',
     enum: ['pending', 'accepted', 'returned']
   },
-  file: {
+  attached_filename: {
     type: String
   },
 });

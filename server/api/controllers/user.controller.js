@@ -76,7 +76,7 @@ const resetPassword = async (req, res) => {
         const update = await User.findOneAndUpdate(
             {
                 email: email
-            }, 
+            },
             {
                 $set: {
                     password: encrypted_password.password
@@ -95,7 +95,7 @@ const resetPassword = async (req, res) => {
     } catch (err){
         return sendErr(res, err);
     }
-}
+};
 
 
 // if you add functions above, add it here too

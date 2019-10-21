@@ -35,6 +35,6 @@ const InvoiceSchema = new Schema({
     },
 });
 
-const SubmitInvoice = mongoose.model('Invoice', InvoiceSchema);
+const Invoice = mongoose.model('Invoice', InvoiceSchema);
 
-module.exports = SubmitInvoice;
+module.exports = Invoice;
