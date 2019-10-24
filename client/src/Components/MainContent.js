@@ -3,12 +3,13 @@ import '../CSS/Home.css';
 import { IconContext } from "react-icons";
 import { TiCog } from "react-icons/ti";
 import { NavLink } from 'react-router-dom';
-import  InviteForm  from './InviteForm'
+import SetUpPage from '../Pages/SetUpPage'
+import Dashboard from '../Pages/Dashboard';
 
 class MainContent extends React.Component {
 
   render(){
-
+    const window = this.props.window
     return (
         <div class="mainContent">
 
@@ -18,7 +19,8 @@ class MainContent extends React.Component {
             </IconContext.Provider>            
           </div>
 
-          <InviteForm/>
+          {window === "overview" && <Dashboard/>}
+          {window === "setUp" && <SetUpPage/>}
 
         </div>
     );

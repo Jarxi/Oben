@@ -1,9 +1,15 @@
 import React from 'react';
-import '../CSS/InviteForm.css';
-import generator from 'generate-password'
-import axios from 'axios'
+import '../CSS/bootstrap/css/bootstrap-iso.css';
+import '../CSS/SetUpPage.css';
+import generator from 'generate-password';
+import axios from 'axios';
+import InvitationStatusBox from '../Components/InvitationStatusBox';
+import { FaUserCheck } from 'react-icons/fa';
+
+
 
 class InviteForm extends React.Component {
+
     constructor(){
         super()
 
@@ -11,7 +17,37 @@ class InviteForm extends React.Component {
             name: '',
             email: '',
             password: generator.generate(),
-            type: 'employee'
+            type: 'employee',
+
+            /**
+             * FOR DEMO
+             */
+            users: [
+                {
+                    name: 'Qiusi Li',
+                    email: 'qiusili@usc.edu',
+                    type: 'employee',
+                    invitationStatus: 'Accepted',
+                },
+                {
+                    name: 'Ruoxi Jia',
+                    email: 'ruoxijia@usc.edu',
+                    type: 'employee',
+                    invitationStatus: 'Accepted',
+                },
+                {
+                    name: 'Kun Peng',
+                    email: 'kunpeng@usc.edu',
+                    type: 'employee',
+                    invitationStatus: 'Accepted',
+                },
+                {
+                    name: 'Yichun Lu',
+                    email: 'yichunlu@usc.edu',
+                    type: 'employee',
+                    invitationStatus: 'Accepted',
+                },
+            ]
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -26,29 +62,45 @@ class InviteForm extends React.Component {
         })
     }
 
-    handleSubmit(e){
-        e.preventDefault();
+    handleSubmit(){
         const url = "http://localhost:3000/api/user/signup";
-        console.log(this.state.email)
+        const nameSplit = this.state.name.split(/(\s+)/);
+        console.log(nameSplit)
+        const firstName = nameSplit[0];
+        const lastName = nameSplit.length === 1 ? "" : nameSplit[nameSplit.length - 1];
         const params = {
-            email: this.state.username,
+            email: this.state.email,
             password: this.state.password,
-            first_name: this.state.firstname,
-            last_name: this.state.lastname,
-            user_type: "aic"
-        }
+            first_name: firstName,
+            last_name: lastName,
+            user_type: this.state.type, 
+        };
+        this.setState({
+            users: this.state.users.concat({
+                name: this.state.name,
+                email: this.state.email,
+                type: this.state.type,
+                invitationStatus: 'Pending'
+                
+            }),
+            name: '',
+            email: '',
+            password: generator.generate(),
+
+        })
         axios.post(url, params).then((res)=>{
             if(res.status === 200){
                 this.setState({
-                    success:true
+                    success:true,
+                    name: '',
+                    email: '',
+                    password: generator.generate(),
+                    type: 'employee',
                 })
-                setTimeout(()=>{
-                    this.props.history.push("/");
-                }, 1000)
-                
             }
         }).catch((err)=>{
             console.log("failed")
+            
         })
         
     }
@@ -56,39 +108,38 @@ class InviteForm extends React.Component {
     render(){
 
         return (
-            <div className="Invite_Form_Container">
-                
-                <form className="Single_Invite_Box" onSubmit={this.handleSubmit}>
-                    <div className="Heading">Individual Invite</div>
-                    <div className="Form_Row">
+            <div>
+                <div id="invite-form" className="invite-form bootstrap-iso">
+                    <div className="form-group"><label>Individual Invite</label></div>
+                    <div className="form-group">
                         <label className="Form_Label">Name:</label>
-                        <input type="text" id="name" className="Field__Input" placeholder="Name" 
+                        <input type="text" className="form-control" placeholder="Name" 
                         name="name" value={this.state.name} onChange={this.handleChange}/>
                     </div>
 
-                    <div className="Form_Row">
+                    <div className="form-group">
                         <label className="Form_Label">Email:</label>
-                        <input type="text" id="email" className="Field__Input" placeholder="Email" 
+                        <input type="email" className="form-control" placeholder="Email" 
                         name="email" value={this.state.email} onChange={this.handleChange}/>
                     </div>
 
-                    <div className="Form_Row">
+                    <div className="form-group">
                         <label className="Form_Label">Temp Password:</label>
-                        <input type="text" id="password" className="Field__Input" 
+                        <input type="text" id="password" className="form-control" 
                         name="password" value={this.state.password} onChange={this.handleChange}/>
                     </div>
 
-                    <div className="Type_Row">
-                        <input className="square-radio" type="radio" name="employee"/><label className="Type_Label">Employee</label>
-                        <label className="blank">blankblank</label>
-                        <input className="square-radio" type="radio" name="contractor"/><label className="Type_Label">Contractor</label>
+                    <div class="btn-group form-group" role="group" aria-label="...">
+                        <button type="button" name="type" value="employee" onClick={this.handleChange} class="btn btn-default">Employee</button>
+                        <button type="button" name="type" value="contractor" onClick={this.handleChange} class="btn btn-default">Contractor</button>
                     </div>
                     
-                    <div className="FormField">
-                        <button className="Form__Button">Invite</button>
+                    <div className="form-group">
+                        <button onClick={this.handleSubmit} className="btn btn-success btn-block">Invite</button>
                     </div>
                 
-                </form>
+                </div>
+                <InvitationStatusBox className="invitationStatusBox" users={this.state.users}/>
             </div>
         );
     }
