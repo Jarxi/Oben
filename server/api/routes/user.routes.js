@@ -1,13 +1,15 @@
 const express = require('express');
 const { user } = require('../controllers');
-
+const { authUtil } = require('../utils');
 
 const router = express.Router();
 
+// authorization
+router.use(authUtil.verifyToken);
+router.use(authUtil.isLoggedIn);
+
+
 router.get("/test", (req, res) => res.json({ msg: "user Works" }));
-router.post("/signup", user.signUp);
-router.post("/signin", user.signIn);
-router.post("/resetPassword", user.resetPassword);
 router.put("/userInfo", user.updateUserInfo);
 
 module.exports = router;

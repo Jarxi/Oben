@@ -1,0 +1,14 @@
+const express = require('express');
+
+const { auth } = require('../controllers');
+const { authUtil } = require('../utils');
+
+const router = express.Router();
+
+// Auth core routes
+router.post("/signup", auth.signUp);
+router.post("/signin", auth.signIn);
+router.get('/signout', authUtil.verifyToken, authUtil.isLoggedIn, auth.signOut); // ! TO BE REMOVED
+router.post("/resetPassword", auth.resetPassword);
+
+module.exports = router;
