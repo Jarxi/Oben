@@ -10,7 +10,7 @@ const SubmissionSchema = new Schema({
   input:[{
     project_name: String,
     dateAmount: [{
-      date: Date,
+      date: String,  // Must follow YYYY/MM/DD format
       amount: Number,
     }]
   }],
@@ -20,10 +20,8 @@ const SubmissionSchema = new Schema({
     enum: ['time', 'expense']
   },
   total_amount: [{
-    dateAmount: {
-      date: Date,
+      date: String,  // Must follow YYYY/MM/DD format
       amount: Number,
-    }
   }],
   submitter: {
     type: Schema.Types.ObjectId,
@@ -32,7 +30,6 @@ const SubmissionSchema = new Schema({
   },
   status: {
     type: String,
-    required: true,
     default: 'pending',
     enum: ['pending', 'accepted', 'returned']
   },

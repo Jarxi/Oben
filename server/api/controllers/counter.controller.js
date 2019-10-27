@@ -23,34 +23,34 @@ const createCategory = async (req, res) => {
   }
 };
 
-const nextId = async (req, res) => {
+const nextId =  async (req, res) => {
   try {
-    const counter_category = req.body.counter_category;
+    const counter_category = req.counter_category;
     const counter = await Counter.findOne({counter_category: counter_category});
 
     if (counter.length === 0){
-      return res.status(500).json({
+      return {
         message: "Counter category does not exist. Please check counter_category of request body."
-      });
+      };
     } else {
-      return res.status(200).json({
+      return {
         message: "Succeed",
         count: counter.count + 1
-      });
+      };
     }
 
   } catch (err) {
-    sendErr(err, req, res);
+    console.log(err);
   }
 };
 
 const increment = async (req, res) => {
   try {
-    const counter_category = req.body.counter_category;
+    const counter_category = req.counter_category;
     const counter = await Counter.findOne({counter_category: counter_category});
 
     if (counter.length === 0){
-      return res.status(500).json({
+      return res.json({
         message: "Counter category does not exist. Cannot increment. Please check counter_category of request body."
       });
     } else {
@@ -60,14 +60,13 @@ const increment = async (req, res) => {
           { new: true }
       );
 
-      return res.status(200).json({
+      return {
         message: "Counter incremented",
         count: counter.count + 1
-      });
+      };
     }
-
   } catch (err) {
-    sendErr(err, req, res);
+    console.log(err);
   }
 };
 

@@ -21,8 +21,21 @@ const createCategory = async (req, res) => {
   }
 };
 
+const getCategories = async (req, res) => {
+  try {
+    const categories = await ExpenseCategory.find({}, {category_name: 1});
+    return res.status(200).json({
+      message: "Categories Found!",
+      categories
+    });
+  } catch (err){
+    return sendErr(res, err);
+  }
+};
+
 
 // if you add functions above, add it here too
 module.exports = {
-  createCategory
+  createCategory,
+  getCategories
 };

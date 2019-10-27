@@ -4,7 +4,7 @@ const ExpenseCategory = require('./expense_category.model');
 const Submission = require('./submission.model');
 const Counter = require('./counter.model');
 const Invoice = require('./invoice.model');
-
+const Team = require('./team.model');
 
 module.exports = {
     User,
@@ -12,5 +12,6 @@ module.exports = {
     ExpenseCategory,
     Submission,
     Counter,
-    Invoice
+    Invoice,
+    Team
 };
