@@ -1,0 +1,14 @@
+.invite-form {
+    width: 35%;
+    margin-left: 40px;
+    margin-top: 40px;
+    float: left;
+}
+
+.invitationStatusBox {
+    width: 50%;
+    float: right;
+    margin-top: 50px;
+
+}
+

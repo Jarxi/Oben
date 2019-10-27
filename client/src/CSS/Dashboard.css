@@ -1,0 +1,57 @@
+.row {
+    width: 100%;
+    display: flex;
+  }
+  
+.sidebar {
+  padding: 2%;
+  width: 20%;
+  background-color: #211656;
+}
+
+.sidebar span {
+  font-size: 20px;
+  margin-top: 20px;
+  margin: 10px;
+}
+
+.container{
+  background-color: white;
+  column-count: 2;
+  column-gap: 200px;
+  display: block;
+  margin-top: 100px;
+  margin-left: 270px;
+  width: fit-content;
+}
+
+.TopRow {
+  height: 8em;
+}
+.main {
+    width: 75%;
+    padding: 10px;
+    margin: 10px;
+}
+.Setting_Icon {
+  float: right;
+}
+  
+.missionBox {
+    break-inside: avoid;
+    text-align: center;
+    page-break-inside: avoid;
+    background-color: rgb(207, 232, 220);
+    border: 2px solid rgb(79, 185, 227);
+    padding: 10px;
+    margin-bottom: 4em;
+    width: 250px;
+    display:block;
+}
+.HARD_CODE_SHADE {
+  background: #4a3f80;
+}
+
+.title{
+    color: blue;
+}
