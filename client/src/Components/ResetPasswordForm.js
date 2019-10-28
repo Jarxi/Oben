@@ -25,11 +25,6 @@ class ResetPasswordForm extends React.Component {
 
     handleSubmit(e){
         e.preventDefault();
-<<<<<<< HEAD
-        
-=======
-
->>>>>>> 282bda5b17bdb028075211bda8e6f3159c6f241b
         const url = "http://localhost:3000/api/auth/resetPassword";
         const params = {
             email: this.state.email,
