@@ -1,6 +1,7 @@
 const { User, Auth } = require('../models');
 const { encryptPassword, decryptPassword } = require('../utils/password');
 const sendErr = require('../utils/sendErr');
+const jwt = require('jsonwebtoken')
 
 
 const signUp = async (req, res) => {

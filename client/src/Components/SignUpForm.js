@@ -30,7 +30,7 @@ class SignInForm extends React.Component {
 
     handleSubmit(e){
         e.preventDefault();
-        const url = "http://localhost:3000/api/user/signup";
+        const url = "http://localhost:3000/api/auth/signup";
         console.log(this.state.email)
         const params = {
             email: this.state.username,
