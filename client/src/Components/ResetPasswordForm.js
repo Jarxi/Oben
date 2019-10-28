@@ -25,8 +25,8 @@ class ResetPasswordForm extends React.Component {
 
     handleSubmit(e){
         e.preventDefault();
-        
-        const url = "http://localhost:3000/api/user/resetPassword";
+
+        const url = "http://localhost:3000/api/auth/resetPassword";
         const params = {
             email: this.state.email,
             password: this.state.oldPassword,
@@ -45,7 +45,7 @@ class ResetPasswordForm extends React.Component {
         }).catch((err)=>{
             console.log(err)
         })
-        
+
     }
 
     render(){
@@ -63,27 +63,27 @@ class ResetPasswordForm extends React.Component {
                 <div className="Succeed_message">Password resetted. Please login with your new password</div>
             )
         }
-            
+
         return (
             <div className="Reset_Container">
                 <form className="SignUpBox" onSubmit={this.handleSubmit}>
                     <div>
-                        <input type="text" id="email" className="SignUpField__Input" placeholder="Email" 
+                        <input type="text" id="email" className="SignUpField__Input" placeholder="Email"
                         name="email" value={this.state.email} onChange={this.handleChange}/>
                     </div>
 
                     <div>
-                        <input type="text" id="oldPassword" className="SignUpField__Input" placeholder="Enter your Old Password" 
+                        <input type="text" id="oldPassword" className="SignUpField__Input" placeholder="Enter your Old Password"
                         name="oldPassword" value={this.state.oldPassword} onChange={this.handleChange}/>
                     </div>
 
                     <div>
-                        <input type="password" id="newPassword" className="SignUpField__Input" placeholder="Enter Your New Password" 
+                        <input type="password" id="newPassword" className="SignUpField__Input" placeholder="Enter Your New Password"
                         name="newPassword" value={this.state.newPassword} onChange={this.handleChange}/>
                     </div>
-                    
+
                     {button}
-                
+
                 </form>
             </div>
         );

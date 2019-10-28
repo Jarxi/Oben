@@ -63,7 +63,7 @@ class InviteForm extends React.Component {
     }
 
     handleSubmit(){
-        const url = "http://localhost:3000/api/user/signup";
+        const url = "http://localhost:3000/api/auth/signup";
         const nameSplit = this.state.name.split(/(\s+)/);
         console.log(nameSplit)
         const firstName = nameSplit[0];
@@ -73,7 +73,7 @@ class InviteForm extends React.Component {
             password: this.state.password,
             first_name: firstName,
             last_name: lastName,
-            user_type: this.state.type, 
+            user_type: this.state.type,
         };
         this.setState({
             users: this.state.users.concat({
@@ -81,7 +81,7 @@ class InviteForm extends React.Component {
                 email: this.state.email,
                 type: this.state.type,
                 invitationStatus: 'Pending'
-                
+
             }),
             name: '',
             email: '',
@@ -100,9 +100,9 @@ class InviteForm extends React.Component {
             }
         }).catch((err)=>{
             console.log("failed")
-            
+
         })
-        
+
     }
 
     render(){
@@ -113,19 +113,19 @@ class InviteForm extends React.Component {
                     <div className="form-group"><label>Individual Invite</label></div>
                     <div className="form-group">
                         <label className="Form_Label">Name:</label>
-                        <input type="text" className="form-control" placeholder="Name" 
+                        <input type="text" className="form-control" placeholder="Name"
                         name="name" value={this.state.name} onChange={this.handleChange}/>
                     </div>
 
                     <div className="form-group">
                         <label className="Form_Label">Email:</label>
-                        <input type="email" className="form-control" placeholder="Email" 
+                        <input type="email" className="form-control" placeholder="Email"
                         name="email" value={this.state.email} onChange={this.handleChange}/>
                     </div>
 
                     <div className="form-group">
                         <label className="Form_Label">Temp Password:</label>
-                        <input type="text" id="password" className="form-control" 
+                        <input type="text" id="password" className="form-control"
                         name="password" value={this.state.password} onChange={this.handleChange}/>
                     </div>
 
@@ -133,11 +133,11 @@ class InviteForm extends React.Component {
                         <button type="button" name="type" value="employee" onClick={this.handleChange} class="btn btn-default">Employee</button>
                         <button type="button" name="type" value="contractor" onClick={this.handleChange} class="btn btn-default">Contractor</button>
                     </div>
-                    
+
                     <div className="form-group">
                         <button onClick={this.handleSubmit} className="btn btn-success btn-block">Invite</button>
                     </div>
-                
+
                 </div>
                 <InvitationStatusBox className="invitationStatusBox" users={this.state.users}/>
             </div>

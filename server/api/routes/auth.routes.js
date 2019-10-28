@@ -8,7 +8,7 @@ const router = express.Router();
 // Auth core routes
 router.post("/signup", auth.signUp);
 router.post("/signin", auth.signIn);
-router.get('/signout', authUtil.verifyToken, authUtil.isLoggedIn, auth.signOut); // ! TO BE REMOVED
+router.get('/signout', authUtil.verifyToken, authUtil.isLoggedIn, auth.signOut);
 router.post("/resetPassword", auth.resetPassword);
 
 module.exports = router;

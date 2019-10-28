@@ -8,6 +8,8 @@ const options = {
     useNewUrlParser: true
 };
 
+mongoose.set('useFindAndModify', false);
+
 mongoose.connect(dbURL, options);
 
 // Log Mongoose connection status changes:

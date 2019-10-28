@@ -6,7 +6,7 @@ import '../CSS/SignInForm.css'
 class SignInForm extends React.Component {
     constructor(){
         super();
-        
+
         this.state = {
             username: '',
             password: '',
@@ -31,7 +31,7 @@ class SignInForm extends React.Component {
     handleSubmit(e){
         e.preventDefault();
 
-        const url = "http://localhost:3000/api/user/signin";
+        const url = "http://localhost:3000/api/auth/signin";
         const params = {
             email: this.state.username,
             password: this.state.password
@@ -70,25 +70,25 @@ class SignInForm extends React.Component {
                     </div>
                     <div className="FormField">
                         <label className="FormField__Label" htmlFor="username">Email Address</label>
-                        <input type="text" id="username" className="FormField__Input" placeholder="Enter your email address" 
+                        <input type="text" id="username" className="FormField__Input" placeholder="Enter your email address"
                         name="username" value={this.state.email} onChange={this.handleChange}/>
                     </div>
-                    
+
                     <div className="FormField">
                         <label className="FormField__Label" htmlFor="password">Password</label>
-                        <input type="password" id="password" className="FormField__Input" placeholder="Enter your pasword" 
+                        <input type="password" id="password" className="FormField__Input" placeholder="Enter your pasword"
                         name="password" value={this.state.password} onChange={this.handleChange}/>
-                    </div> 
+                    </div>
 
                     {banner}
-                    
+
                     <div className="FormField">
                         <button className="FormField__Button">Log in</button>
                         <a href="#" className="FormField__Link">Forget your password?</a>
                     </div>
-                </form>     
+                </form>
                 </div>
-           
+
             </div>
 
         );
