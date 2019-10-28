@@ -43,6 +43,7 @@ class SignInForm extends React.Component {
                     loginfail: false
                 })
                 this.props.history.push("/home")
+                sessionStorage.setItem('loggedin', 'true')
             }
         }).catch((e)=>{
             console.log("Sign in failed")
