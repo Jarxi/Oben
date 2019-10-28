@@ -1,6 +1,6 @@
 const moment = require('moment');
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
+
 const { User, Auth } = require('../models');
 const { encryptPassword, decryptPassword } = require('../utils/password');
 const sendErr = require('../utils/sendErr');

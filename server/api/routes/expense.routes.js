@@ -1,11 +1,13 @@
 const express = require('express');
 const { expense } = require('../controllers');
-
+const { authUtil } = require('../utils');
 const router = express.Router();
 
-// router.get("/test", (req, res) => res.json({ msg: "user Works" }));
+
+router.use(authUtil.verifyToken);
+router.use(authUtil.isLoggedIn);
+
+
 router.post("/category", expense.createCategory);
 router.get("/category", expense.getCategories);
-// router.post("/signin", user.signIn);
-// router.post("/resetPassword", user.resetPassword);
 module.exports = router;

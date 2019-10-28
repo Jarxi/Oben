@@ -1,4 +1,5 @@
 const { User, Auth } = require('../models');
+const jwt = require('jsonwebtoken');
 const { encryptPassword, decryptPassword } = require('../utils/password');
 const sendErr = require('../utils/sendErr');
 const jwt = require('jsonwebtoken')
@@ -7,6 +8,17 @@ const jwt = require('jsonwebtoken')
 const signUp = async (req, res) => {
   try {
     const user_data = req.body;
+    const email = req.body.email;
+    const exist = await User.findOne({
+      email
+    });
+
+    if (exist){
+      return res.status(401).json({
+        message: "Email already exists!"
+      });
+    }
+
     const password = await encryptPassword(user_data.password);
     user_data.password = password.password;
     const user = await User.create(user_data);
@@ -70,8 +82,6 @@ const signOut = async (req, res) => {
         token: null,
         isLoggedIn: false
       }
-    }, {
-      new: true
     });
 
     return res.status(200).json({
