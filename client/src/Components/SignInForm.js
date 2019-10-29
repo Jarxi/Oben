@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios'
 import '../CSS/SignInForm.css'
 
@@ -10,8 +10,8 @@ class SignInForm extends React.Component {
         this.state = {
             username: '',
             password: '',
-            loginfail:false
-
+            loginfail:false,
+            redirectToReferrer: false
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -30,20 +30,19 @@ class SignInForm extends React.Component {
 
     handleSubmit(e){
         e.preventDefault();
-
         const url = "http://localhost:3000/api/auth/signin";
         const params = {
             email: this.state.username,
             password: this.state.password
         };
         axios.post(url,params).then((res)=>{
-            console.log(res)
+            // console.log(res)
             if(res.status === 200){
-                this.setState({
-                    loginfail: false
-                })
-                this.props.history.push("/home")
                 sessionStorage.setItem('loggedin', 'true')
+                this.setState({
+                    loginfail: false,
+                    redirectToReferrer: true
+                })
             }
         }).catch((e)=>{
             console.log("Sign in failed")
@@ -58,6 +57,13 @@ class SignInForm extends React.Component {
         let banner;
         if(this.state.loginfail){
             banner = <div class="Banner">Invalid email or password</div>
+        }
+        const { from } = this.props.location.state || {from: {pathname: '/home'}};
+        if (this.state.redirectToReferrer) {
+            console.log(from)
+            return (
+                <Redirect to={ from } />
+            )
         }
         return (
             <div className="SignInContainer">
