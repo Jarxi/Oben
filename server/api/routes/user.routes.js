@@ -4,7 +4,7 @@ const { authUtil } = require('../utils');
 
 const router = express.Router();
 
-// authorization
+// authentication
 router.use(authUtil.verifyToken);
 router.use(authUtil.isLoggedIn);
 

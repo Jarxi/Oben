@@ -4,7 +4,6 @@ const sendErr = require('../utils/sendErr');
 const createCategory = async (req, res) => {
   try {
     const exist = await Counter.find({counter_category: req.body.counter_category});
-
     if (exist.length === 0){
       req.body.count = 0;
       const createdCounter = await Counter.create(req.body);

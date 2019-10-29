@@ -21,11 +21,11 @@ const InvoiceSchema = new Schema({
     },
     attached_filename: [{
         type: String,
-        required: true
     }],
     submitter: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     status: {
         type: String,
