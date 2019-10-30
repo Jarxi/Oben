@@ -8,6 +8,9 @@ const ExpenseCategorySchema = new Schema({
     type: String,
     required: true
   },
+  description: {
+    type: String
+  }
 });
 
 const ExpenseCategory = mongoose.model('ExpenseCategory', ExpenseCategorySchema);

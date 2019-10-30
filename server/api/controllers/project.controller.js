@@ -21,9 +21,23 @@ const create = async (req, res) => {
   }
 };
 
+const getProjects = async (req, res) => {
+  try {
+    const projects = await Project.find({}, {project_name: 1});
+    return res.status(200).json({
+      message: "Projects Found!",
+      projects
+    });
+  } catch (err){
+    return sendErr(res, err);
+  }
+};
+
+
 
 // if you add functions above, add it here too
 module.exports = {
-  create
+  create,
+  getProjects
 };
 

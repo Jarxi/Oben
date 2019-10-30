@@ -6,7 +6,7 @@ const createCategory = async (req, res) => {
   try {
     const category = req.body;
     const exist = await ExpenseCategory.findOne({category_name: category.category_name});
-    if (exist.length !== 0){
+    if (exist){
       return res.status(500).json({
         message: "Category already exists!"
       });
@@ -17,6 +17,7 @@ const createCategory = async (req, res) => {
       createdCategory
     });
   }catch (err){
+    console.log(err);
     return sendErr(res, err);
   }
 };
