@@ -16,8 +16,18 @@ const submit = async (req, res) => {
         for (let j = 0; j < dateAmount.length; j++) {
           if (dateAmountMap.has(dateAmount[j].date)) {
             const amount = dateAmountMap.get(dateAmount[j].date) + dateAmount[j].amount;
+            if (req.body.type === 'time' && amount > 24) {
+              return res.status(500).json({
+                message: dateAmount[j].date + " amount is larger than 24"
+              });
+            }
             dateAmountMap.set(dateAmount[j].date, amount);
           } else{
+            if (req.body.type === 'time' && dateAmount[j].amount > 24) {
+              return res.status(500).json({
+                message: dateAmount[j].date + " amount is larger than 24"
+              });
+            }
             dateAmountMap.set(dateAmount[j].date, dateAmount[j].amount);
           }
         }

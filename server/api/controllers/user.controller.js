@@ -5,6 +5,7 @@ const { User } = require('../models');
 const sendErr = require('../utils/sendErr');
 
 
+
 const updateUserInfo = async (req, res) => {
     try{
         // TODO: Upload W4 file and generate filename
@@ -20,7 +21,7 @@ const updateUserInfo = async (req, res) => {
 
         const update = await User.findOneAndUpdate(
             {
-                employee_id: req.body.id
+                employee_id: req.body.employee_id
             },
             {
                 $set: {

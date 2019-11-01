@@ -28,7 +28,7 @@ const UserSchema = new Schema({
         enum: ['aic', 'team_leader', 'contractor', 'employee']
     },
     employee_id: {
-        String,
+        type: Number,
     },
     phone: {
         type: String
