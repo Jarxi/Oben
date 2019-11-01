@@ -43,7 +43,7 @@ app.use("/api/project", projectRoutes);
 app.use("/api/submission", submissionRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/team", teamRoutes);
-app.use("/api/upload", uploadfile);
+// app.use("/api/upload", uploadfile);
 
 
 // Invalid routes handling middleware
