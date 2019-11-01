@@ -5,6 +5,7 @@ import { TiCog } from "react-icons/ti";
 import { NavLink } from 'react-router-dom';
 import SetUpPage from '../Pages/SetUpPage'
 import Dashboard from '../Pages/Dashboard';
+import SubmissionPage from '../Pages/SubmissionPage'
 
 class MainContent extends React.Component {
 
@@ -21,6 +22,7 @@ class MainContent extends React.Component {
 
           {window === "overview" && <Dashboard/>}
           {window === "setUp" && <SetUpPage/>}
+          {window === "submission" && <SubmissionPage/>}
         </div>
     );
   }

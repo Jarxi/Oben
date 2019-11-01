@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from '../Components/Sidebar';
 import SubmissionTable from "../Components/SubmissionTable";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../CSS/SubmissionPage.css";
 
-class HomePage extends React.Component {
+class SubmissionPage extends React.Component {
   state = {
     startDate: new Date()
   };
@@ -32,10 +32,9 @@ class HomePage extends React.Component {
 
     return (
         <div class="row">
-          <Sidebar selectCallback={this.handleItemSelect}/>
           <div class='datePick'>
             <DatePicker
-                open = {true}
+                inline = {true}
                 selected={this.state.startDate}
                 onChange={this.handleChange}
             />
@@ -46,4 +45,4 @@ class HomePage extends React.Component {
   }
 };
 
-export default HomePage;
+export default SubmissionPage;
