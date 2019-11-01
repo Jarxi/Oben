@@ -60,7 +60,20 @@ const updateUserInfo = async (req, res) => {
     }
 };
 
+const getUsers = async (req, res) => {
+    try{
+        const users = await User.find({});
+        return res.status(200).json({
+           message: 'All users',
+           users
+        });
+    }catch(err){
+        console.log(err);
+        sendErr(res, err)
+    }
+};
 // if you add functions above, add it here too
 module.exports = {
-    updateUserInfo
+    updateUserInfo,
+    getUsers,
 };
