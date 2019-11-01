@@ -33,7 +33,8 @@ class AddExpenseType extends React.Component {
         const url = "http://localhost:3000/api/expense/category";
         const params = {
             category_name: this.state.expensename,
-            description: this.state.description
+            description: this.state.description,
+            Authorization: "Bearer " + sessionStorage.getItem('token')
         };
         axios.post(url,params).then((res)=>{
             console.log(res)
