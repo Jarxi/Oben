@@ -1,15 +1,18 @@
-table {
+table.timetable {
     margin-top: 30px;
     border-collapse: collapse;
     white-space: nowrap;
 }
 
-th, td {
+.submissionSection td,
+.submissionSection th {
+    border: 1px solid grey;
+}
+td.date {
     border: 1px solid grey;
 }
 
-
-table td.date {
+td.date {
     width: 30px;
     text-align: center;
 }

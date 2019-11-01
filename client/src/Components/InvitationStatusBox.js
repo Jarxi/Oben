@@ -13,7 +13,7 @@ class InvitationStatusBox extends React.Component {
         const users = this.props.users;
         return(
             <div className="bootstrap-iso invitationStatusBox">
-                <table className="table">
+                <table className="table table-striped">
                     <thead>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>

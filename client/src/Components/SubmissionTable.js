@@ -1,12 +1,7 @@
 import React from 'react';
-import { MdPersonOutline, MdPersonAdd } from "react-icons/md";
-import { TiThumbsUp } from "react-icons/ti";
-import { FaAddressBook, FaChartBar } from "react-icons/fa";
 import '../CSS/Home.css'
 import '../CSS/SubmissionTable.css';
 import '../CSS/bootstrap/css/bootstrap-iso.css';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 class SubmissionTable extends React.Component {
   constructor(){
     super();
