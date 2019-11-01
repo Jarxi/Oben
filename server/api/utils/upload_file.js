@@ -4,8 +4,10 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
+const { init } = require('../../development.config');
 const db = require('../../db.js');
 
+const conn = mongoose.connection;
 // init gfs
 let gfs;
 conn.once('open', () => {
@@ -13,11 +15,11 @@ conn.once('open', () => {
     gfs = new mongoose.mongo.GridFSBucket(conn.db, {
         bucketName: 'uploads'
     });
-})
+});
 
 // Create storage engine
 const storage = new GridFsStorage({
-    url: mongoURI,
+    url: process.env.dbURL,
     file: (req, file) => {
         return new Promise((resolve, reject) => {
             crypto.randomBytes(16, (err, buf) => {
@@ -109,4 +111,9 @@ app.delete('/files/:id', (req, res) => {
         res.redirect('/');
     });
 });
+
+module.exports = {
+    storage,
+    upload
+};
 
