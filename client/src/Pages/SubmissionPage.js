@@ -6,9 +6,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import "../CSS/SubmissionPage.css";
 
 class SubmissionPage extends React.Component {
-  state = {
-    startDate: new Date()
-  };
 
   handleChange = date => {
     this.setState({
@@ -18,18 +15,18 @@ class SubmissionPage extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      selected: "overview"
+      startDate: new Date()
     }
-    this.handleItemSelect = this.handleItemSelect.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
-  handleItemSelect(item) {
+  handleChange = date => {
     this.setState({
-      selected: item
-    })
-  }
-  render(){
+      startDate: date
+    });
+  };
 
+  render(){
     return (
         <div class="row">
           <div class='datePick'>
