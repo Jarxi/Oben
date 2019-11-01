@@ -34,9 +34,28 @@ const getCategories = async (req, res) => {
   }
 };
 
+const deleteCategory = async (req, res) => {
+  try {
+    const category = req.body;
+    const exist = await ExpenseCategory.findOne(category);
+    if (!exist){
+      return res.status(500).json({
+        message: 'Category does not exist',
+      });
+    }
+    await ExpenseCategory.findOneAndDelete(category);
+    return res.status(200).json({
+      message: 'Successfully deleted'
+    })
+  }catch(err){
+    return sendErr(res, err);
+  }
+};
+
 
 // if you add functions above, add it here too
 module.exports = {
   createCategory,
-  getCategories
+  getCategories,
+  deleteCategory
 };

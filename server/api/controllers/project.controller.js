@@ -33,11 +33,28 @@ const getProjects = async (req, res) => {
   }
 };
 
-
+const deleteProject = async (req, res) => {
+  try {
+    const project = req.body;
+    const exist = await Project.findOne(project);
+    if (!exist){
+      return res.status(500).json({
+        message: 'Project does not exist',
+      });
+    }
+    await Project.findOneAndDelete(project);
+    return res.status(200).json({
+      message: 'Successfully deleted'
+    })
+  }catch(err){
+    return sendErr(res, err);
+  }
+};
 
 // if you add functions above, add it here too
 module.exports = {
   create,
-  getProjects
+  getProjects,
+  deleteProject
 };
 

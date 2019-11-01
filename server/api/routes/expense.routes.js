@@ -10,4 +10,5 @@ router.use(authUtil.isLoggedIn);
 
 router.post("/category", expense.createCategory);
 router.get("/category", expense.getCategories);
+router.delete("/category", expense.deleteCategory);
 module.exports = router;

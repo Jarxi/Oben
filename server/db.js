@@ -5,7 +5,8 @@ const dbURL = process.env.dbURL || 'mongodb+srv://ruoxijia:oben@cluster0-pahm8.m
 const options = {
     reconnectTries: Number.MAX_VALUE,
     reconnectInterval: 500, // Reconnect every 500ms
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 };
 
 mongoose.set('useFindAndModify', false);
