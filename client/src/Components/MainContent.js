@@ -16,12 +16,11 @@ class MainContent extends React.Component {
           <div class="TopRow">
             <IconContext.Provider value={{ color: "black", size:"4em" }}>
               <div className="Setting_Icon"><NavLink to="/resetPassword"><TiCog /></NavLink></div>
-            </IconContext.Provider>            
+            </IconContext.Provider>
           </div>
 
           {window === "overview" && <Dashboard/>}
           {window === "setUp" && <SetUpPage/>}
-
         </div>
     );
   }

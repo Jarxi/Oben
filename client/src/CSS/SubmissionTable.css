@@ -1,0 +1,31 @@
+table {
+    margin-top: 30px;
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+
+th, td {
+    border: 1px solid grey;
+}
+
+
+table td.date {
+    width: 30px;
+    text-align: center;
+}
+
+.submissionSection {
+    margin: 20px 50px 50px;
+    padding: 50px;
+    border: 3px solid #D0D2EC;
+    color: black;
+    height: 200px;
+    clear: both;
+}
+
+.submit_button {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 80%;
+}
+

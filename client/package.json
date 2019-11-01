@@ -8,6 +8,8 @@
     "generate-password": "^1.4.2",
     "react": "^16.10.1",
     "react-bootstrap": "^1.0.0-beta.12",
+    "react-bootstrap-date-picker": "^5.1.0",
+    "react-datepicker": "^2.9.6",
     "react-dom": "^16.10.1",
     "react-icons": "^3.7.0",
     "react-router-dom": "^5.1.1",
