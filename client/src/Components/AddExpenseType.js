@@ -34,16 +34,23 @@ class AddExpenseType extends React.Component {
         const params = {
             category_name: this.state.expensename,
             description: this.state.description,
-            Authorization: "Bearer " + sessionStorage.getItem('token')
+            
         };
-        axios.post(url,params).then((res)=>{
+        const config = {
+            headers:{            
+                authorization: "Bearer " + sessionStorage.getItem('token')
+            }
+        };
+        axios.post(url,params,config).then((res)=>{
             console.log(res)
             if(res.status === 200){
+                this.props.triggerUpdate();
                 alert("Succeeded in add the expense category!")
             }
             }
 
         ).catch((e)=>{
+            console.log(e)
             console.log("post category failed")
         })
     }

@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios'
 
 import '../CSS/EditTeamMember.css'
 import '../CSS/bootstrap/css/bootstrap-iso.css';
@@ -9,18 +10,34 @@ class ExpenseTypeList extends React.Component{
         this.state = {
             error:null,
             isLoaded: false,
-            expenseType:[]
+            expenseType:[],
+            selectedExpense: null
         };
+        this.handleCategorySelect = this.handleCategorySelect.bind(this);
     }
 
     componentDidMount(){
-        fetch("http://localhost:3000/api/expense/category")
-        .then(res => res.json())
+        this.fetchExpenseType();
+    }
+
+    handleCategorySelect(expense){
+        this.setState({selectedExpense:expense})
+        this.props.selectCallback(expense)
+        console.log(this.state.selectedExpense)
+    }
+
+    fetchExpenseType(){
+        const config = {
+            headers:{            
+                authorization: "Bearer " + sessionStorage.getItem('token')
+            }
+        };
+        axios.get("http://localhost:3000/api/expense/category",config)
         .then(
-            (result) => {
+            (res) => {
                 this.setState({
                     isLoaded: true,
-                    items: result.expenseType
+                    expenseType: res.data.categories
                 });
             },
             (error) => {
@@ -28,7 +45,6 @@ class ExpenseTypeList extends React.Component{
                     isLoaded:true,
                     error
                 });
-                console.log("error occured")
             }
         )
     }
@@ -46,10 +62,20 @@ class ExpenseTypeList extends React.Component{
             return <div>Loading...</div>
         }else{
             return(
-                <ul id="EmployeeList" class="list-group bootstrap-iso">
-                    {expenseType.map(expense => <li class="list-group-item list-group-item-light"><a href="#" >{expense.name}</a></li>)}
-                </ul>
-            )}
+                // <ul id="EmployeeList" class="list-group bootstrap-iso">
+                //     {expenseType.map(expense => <li class="list-group-item list-group-item-light">{expense.category_name}</li>)}
+                // </ul>
+                <div id="EmployeeList" class="list-group bootstrap-iso">
+                    {expenseType.map(expense => <button type="button" class="list-group-item list-group-item-action" onClick={() => this.handleCategorySelect(expense)}>{expense.category_name}</button>)}
+                </div>
+
+                // <div id="EmployeeList" class="list-group bootstrap-iso">
+                //     {expenseType.map(expense => <button type="button" className={this.state.active === expense.category_name ? 'active' : ''} class="list-group-item list-group-item-action" onClick={() => this.handleSelect(expense.category_name)}>{expense.category_name}</button>)}
+                // </div>
+
+
+            )
+        }
     }
 }
 
