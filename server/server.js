@@ -8,7 +8,8 @@ const app = express();
 const path = require("path");
 const db = require('./db');
 const cors = require('cors');
-const { userRoutes, expenseRoutes, projectRoutes, submissionRoutes, authRoutes } = require("./api/routes");
+const uploadfile = require('./api/utils/upload_file');
+const { userRoutes, expenseRoutes, projectRoutes, submissionRoutes, authRoutes, teamRoutes } = require("./api/routes");
 
 // Load 'development' configs for dev environment
 if (process.env.NODE_ENV !== 'production') {
@@ -41,6 +42,9 @@ app.use("/api/expense", expenseRoutes);
 app.use("/api/project", projectRoutes);
 app.use("/api/submission", submissionRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/team", teamRoutes);
+// app.use("/api/upload", uploadfile);
+
 
 // Invalid routes handling middleware
 app.use((req, res, next) => {
@@ -57,6 +61,7 @@ app.use((error, req, res, next) => {
         }
     });
 });
+
 
 //server statuc assets if in production
 if (process.env.NODE_ENV === "production") {

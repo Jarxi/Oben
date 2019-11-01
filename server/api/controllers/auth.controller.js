@@ -2,6 +2,7 @@ const { User, Auth } = require('../models');
 const jwt = require('jsonwebtoken');
 const { encryptPassword, decryptPassword } = require('../utils/password');
 const sendErr = require('../utils/sendErr');
+const { nextId, increment } = require('./counter.controller');
 
 
 const signUp = async (req, res) => {
@@ -20,7 +21,10 @@ const signUp = async (req, res) => {
 
     const password = await encryptPassword(user_data.password);
     user_data.password = password.password;
+    const employee_id = await nextId({'counter_category': 'employee_id'});
+    user_data.employee_id = employee_id.count;
     const user = await User.create(user_data);
+    await increment({'counter_category': 'employee_id'});
     return res.status(200).json({
       message: "user created!",
       user

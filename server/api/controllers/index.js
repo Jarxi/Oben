@@ -4,11 +4,13 @@ const project = require('./project.controller');
 const counter = require('./counter.controller');
 const submission = require('./submission.controller');
 const auth = require('./auth.controller');
+const team = require('./team.controller');
 module.exports = {
     user,
     expense,
     project,
     counter,
     submission,
-    auth
+    auth,
+    team
 };
