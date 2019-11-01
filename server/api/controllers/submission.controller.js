@@ -57,7 +57,6 @@ const submit = async (req, res) => {
         });
       }
     } else if (req.body.type === 'invoice'){
-      console.log("invoice");
       const id = await nextId({'counter_category': 'invoice_ticket_id'});
       submission.invoice_number = id.count;
       const sub = await Invoice.create(submission);

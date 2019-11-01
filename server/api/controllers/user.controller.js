@@ -1,8 +1,7 @@
 const moment = require('moment');
 const mongoose = require('mongoose');
 
-const { User, Auth } = require('../models');
-const { encryptPassword, decryptPassword } = require('../utils/password');
+const { User } = require('../models');
 const sendErr = require('../utils/sendErr');
 
 
