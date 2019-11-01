@@ -24,7 +24,7 @@ const createCategory = async (req, res) => {
 
 const getCategories = async (req, res) => {
   try {
-    const categories = await ExpenseCategory.find({}, {category_name: 1});
+    const categories = await ExpenseCategory.find({});
     return res.status(200).json({
       message: "Categories Found!",
       categories
