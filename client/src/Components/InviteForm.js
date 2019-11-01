@@ -9,49 +9,48 @@ import { FaUserCheck } from 'react-icons/fa';
 
 
 class InviteForm extends React.Component {
-
     constructor(){
-        super()
-
+        super();
         this.state = {
             name: '',
             email: '',
             password: generator.generate(),
             type: 'employee',
-
-            /**
-             * FOR DEMO
-             */
-            users: [
-                {
-                    name: 'Qiusi Li',
-                    email: 'qiusili@usc.edu',
-                    type: 'employee',
-                    invitationStatus: 'Accepted',
-                },
-                {
-                    name: 'Ruoxi Jia',
-                    email: 'ruoxijia@usc.edu',
-                    type: 'employee',
-                    invitationStatus: 'Accepted',
-                },
-                {
-                    name: 'Kun Peng',
-                    email: 'kunpeng@usc.edu',
-                    type: 'employee',
-                    invitationStatus: 'Accepted',
-                },
-                {
-                    name: 'Yichun Lu',
-                    email: 'yichunlu@usc.edu',
-                    type: 'employee',
-                    invitationStatus: 'Accepted',
-                },
-            ]
-        }
+            users: [],
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.fetchUsers = this.fetchUsers.bind(this);
+    }
+
+    fetchUsers(){
+        let userList = {};
+        const url = "http://localhost:3000/api/user/users";
+        const options = {headers: { authorization: 'Bearer ' + sessionStorage.getItem('token') }};
+        axios.get(url, options).then((res)=>{
+            if(res.status === 200){
+                console.log("HERE")
+                userList = res.data.users.filter(user => user.user_type !== 'aic').map(
+                    function(user){
+                        return {
+                            name: user.first_name + ' ' + user.last_name,
+                            email: user.email,
+                            type: user.user_type,
+                            invitationStatus: user.invitation || 'pending',
+                        }
+                    }
+                );
+                this.setState({users: userList});
+            }
+        }).catch((e)=>{
+            console.log(e)
+            console.log('Get all users failed')
+        });
+    }
+
+    componentDidMount(){
+        this.fetchUsers();
     }
 
     handleChange(e) {
@@ -76,17 +75,9 @@ class InviteForm extends React.Component {
             user_type: this.state.type,
         };
         this.setState({
-            users: this.state.users.concat({
-                name: this.state.name,
-                email: this.state.email,
-                type: this.state.type,
-                invitationStatus: 'Pending'
-
-            }),
             name: '',
             email: '',
             password: generator.generate(),
-
         })
         axios.post(url, params).then((res)=>{
             if(res.status === 200){
@@ -97,16 +88,18 @@ class InviteForm extends React.Component {
                     password: generator.generate(),
                     type: 'employee',
                 })
+                this.fetchUsers();
             }
         }).catch((err)=>{
-            console.log("failed")
-
+            console.log("Sign up user failed")
         })
 
     }
 
     render(){
-
+        if( typeof this.state.users === 'undefined'){
+            return null
+        }
         return (
             <div>
                 <div id="invite-form" className="invite-form bootstrap-iso">
@@ -137,10 +130,10 @@ class InviteForm extends React.Component {
                     <div className="form-group">
                         <button onClick={this.handleSubmit} className="btn btn-success btn-block">Invite</button>
                     </div>
-
                 </div>
                 <InvitationStatusBox className="invitationStatusBox" users={this.state.users}/>
             </div>
+        
         );
     }
 };

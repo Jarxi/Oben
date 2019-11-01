@@ -36,10 +36,10 @@ class SignInForm extends React.Component {
             password: this.state.password
         };
         axios.post(url,params).then((res)=>{
-            console.log(res)
             if(res.status === 200){
                 sessionStorage.setItem('loggedin', 'true')
                 sessionStorage.setItem('token', res.data.token)
+                sessionStorage.setItem('user_type', res.data.user.user_type)
                 this.setState({
                     loginfail: false,
                     redirectToReferrer: true
