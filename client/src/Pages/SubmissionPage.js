@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import Sidebar from '../Components/Sidebar';
 import SubmissionTable from "../Components/SubmissionTable";
 import DatePicker from "react-datepicker";
@@ -9,14 +10,14 @@ class SubmissionPage extends React.Component {
 
   handleChange = date => {
     this.setState({
-      startDate: date
+      startDate: date,
     });
   };
   constructor(props){
     super(props)
     this.state = {
       startDate: new Date()
-    }
+    };
     this.handleChange = this.handleChange.bind(this)
   }
 
@@ -36,7 +37,7 @@ class SubmissionPage extends React.Component {
                 onChange={this.handleChange}
             />
           </div>
-          <SubmissionTable/>
+          <SubmissionTable firstDay={moment(this.state.startDate).startOf('week')}/>
         </div>
     );
   }

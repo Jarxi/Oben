@@ -2,7 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../CSS/SubmissionTable.css';
 class SubmissionRow extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 0
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
 
+  handleChange(col, event){
+      this.props.onCellChange(col, event.target.value);
+  }
   render() {
     const { ticket_number } = this.props;
 
@@ -10,28 +20,28 @@ class SubmissionRow extends React.Component {
         <tr>
           <td>{ticket_number}</td>
           <td>
-            <div contentEditable></div>
+            <input onBlur={this.handleChange.bind(this, 'project')} contentEditable></input>
           </td>
           <td>
-            <div contentEditable></div>
+            <input onBlur={this.handleChange.bind(this, 0)} contentEditable></input>
           </td>
           <td>
-            <div contentEditable></div>
+            <input onBlur={this.handleChange.bind(this, 1)} contentEditable></input>
           </td>
           <td>
-            <div contentEditable></div>
+            <input onBlur={this.handleChange.bind(this, 2)} contentEditable></input>
           </td>
           <td>
-            <div contentEditable></div>
+            <input onBlur={this.handleChange.bind(this, 3)} contentEditable></input>
           </td>
           <td>
-            <div contentEditable></div>
+            <input onBlur={this.handleChange.bind(this, 4)} contentEditable></input>
           </td>
           <td>
-            <div contentEditable></div>
+            <input onBlur={this.handleChange.bind(this, 5)} contentEditable></input>
           </td>
           <td>
-            <div contentEditable></div>
+            <input onBlur={this.handleChange.bind(this, 6)} contentEditable></input>
           </td>
         </tr>
     );
@@ -39,7 +49,7 @@ class SubmissionRow extends React.Component {
 }
 
 SubmissionRow.propTypes = {
-  ticket_number: PropTypes.object.isRequired
+  ticket_number: PropTypes.number.isRequired,
 };
 
 export default SubmissionRow;
