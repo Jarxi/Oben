@@ -8,7 +8,6 @@ import ResetPasswordForm from './Components/ResetPasswordForm';
 import SubmissionPage from './Pages/SubmissionPage';
 import PrivateRoute from '../src/Components/PrivateRoute';
 import '../node_modules/react-bootstrap/dist/react-bootstrap.min.js';
-
 function App() {
 
   return (
