@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../CSS/SubmissionTable.css';
+import Axios from 'axios';
+
 class SubmissionRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 0
+      projectList: [ 'select', 'Voice to text', 'Text to voice']
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -13,6 +15,11 @@ class SubmissionRow extends React.Component {
   handleChange(col, event){
       this.props.onCellChange(col, event.target.value);
   }
+
+  componentDidMount(){
+    // load projectList
+  }
+
   render() {
     const { ticket_number } = this.props;
 
@@ -20,8 +27,15 @@ class SubmissionRow extends React.Component {
         <tr>
           <td>{ticket_number}</td>
           <td>
-            <input onBlur={this.handleChange.bind(this, 'project')} contentEditable></input>
+            <select class="select">
+              {
+                this.state.projectList.map(project => <option value={project}>{project}</option>)
+              }
+            </select>
           </td>
+          {/* <td>
+            <input onBlur={this.handleChange.bind(this, 'project')} contentEditable></input>
+          </td> */}
           <td>
             <input onBlur={this.handleChange.bind(this, 0)} contentEditable></input>
           </td>

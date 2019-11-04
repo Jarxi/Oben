@@ -42,3 +42,7 @@ input:not([type='checkbox']) {
     border: white;
     width: 100%;
 }
+
+.select {
+    width: 100%
+}

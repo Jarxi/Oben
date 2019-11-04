@@ -33,6 +33,7 @@ class SubmissionTable extends React.Component {
     this.onCellChange = this.onCellChange.bind(this)
     this.isFloat = this.isFloat.bind(this);
     this.onError = this.onError.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   isFloat(value) {
@@ -56,7 +57,7 @@ class SubmissionTable extends React.Component {
         this.setState({timesheet_projects});
         return;
       }
-      if (!this.isFloat(value)) {
+      if (value && !this.isFloat(value)) {
         this.onError("timesheet"," ❌ Please enter a number!");
         return;
       } else {
@@ -88,7 +89,7 @@ class SubmissionTable extends React.Component {
         this.setState({expense_projects});
         return;
       }
-      if (!this.isFloat(value)) {
+      if (value && !this.isFloat(value)) {
         this.onError("expense", " ❌ Please enter a number!");
         return;
       } else {
@@ -111,6 +112,24 @@ class SubmissionTable extends React.Component {
       let expense_cols = this.state.expense_cols;
       expense_cols[col] = sum;
       this.setState({expense_cols: expense_cols});
+    }
+  }
+
+  handleSubmit(type){
+    if(type === "timesheet"){
+      const { timesheet_ticket_numbers } = this.state
+      const newTicketNumber = timesheet_ticket_numbers[timesheet_ticket_numbers.length - 1] + 1
+      this.setState({
+        timesheet_ticket_numbers: [newTicketNumber],
+        timesheet_rows: [['','','','','','','']],
+        timesheet_cols: ['','','','','','',''],
+      })
+      this.onError("timesheet"," ✅ Submit successful!");
+      setTimeout(() => {
+        this.onError("timesheet","")
+      },2000)
+    } else if(type == "expense"){
+
     }
   }
 
@@ -219,7 +238,7 @@ class SubmissionTable extends React.Component {
               </tbody>
             </Table>
             <div className="submit_button">
-              <button type="button" class="btn btn-success">Submit</button>
+              <button type="button" class="btn btn-success" onClick={() => this.handleSubmit('timesheet')}>Submit</button>
             </div>
             <div className="error_message">
               <p> {this.state.timesheet_error}</p>
