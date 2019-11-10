@@ -16,7 +16,6 @@ if (process.env.NODE_ENV !== 'production') {
     devEnv.init();
 }
 
-
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
