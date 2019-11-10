@@ -2,7 +2,7 @@ import React from 'react';
 import '../CSS/Home.css';
 import { IconContext } from "react-icons";
 import { TiCog } from "react-icons/ti";
-import { NavLink } from 'react-router-dom';
+import { NavLink, Switch, Route } from 'react-router-dom';
 import SetUpPage from '../Pages/SetUpPage'
 import Dashboard from '../Pages/Dashboard';
 import SubmissionPage from '../Pages/SubmissionPage'
@@ -19,11 +19,13 @@ class MainContent extends React.Component {
               <div className="Setting_Icon"><NavLink to="/resetPassword"><TiCog /></NavLink></div>
             </IconContext.Provider>
           </div>
-
-          {window === "overview" && <Dashboard/>}
-          {window === "setUp" && <SetUpPage/>}
-          {window === "submission" && <SubmissionPage/>}
-          {window === "approval" && <ApprovalPage/>}
+          <Switch>
+            <Route path='/home/setup' component={SetUpPage}/>
+            <Route path='/home/approval' component={ApprovalPage}/>
+            <Route path='/home/submission' component={SubmissionPage}/>
+            <Route path='/home' exact={true} component={Dashboard}/>
+            <Route path='/' children={() => <p style={{color: 'red'}}>Page in development</p>}/>
+          </Switch>
         </div>
     );
   }
