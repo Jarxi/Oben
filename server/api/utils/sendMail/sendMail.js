@@ -22,14 +22,20 @@ const generateEmailBody = async (data) => {
 
 const send = async (req, res) => {
   try{
-    /*
-    req.body.data = {
-      "toName": "abc",
-      "email":"abc@usc.edu",
-      "password": "abc"
-    }
-    */
-    const emailBody = await generateEmailBody(req.body.data);
+
+    // req.body.data = {
+    //   "toName": "abc",
+    //   "email":"abc@usc.edu",
+    //   "password": "abc"
+    // };
+
+    const data = {
+        "toName": "abc",
+        "email":"abc@usc.edu",
+        "password": "abc"
+      };
+
+    const emailBody = await generateEmailBody(data);
     const msg = {
       to: 'ruoxijia@usc.edu',
       from: 'ruoxijia@usc.com',
@@ -45,6 +51,8 @@ const send = async (req, res) => {
   }
 
 };
+
+send();
 
 module.exports = {
   send
