@@ -33,9 +33,6 @@ class SubmissionRow extends React.Component {
               }
             </select>
           </td>
-          {/* <td>
-            <input onBlur={this.handleChange.bind(this, 'project')} contentEditable></input>
-          </td> */}
           <td>
             <input onBlur={this.handleChange.bind(this, 0)} contentEditable></input>
           </td>

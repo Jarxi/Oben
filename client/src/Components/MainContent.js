@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import SetUpPage from '../Pages/SetUpPage'
 import Dashboard from '../Pages/Dashboard';
 import SubmissionPage from '../Pages/SubmissionPage'
-
+import ApprovalPage from '../Pages/ApprovalPage';
 class MainContent extends React.Component {
 
   render(){
@@ -23,6 +23,7 @@ class MainContent extends React.Component {
           {window === "overview" && <Dashboard/>}
           {window === "setUp" && <SetUpPage/>}
           {window === "submission" && <SubmissionPage/>}
+          {window === "approval" && <ApprovalPage/>}
         </div>
     );
   }

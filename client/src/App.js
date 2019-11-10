@@ -6,6 +6,7 @@ import SignUpForm from './Components/SignUpForm';
 import HomePage from './Pages/HomePage';
 import ResetPasswordForm from './Components/ResetPasswordForm';
 import SubmissionPage from './Pages/SubmissionPage';
+import ApprovalPage from './Pages/ApprovalPage';
 import PrivateRoute from '../src/Components/PrivateRoute';
 import '../node_modules/react-bootstrap/dist/react-bootstrap.min.js';
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <PrivateRoute exact path="/home" component={HomePage} />
         <Route exact path="/" component={SignInForm} />
         <Route exact path="/submission" component={SubmissionPage} />
+        <Route exact path="/approval" component={ApprovalPage}/>
       </BrowserRouter>
     </div>
 
