@@ -34,4 +34,51 @@ process.on('SIGINT', () => {
 });
 
 
+const express = require('express');
+const path = require('path');
+const crypto = require('crypto');
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+// const devEnv = require('./development.config');
+
+const conn = mongoose.connection;
+// init gfs
+let gfs;
+mongoose.connection.once('open', () => {
+    // init stream
+    gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+        bucketName: 'uploads'
+    });
+});
+
+
+
+const URL = 'mongodb+srv://ruoxijia:oben@cluster0-pahm8.mongodb.net/test?retryWrites=true&w=majority';
+// console.log(process.env.dbURL);
+// Create storage engine
+const storage = new GridFsStorage({
+
+    url: URL,
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(16, (err, buf) => {
+                if (err) {
+                    return reject(err);
+                }
+                const filename = buf.toString('hex') + path.extname(file.originalname);
+                const fileInfo = {
+                    filename: filename,
+                    bucketName: 'uploads'
+                };
+                resolve(fileInfo);
+            });
+        });
+    }
+});
+const upload = multer({ storage });
+
+module.exports = {
+    upload,
+    conn
+};
 
