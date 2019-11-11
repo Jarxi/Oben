@@ -9,6 +9,9 @@ router.use(authUtil.isLoggedIn);
 
 router.get("/test", (req, res) => res.json({ msg: "submission Works" }));
 router.post("/submit", submission.submit);
+router.put("/approve", submission.approve);
+router.put("/return", submission.reject);
+router.get("/getAll", submission.getSubmissions);
 
 // If you want to create a new counter category, uncomment this
 // router.post("/create", counter.createCategory);

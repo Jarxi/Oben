@@ -85,6 +85,86 @@ const submit = async (req, res) => {
   }
 };
 
+const approve = async (req, res) => {
+  try {
+    try {
+      const submission = await Submission.findById(req.body._id);
+      if (submission.status != 'pending') {
+        console.log("Cannot approve submissions that are not pending.");
+        return res.status(500).json();
+      } else {
+        const update = await Submission.findOneAndUpdate({_id: req.body._id},
+            {$set: {status: "accepted"}});
+        if (!update){
+          sendErr(res, '', "Cannot approve submission");
+        }
+        return res.status(200).json({
+          message: `Submission approved.`,
+          update
+        });
+      }
+    } catch (err){
+      console.log("Cannot find submission with id: " + req.body._id);
+      return sendErr(res, err);
+    }
+
+  } catch (err) {
+    console.log(`\n️ Error:\n ${err}`);
+    return res.status(500).json({
+      message: "Something is wrong",
+      err
+    });
+  }
+};
+
+const reject = async (req, res) => {
+  try {
+    try {
+      const submission = await Submission.findById(req.body._id);
+      if (submission.status != 'pending') {
+        console.log("Cannot reject submissions that are not pending.");
+        return res.status(500).json();
+      } else {
+        const update = await Submission.findOneAndUpdate({_id: req.body._id},
+            {$set: {status: "returned",
+                    note: req.body.note}});
+        if (!update){
+          sendErr(res, '', "Cannot reject submission");
+        }
+        return res.status(200).json({
+          message: `Submission rejected.`,
+          update
+        });
+      }
+    } catch (err){
+      console.log("Cannot find submission with id: " + req.body._id);
+      return sendErr(res, err);
+    }
+
+  } catch (err) {
+    console.log(`\n️ Error:\n ${err}`);
+    return res.status(500).json({
+      message: "Something is wrong",
+      err
+    });
+  }
+};
+
+const getSubmissions = async (req, res) => {
+  try {
+    const submissions = await Submission.find();
+    return res.status(200).json({
+      message: "Submissions found.",
+      submissions
+    });
+  } catch (err){
+    return sendErr(res, err);
+  }
+};
+
 module.exports = {
-  submit
+  submit,
+  approve,
+  reject,
+  getSubmissions
 };
