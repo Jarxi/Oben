@@ -116,7 +116,7 @@ class EditExpenseType extends React.Component {
     })
   }
   render(){
-
+    console.log(this.state);
     return (
         <div class = "bootstrap-iso">
             <div className="FormField">

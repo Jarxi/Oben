@@ -9,10 +9,11 @@ import ProjectDealer from './ProjectDealer';
 class EditProject extends React.Component {
     constructor(){
         super();
-        this.hanldleSelect = this.hanldleSelect.bind(this);
         this.state = {
             selected: "ADD"
         }
+        this.hanldleSelect = this.hanldleSelect.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
 
     }
 
@@ -22,7 +23,13 @@ class EditProject extends React.Component {
         })
     }
 
+    handleUpdate(){
+        console.log("handleupdate In EditProject");
+        this.refs.child.fetchProject();
+    }
+
     render(){
+        console.log(this.state)
         return (
             <div class="canvas">
                 <div class="PageSubTitle">
@@ -30,7 +37,7 @@ class EditProject extends React.Component {
                 </div>
                 <div class="employeeList">
                     <div class="ListWrapper">
-                        <ProjectList/>
+                        <ProjectList ref="child" selectCallback={this.hanldleSelect}/>
                     </div>
                 </div>
                 <div class="ButtonWrapper bootstrap-iso">
@@ -39,7 +46,7 @@ class EditProject extends React.Component {
                     <button type="button" className="btn btn-danger inlineButton" onClick={() => this.hanldleSelect("DELETE")}>Delete</button>
                 </div>
                 <div class ="ExpenseInfo">
-                    <ProjectDealer selectCallback={this.state.selected}/>
+                    <ProjectDealer selectCallback={this.state.selected} triggerUpdate={this.handleUpdate}/>
                 </div>
             </div>
     );
