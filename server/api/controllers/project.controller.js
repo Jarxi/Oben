@@ -23,7 +23,7 @@ const create = async (req, res) => {
 
 const getProjects = async (req, res) => {
   try {
-    const projects = await Project.find({}, {project_name: 1});
+    const projects = await Project.find({});
     return res.status(200).json({
       message: "Projects Found!",
       projects
