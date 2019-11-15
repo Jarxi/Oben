@@ -40,6 +40,7 @@ class SignInForm extends React.Component {
                 sessionStorage.setItem('loggedin', 'true')
                 sessionStorage.setItem('token', res.data.token)
                 sessionStorage.setItem('user_type', res.data.user.user_type)
+                sessionStorage.setItem('user_id', res.data.user._id)
                 this.setState({
                     loginfail: false,
                     redirectToReferrer: true

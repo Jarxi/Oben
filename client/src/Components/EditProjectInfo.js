@@ -85,7 +85,7 @@ class EditProjectInfo extends React.Component {
         const url2 = "http://localhost:3000/api/project/create";
         const params = {
             project_name: this.state.newprojectname,
-            project_manager: "123",
+            project_manager: this.state.newmanager,
             
         };
         const configpost = {
