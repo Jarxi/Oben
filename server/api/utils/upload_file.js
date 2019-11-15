@@ -1,45 +1,45 @@
-const express = require('express');
-const path = require('path');
-const crypto = require('crypto');
-const mongoose = require('mongoose');
-const multer = require('multer');
-const GridFsStorage = require('multer-gridfs-storage');
-const devEnv = require('../../development.config');
-const db = require('../../db.js');
-
-const conn = mongoose.connection;
-// init gfs
-let gfs;
-conn.once('open', () => {
-    // init stream
-    gfs = new mongoose.mongo.GridFSBucket(conn.db, {
-        bucketName: 'uploads'
-    });
-});
-devEnv.init();
-console.log(process.env.dbURL);
-// Create storage engine
-const storage = new GridFsStorage({
-
-    url: process.env.dbURL,
-    file: (req, file) => {
-        return new Promise((resolve, reject) => {
-            crypto.randomBytes(16, (err, buf) => {
-                if (err) {
-                    return reject(err);
-                }
-                const filename = buf.toString('hex') + path.extname(file.originalname);
-                const fileInfo = {
-                    filename: filename,
-                    bucketName: 'uploads'
-                };
-                resolve(fileInfo);
-            });
-        });
-    }
-});
-const upload = multer({ storage });
+// const express = require('express');
+// const path = require('path');
+// const crypto = require('crypto');
+// const mongoose = require('mongoose');
+// const multer = require('multer');
+// const GridFsStorage = require('multer-gridfs-storage');
+// const devEnv = require('../../development.config');
+// const db = require('../../db.js');
 //
+// const conn = mongoose.connection;
+// // init gfs
+// let gfs;
+// conn.once('open', () => {
+//     // init stream
+//     gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+//         bucketName: 'uploads'
+//     });
+// });
+// devEnv.init();
+// console.log(process.env.dbURL);
+// // Create storage engine
+// const storage = new GridFsStorage({
+//
+//     url: process.env.dbURL,
+//     file: (req, file) => {
+//         return new Promise((resolve, reject) => {
+//             crypto.randomBytes(16, (err, buf) => {
+//                 if (err) {
+//                     return reject(err);
+//                 }
+//                 const filename = buf.toString('hex') + path.extname(file.originalname);
+//                 const fileInfo = {
+//                     filename: filename,
+//                     bucketName: 'uploads'
+//                 };
+//                 resolve(fileInfo);
+//             });
+//         });
+//     }
+// });
+// const upload = multer({ storage });
+
 // // @route POST /upload
 // // @desc  Uploads file to DB
 // app.post('/upload', upload.single('file'), (req, res) => {
@@ -114,8 +114,5 @@ const upload = multer({ storage });
 //     });
 // });
 
-module.exports = {
-    storage,
-    upload
-};
+
 

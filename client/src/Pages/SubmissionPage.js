@@ -8,11 +8,6 @@ import "../CSS/SubmissionPage.css";
 
 class SubmissionPage extends React.Component {
 
-  handleChange = date => {
-    this.setState({
-      startDate: date,
-    });
-  };
   constructor(props){
     super(props)
     this.state = {

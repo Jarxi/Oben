@@ -16,7 +16,7 @@ function App() {
       <BrowserRouter>
         <Route exact path="/signup" component={SignUpForm} />
         <Route exact path="/resetPassword" component={ResetPasswordForm} />
-        <PrivateRoute exact path="/home" component={HomePage} />
+        <PrivateRoute path="/home" component={HomePage} />
         <Route exact path="/" component={SignInForm} />
         <Route exact path="/submission" component={SubmissionPage} />
         <Route exact path="/approval" component={ApprovalPage}/>

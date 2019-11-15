@@ -53,6 +53,7 @@ const deleteCategory = async (req, res) => {
 };
 
 
+
 // if you add functions above, add it here too
 module.exports = {
   createCategory,
