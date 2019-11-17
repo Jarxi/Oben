@@ -177,7 +177,7 @@ class SubmissionTable extends React.Component {
           }
         let inputParam = {
             project_name: this.state.timesheet_projects[i],
-            dataAmount: dailyTime
+            dateAmount: dailyTime
         };
         input.push(inputParam);
       }
