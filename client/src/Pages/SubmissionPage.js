@@ -23,7 +23,7 @@ class SubmissionPage extends React.Component {
   };
 
   render(){
-    console.log(sessionStorage);
+    // console.log(sessionStorage);
     return (
         <div class="row">
           <div class='datePick'>

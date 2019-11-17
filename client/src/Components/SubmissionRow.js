@@ -7,7 +7,7 @@ class SubmissionRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      projectList: [ 'select', 'Voice to text', 'Text to voice']
+      projectList: [ 'Select', 'Project1', 'Project2', 'Project3']
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -27,7 +27,7 @@ class SubmissionRow extends React.Component {
         <tr>
           <td>{ticket_number}</td>
           <td>
-            <select class="select">
+            <select class="select" onChange={this.handleChange.bind(this, 'project')}>
               {
                 this.state.projectList.map(project => <option value={project}>{project}</option>)
               }

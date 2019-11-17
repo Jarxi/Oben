@@ -1,8 +1,9 @@
 import React from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Table } from 'react-bootstrap';
 import SubmissionRow from '../Components/SubmissionRow';
-import moment from 'moment';
+import moment, { relativeTimeThreshold } from 'moment';
 import '../CSS/Home.css'
 import '../CSS/SubmissionTable.css';
 import '../CSS/bootstrap/css/bootstrap-iso.css';
@@ -34,6 +35,7 @@ class SubmissionTable extends React.Component {
     this.isFloat = this.isFloat.bind(this);
     this.onError = this.onError.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.parseParam = this.parseParam.bind(this);
   }
 
   isFloat(value) {
@@ -52,6 +54,7 @@ class SubmissionTable extends React.Component {
   onCellChange(type, row, col, value){
     if (type === 'timesheet') {
       if (col === 'project') {
+          //TODO: Check the project name should not be 'SELECT'
         let timesheet_projects = this.state.timesheet_projects;
         timesheet_projects[row] = value;
         this.setState({timesheet_projects});
@@ -117,8 +120,29 @@ class SubmissionTable extends React.Component {
 
   handleSubmit(type){
     if(type === "timesheet"){
-      const { timesheet_ticket_numbers } = this.state
-      const newTicketNumber = timesheet_ticket_numbers[timesheet_ticket_numbers.length - 1] + 1
+        const { timesheet_ticket_numbers } = this.state
+        const newTicketNumber = timesheet_ticket_numbers[timesheet_ticket_numbers.length - 1] + 1
+
+        let params = this.parseParam(type);
+        console.log(params);
+        const url = "http://localhost:3000/api/submission/submit"
+        const config = {
+            headers:{            
+                authorization: "Bearer " + sessionStorage.getItem('token')
+            }
+        };
+        axios.post(url,params,config).then((res)=>{
+            console.log(res)
+            if(res.status === 200){
+                alert("Succeeded in Submit the time!")
+            }
+            }
+
+        ).catch((e)=>{
+            console.log(e)
+            console.log("Time Sheet Submission failed")
+        })
+
       this.setState({
         timesheet_ticket_numbers: [newTicketNumber],
         timesheet_rows: [['','','','','','','']],
@@ -131,6 +155,40 @@ class SubmissionTable extends React.Component {
     } else if(type == "expense"){
 
     }
+  }
+
+  parseParam(type){
+      if(type === "timesheet"){   
+      const { firstDay } = this.props;
+      let input = [];
+      for(let i = 0; i < this.state.timesheet_rows.length; ++i){
+        let dailyTime = [];
+          for(let j = 0; j <  this.state.timesheet_rows[i].length; ++j){
+            const timesheetFirstDay = moment(firstDay);
+            if(this.state.timesheet_rows[i][j] === '' || this.state.timesheet_rows[i][j] === 0){
+                continue;
+            }
+            let param = {
+                date: moment(timesheetFirstDay.add(j, 'day')).format('YYYY/MM/DD'),
+                amount: this.state.timesheet_rows[i][j]
+            };
+            console.log(param);
+            dailyTime.push(param); 
+          }
+        let inputParam = {
+            project_name: this.state.timesheet_projects[i],
+            dataAmount: dailyTime
+        };
+        input.push(inputParam);
+      }
+      let finalParam = {
+          input: input,
+          type: "time",
+          submitter: sessionStorage.user_id
+      }
+      return finalParam;
+    }
+
   }
 
   addRow(option){
