@@ -21,7 +21,7 @@ td.date {
     width: 100px;
 }
 .submissionSection {
-    margin: 20px 50px 50px;
+    margin: 0px 50px 50px;
     padding:30px;
     border: 3px solid #D0D2EC;
     color: black;
@@ -32,6 +32,10 @@ td.date {
     margin-top: 20px;
     margin-bottom: 20px;
     margin-left: 80%;
+}
+
+.buttons {
+    margin-left: 70%;
 }
 
 AddCircle {
@@ -45,4 +49,25 @@ input:not([type='checkbox']) {
 
 .select {
     width: 100%
+}
+
+.outer_box {
+    color: black;
+}
+
+.title {
+    color: #4651af;
+    margin-left: 50px;
+}
+
+label {
+    font-weight: normal !important;
+}
+
+.small-input {
+    width: 100px !important;
+}
+
+.row {
+    margin-bottom: 10px !important;
 }
