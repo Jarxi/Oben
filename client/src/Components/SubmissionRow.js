@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../CSS/SubmissionTable.css';
-import Axios from 'axios';
+import axios from 'axios';
 
 class SubmissionRow extends React.Component {
   constructor(props) {
@@ -17,7 +17,27 @@ class SubmissionRow extends React.Component {
   }
 
   componentDidMount(){
-    // load projectList
+    const config = {
+        headers:{            
+            authorization: "Bearer " + sessionStorage.getItem('token')
+        }
+    };
+    axios.get("http://localhost:3000/api/project/projects",config)
+    .then(
+        (res) => {
+            const projectname = [];
+            for(var i = 0; i < res.data.projects.length; i++){
+                projectname.push(res.data.projects[i].project_name)
+            }
+            console.log(projectname)
+            this.setState({
+                projectList: projectname
+            });
+        },
+        (error) => {
+            console.log(error)
+        }
+    )
   }
 
   render() {
