@@ -1,73 +1,73 @@
 table.timetable {
-    margin-top: 30px;
-    border-collapse: collapse;
-    white-space: nowrap;
+  margin-top: 30px;
+  border-collapse: collapse;
+  white-space: nowrap;
 }
 
 .submissionSection td,
 .submissionSection th {
-    border: 1px solid grey;
+  border: 1px solid grey;
 }
 td.date {
-    border: 1px solid grey;
+  border: 1px solid grey;
 }
 
 td.date {
-    width: 30px;
-    text-align: center;
+  width: 30px;
+  text-align: center;
 }
 
 .information {
-    width: 100px;
+  width: 100px;
 }
 .submissionSection {
-    margin: 0px 50px 50px;
-    padding:30px;
-    border: 3px solid #D0D2EC;
-    color: black;
-    clear: both;
+  margin: 0px 50px 50px;
+  padding: 30px;
+  border: 3px solid #d0d2ec;
+  color: black;
+  clear: both;
 }
 
 .submit_button {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 80%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 60%;
 }
 
 .buttons {
-    margin-left: 70%;
+  margin-left: 60%;
 }
 
 AddCircle {
-    font-size: 10px;
+  font-size: 10px;
 }
 
 input:not([type='checkbox']) {
-    border: white;
-    width: 100%;
+  border: white;
+  width: 100%;
 }
 
 .select {
-    width: 100%
+  width: 100%;
 }
 
 .outer_box {
-    color: black;
+  color: black;
 }
 
 .title {
-    color: #4651af;
-    margin-left: 50px;
+  color: #4651af;
+  margin-left: 50px;
 }
 
 label {
-    font-weight: normal !important;
+  font-weight: normal !important;
 }
 
 .small-input {
-    width: 100px !important;
+  width: 100px !important;
 }
 
 .row {
-    margin-bottom: 10px !important;
+  margin-bottom: 10px !important;
 }
