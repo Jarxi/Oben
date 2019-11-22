@@ -3,18 +3,17 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Table } from 'react-bootstrap';
 import SubmissionRow from '../Components/SubmissionRow';
+import ApprovalLog from '../Components/ApprovalLog';
 import moment, { relativeTimeThreshold } from 'moment';
-import '../CSS/Home.css'
+import '../CSS/Home.css';
 import '../CSS/SubmissionTable.css';
 import '../CSS/bootstrap/css/bootstrap-iso.css';
 import AddCircle from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/core/styles';
-
 
 class SubmissionTable extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     // this.ticket_numbers = [1, 2];
     this.timesheetErrorRef = React.createRef();
@@ -22,16 +21,16 @@ class SubmissionTable extends React.Component {
       timesheet_ticket_numbers: [1],
       expense_ticket_numbers: [1],
       firstDay: moment(),
-      timesheet_rows: [['','','','','','','']],
-      expense_rows: [['','','','','','','']],
-      timesheet_cols: ['','','','','','',''],
-      expense_cols: ['','','','','','',''],
+      timesheet_rows: [['', '', '', '', '', '', '']],
+      expense_rows: [['', '', '', '', '', '', '']],
+      timesheet_cols: ['', '', '', '', '', '', ''],
+      expense_cols: ['', '', '', '', '', '', ''],
       timesheet_projects: [''],
       expense_projects: [''],
       timesheet_error: '',
       expense_error: ''
     };
-    this.onCellChange = this.onCellChange.bind(this)
+    this.onCellChange = this.onCellChange.bind(this);
     this.isFloat = this.isFloat.bind(this);
     this.onError = this.onError.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,36 +38,38 @@ class SubmissionTable extends React.Component {
   }
 
   isFloat(value) {
-    return !isNaN(value) &&
-        parseFloat(Number(value)) == value &&
-        !isNaN(parseFloat(value, 10));
+    return (
+      !isNaN(value) &&
+      parseFloat(Number(value)) == value &&
+      !isNaN(parseFloat(value, 10))
+    );
   }
 
-  onError(type, message){
-    if (type === 'timesheet'){
-      this.setState({timesheet_error: message});
-    } else if(type === 'expense'){
-      this.setState({expense_error: message});
+  onError(type, message) {
+    if (type === 'timesheet') {
+      this.setState({ timesheet_error: message });
+    } else if (type === 'expense') {
+      this.setState({ expense_error: message });
     }
   }
-  onCellChange(type, row, col, value){
+  onCellChange(type, row, col, value) {
     if (type === 'timesheet') {
       if (col === 'project') {
-          //TODO: Check the project name should not be 'SELECT'
+        //TODO: Check the project name should not be 'SELECT'
         let timesheet_projects = this.state.timesheet_projects;
         timesheet_projects[row] = value;
-        this.setState({timesheet_projects});
+        this.setState({ timesheet_projects });
         return;
       }
       if (value && !this.isFloat(value)) {
-        this.onError("timesheet"," ❌ Please enter a number!");
+        this.onError('timesheet', ' ❌ Please enter a number!');
         return;
       } else {
-        this.onError("timesheet", "");
+        this.onError('timesheet', '');
       }
       let timesheet_rows = this.state.timesheet_rows;
       timesheet_rows[row][col] = value;
-      this.setState({timesheet_rows});
+      this.setState({ timesheet_rows });
 
       let sum = 0.0;
       for (let i = 0; i < timesheet_rows.length; i++) {
@@ -81,26 +82,24 @@ class SubmissionTable extends React.Component {
       }
       let timesheet_cols = this.state.timesheet_cols;
       timesheet_cols[col] = sum;
-      this.setState({timesheet_cols: timesheet_cols});
-
-
-    } else if (type === 'expense'){
+      this.setState({ timesheet_cols: timesheet_cols });
+    } else if (type === 'expense') {
       console.log(row, col, value);
       if (col === 'project') {
         let expense_projects = this.state.expense_projects;
         expense_projects[row] = value;
-        this.setState({expense_projects});
+        this.setState({ expense_projects });
         return;
       }
       if (value && !this.isFloat(value)) {
-        this.onError("expense", " ❌ Please enter a number!");
+        this.onError('expense', ' ❌ Please enter a number!');
         return;
       } else {
-        this.onError("expense", "");
+        this.onError('expense', '');
       }
       let expense_rows = this.state.expense_rows;
       expense_rows[row][col] = value;
-      this.setState({expense_rows});
+      this.setState({ expense_rows });
 
       console.log(expense_rows);
       let sum = 0.0;
@@ -114,255 +113,398 @@ class SubmissionTable extends React.Component {
       }
       let expense_cols = this.state.expense_cols;
       expense_cols[col] = sum;
-      this.setState({expense_cols: expense_cols});
+      this.setState({ expense_cols: expense_cols });
     }
   }
 
-  handleSubmit(type){
-    if(type === "timesheet"){
-        const { timesheet_ticket_numbers } = this.state
-        const newTicketNumber = timesheet_ticket_numbers[timesheet_ticket_numbers.length - 1] + 1
+  handleSubmit(type) {
+    if (type === 'timesheet') {
+      const { timesheet_ticket_numbers } = this.state;
+      const newTicketNumber =
+        timesheet_ticket_numbers[timesheet_ticket_numbers.length - 1] + 1;
 
-        let params = this.parseParam(type);
-        console.log(params);
-        const url = "http://localhost:3000/api/submission/submit"
-        const config = {
-            headers:{            
-                authorization: "Bearer " + sessionStorage.getItem('token')
-            }
-        };
-        axios.post(url,params,config).then((res)=>{
-            console.log(res)
-            if(res.status === 200){
-                alert("Succeeded in Submit the time!")
-            }
-            }
-
-        ).catch((e)=>{
-            console.log(e)
-            console.log("Time Sheet Submission failed")
+      let params = this.parseParam(type);
+      console.log(params);
+      const url = 'http://localhost:3000/api/submission/submit';
+      const config = {
+        headers: {
+          authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
+      };
+      axios
+        .post(url, params, config)
+        .then(res => {
+          console.log(res);
+          if (res.status === 200) {
+            alert('Succeeded in Submit the time!');
+          }
         })
+        .catch(e => {
+          console.log(e);
+          console.log('Time Sheet Submission failed');
+        });
 
       this.setState({
         timesheet_ticket_numbers: [newTicketNumber],
-        timesheet_rows: [['','','','','','','']],
-        timesheet_cols: ['','','','','','',''],
-      })
-      this.onError("timesheet"," ✅ Submit successful!");
+        timesheet_rows: [['', '', '', '', '', '', '']],
+        timesheet_cols: ['', '', '', '', '', '', '']
+      });
+      this.onError('timesheet', ' ✅ Submit successful!');
       setTimeout(() => {
-        this.onError("timesheet","")
-      },2000)
-    } else if(type == "expense"){
-
+        this.onError('timesheet', '');
+      }, 2000);
+    } else if (type == 'expense') {
     }
   }
 
-  parseParam(type){
-      if(type === "timesheet"){   
+  parseParam(type) {
+    if (type === 'timesheet') {
       const { firstDay } = this.props;
       let input = [];
-      for(let i = 0; i < this.state.timesheet_rows.length; ++i){
+      for (let i = 0; i < this.state.timesheet_rows.length; ++i) {
         let dailyTime = [];
-          for(let j = 0; j <  this.state.timesheet_rows[i].length; ++j){
-            const timesheetFirstDay = moment(firstDay);
-            if(this.state.timesheet_rows[i][j] === '' || this.state.timesheet_rows[i][j] === 0){
-                continue;
-            }
-            let param = {
-                date: moment(timesheetFirstDay.add(j, 'day')).format('YYYY/MM/DD'),
-                amount: this.state.timesheet_rows[i][j]
-            };
-            console.log(param);
-            dailyTime.push(param); 
+        for (let j = 0; j < this.state.timesheet_rows[i].length; ++j) {
+          const timesheetFirstDay = moment(firstDay);
+          if (
+            this.state.timesheet_rows[i][j] === '' ||
+            this.state.timesheet_rows[i][j] === 0
+          ) {
+            continue;
           }
+          let param = {
+            date: moment(timesheetFirstDay.add(j, 'day')).format('YYYY/MM/DD'),
+            amount: this.state.timesheet_rows[i][j]
+          };
+          console.log(param);
+          dailyTime.push(param);
+        }
         let inputParam = {
-            project_name: this.state.timesheet_projects[i],
-            dateAmount: dailyTime
+          project_name: this.state.timesheet_projects[i],
+          dateAmount: dailyTime
         };
         input.push(inputParam);
       }
       let finalParam = {
-          input: input,
-          type: "time",
-          submitter: sessionStorage.user_id
-      }
+        input: input,
+        type: 'time',
+        submitter: sessionStorage.user_id
+      };
       return finalParam;
     }
-
   }
 
-  addRow(option){
-    if (option === 'timesheet'){
-      let {timesheet_ticket_numbers} = this.state;
-      timesheet_ticket_numbers.push(timesheet_ticket_numbers.length + 1);
-      this.setState({timesheet_ticket_numbers});
-
-      let {timesheet_rows} = this.state;
-      timesheet_rows.push(['','','','','','','']);
-      this.setState({timesheet_rows});
-
-      let {timesheet_projects} = this.state;
-      timesheet_projects.push("");
-      this.setState({timesheet_projects});
-
-    } else if (option === 'expense') {
-      let {expense_ticket_numbers} = this.state;
-      expense_ticket_numbers.push(expense_ticket_numbers.length + 1);
-      this.setState({expense_ticket_numbers});
-
-      let {expense_rows} = this.state;
-      expense_rows.push(['','','','','','','']);
-      this.setState({expense_rows});
-
-      let {expense_projects} = this.state;
-      expense_projects.push("");
-      this.setState({expense_projects});
-    }
-  }
-
-  deleteRow(option){
+  addRow(option) {
     if (option === 'timesheet') {
-      let {timesheet_ticket_numbers} = this.state;
-      timesheet_ticket_numbers.pop();
-      this.setState({timesheet_ticket_numbers});
+      let { timesheet_ticket_numbers } = this.state;
+      timesheet_ticket_numbers.push(timesheet_ticket_numbers.length + 1);
+      this.setState({ timesheet_ticket_numbers });
 
-      let {timesheet_rows} = this.state;
-      timesheet_rows.pop();
-      this.setState({timesheet_rows});
+      let { timesheet_rows } = this.state;
+      timesheet_rows.push(['', '', '', '', '', '', '']);
+      this.setState({ timesheet_rows });
+
+      let { timesheet_projects } = this.state;
+      timesheet_projects.push('');
+      this.setState({ timesheet_projects });
     } else if (option === 'expense') {
-      let {expense_ticket_numbers} = this.state;
-      expense_ticket_numbers.pop();
-      this.setState({expense_ticket_numbers});
+      let { expense_ticket_numbers } = this.state;
+      expense_ticket_numbers.push(expense_ticket_numbers.length + 1);
+      this.setState({ expense_ticket_numbers });
 
+      let { expense_rows } = this.state;
+      expense_rows.push(['', '', '', '', '', '', '']);
+      this.setState({ expense_rows });
 
-      let {expense_rows} = this.state;
-      expense_rows.pop();
-      this.setState({expense_rows});
-
+      let { expense_projects } = this.state;
+      expense_projects.push('');
+      this.setState({ expense_projects });
     }
   }
 
-  render(){
+  deleteRow(option) {
+    if (option === 'timesheet') {
+      let { timesheet_ticket_numbers } = this.state;
+      timesheet_ticket_numbers.pop();
+      this.setState({ timesheet_ticket_numbers });
+
+      let { timesheet_rows } = this.state;
+      timesheet_rows.pop();
+      this.setState({ timesheet_rows });
+    } else if (option === 'expense') {
+      let { expense_ticket_numbers } = this.state;
+      expense_ticket_numbers.pop();
+      this.setState({ expense_ticket_numbers });
+
+      let { expense_rows } = this.state;
+      expense_rows.pop();
+      this.setState({ expense_rows });
+    }
+  }
+
+  render() {
     // const ticket_numbers = [1];
     const { firstDay } = this.props;
     const timesheetFirstDay = moment(firstDay);
     const expenseFirstDay = moment(firstDay);
     return (
-        <div>
-          <div class="submissionSection bootstrap-iso">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" />
-                <label class="form-check-label">
-                  Same as last week
-                </label>
-            </div>
-
-            <Table bordered>
-              <thead>
-                <tr>
-                  <td className="information">Ticket ID</td>
-                  <td className="information">Input Timesheet</td>
-                  <td className="date">{timesheetFirstDay.date()}</td>
-                  <td className="date">{timesheetFirstDay.add(1, 'day').date()}</td>
-                  <td className="date">{timesheetFirstDay.add(1, 'day').date()}</td>
-                  <td className="date">{timesheetFirstDay.add(1, 'day').date()}</td>
-                  <td className="date">{timesheetFirstDay.add(1, 'day').date()}</td>
-                  <td className="date">{timesheetFirstDay.add(1, 'day').date()}</td>
-                  <td className="date">{timesheetFirstDay.add(1, 'day').date()}</td>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.timesheet_ticket_numbers.map(ticket_number => (
-                    <SubmissionRow onCellChange={this.onCellChange.bind(this, 'timesheet', ticket_number - 1)} ticket_number={ticket_number} key={ticket_number}/>
-                ))}
-                <tr>
-                  <td>
-                    <IconButton onClick={this.addRow.bind(this,'timesheet')} aria-label="delete" size="small">
-                      <AddCircle color='primary' fontSize="inherit" />
-                    </IconButton>
-                    <IconButton onClick={this.deleteRow.bind(this, 'timesheet')} aria-label="delete" size="small">
-                      <Delete color='primary' fontSize="inherit" />
-                    </IconButton>
-                  </td>
-                  <td>Total Hour</td>
-                  <td>{this.state.timesheet_cols[0]}</td>
-                  <td>{this.state.timesheet_cols[1]}</td>
-                  <td>{this.state.timesheet_cols[2]}</td>
-                  <td>{this.state.timesheet_cols[3]}</td>
-                  <td>{this.state.timesheet_cols[4]}</td>
-                  <td>{this.state.timesheet_cols[5]}</td>
-                  <td>{this.state.timesheet_cols[6]}</td>
-                </tr>
-              </tbody>
-            </Table>
-            <div className="submit_button">
-              <button type="button" class="btn btn-success" onClick={() => this.handleSubmit('timesheet')}>Submit</button>
-            </div>
-            <div className="error_message">
-              <p> {this.state.timesheet_error}</p>
-            </div>
+      <div>
+        <div class='submissionSection bootstrap-iso'>
+          <div class='form-check'>
+            <input class='form-check-input' type='checkbox' value='' />
+            <label class='form-check-label'>Same as last week</label>
           </div>
 
-          <div className="submissionSection bootstrap-iso">
-            <div className="form-check">
-              <input className="form-check-input" type="checkbox" value=""/>
-              <label className="form-check-label">
-                Same as last week
-              </label>
-            </div>
-
-            <Table bordered>
-              <thead>
+          <Table bordered>
+            <thead>
               <tr>
-                <td className="information">Ticket ID</td>
-                <td className="information">Input Expense</td>
-                <td className="date">{expenseFirstDay.date()}</td>
-                <td className="date">{expenseFirstDay.add(1, 'day').date()}</td>
-                <td className="date">{expenseFirstDay.add(1, 'day').date()}</td>
-                <td className="date">{expenseFirstDay.add(1, 'day').date()}</td>
-                <td className="date">{expenseFirstDay.add(1, 'day').date()}</td>
-                <td className="date">{expenseFirstDay.add(1, 'day').date()}</td>
-                <td className="date">{expenseFirstDay.add(1, 'day').date()}</td>
+                <td className='information'>Ticket ID</td>
+                <td className='information'>Input Timesheet</td>
+                <td className='date'>{timesheetFirstDay.date()}</td>
+                <td className='date'>
+                  {timesheetFirstDay.add(1, 'day').date()}
+                </td>
+                <td className='date'>
+                  {timesheetFirstDay.add(1, 'day').date()}
+                </td>
+                <td className='date'>
+                  {timesheetFirstDay.add(1, 'day').date()}
+                </td>
+                <td className='date'>
+                  {timesheetFirstDay.add(1, 'day').date()}
+                </td>
+                <td className='date'>
+                  {timesheetFirstDay.add(1, 'day').date()}
+                </td>
+                <td className='date'>
+                  {timesheetFirstDay.add(1, 'day').date()}
+                </td>
               </tr>
-              </thead>
-              <tbody>
-              {this.state.expense_ticket_numbers.map(ticket_number => (
-                  <SubmissionRow onCellChange={this.onCellChange.bind(this, 'expense', ticket_number - 1)} ticket_number={ticket_number} key={ticket_number}/>
+            </thead>
+            <tbody>
+              {this.state.timesheet_ticket_numbers.map(ticket_number => (
+                <SubmissionRow
+                  onCellChange={this.onCellChange.bind(
+                    this,
+                    'timesheet',
+                    ticket_number - 1
+                  )}
+                  ticket_number={ticket_number}
+                  key={ticket_number}
+                />
               ))}
               <tr>
                 <td>
-                  <IconButton onClick={this.addRow.bind(this, 'expense')} aria-label="delete" size="small">
-                    <AddCircle color='primary' fontSize="inherit"/>
+                  <IconButton
+                    onClick={this.addRow.bind(this, 'timesheet')}
+                    aria-label='delete'
+                    size='small'
+                  >
+                    <AddCircle color='primary' fontSize='inherit' />
                   </IconButton>
-                  <IconButton onClick={this.deleteRow.bind(this, 'expense')} aria-label="delete" size="small">
-                    <Delete color='primary' fontSize="inherit"/>
+                  <IconButton
+                    onClick={this.deleteRow.bind(this, 'timesheet')}
+                    aria-label='delete'
+                    size='small'
+                  >
+                    <Delete color='primary' fontSize='inherit' />
                   </IconButton>
                 </td>
-                <td>Total Expense</td>
-                <td>{this.state.expense_cols[0]}</td>
-                <td>{this.state.expense_cols[1]}</td>
-                <td>{this.state.expense_cols[2]}</td>
-                <td>{this.state.expense_cols[3]}</td>
-                <td>{this.state.expense_cols[4]}</td>
-                <td>{this.state.expense_cols[5]}</td>
-                <td>{this.state.expense_cols[6]}</td>
+                <td>Total Hour</td>
+                <td>{this.state.timesheet_cols[0]}</td>
+                <td>{this.state.timesheet_cols[1]}</td>
+                <td>{this.state.timesheet_cols[2]}</td>
+                <td>{this.state.timesheet_cols[3]}</td>
+                <td>{this.state.timesheet_cols[4]}</td>
+                <td>{this.state.timesheet_cols[5]}</td>
+                <td>{this.state.timesheet_cols[6]}</td>
               </tr>
+            </tbody>
+          </Table>
+          <div className='submit_button'>
+            <button
+              type='button'
+              class='btn btn-success'
+              onClick={() => this.handleSubmit('timesheet')}
+            >
+              Submit
+            </button>
+          </div>
+          <div className='error_message'>
+            <p> {this.state.timesheet_error}</p>
+          </div>
+        </div>
+        {sessionStorage.getItem('user_type') !== 'contractor' ? (
+          <div className='submissionSection bootstrap-iso'>
+            <div className='form-check'>
+              <input className='form-check-input' type='checkbox' value='' />
+              <label className='form-check-label'>Same as last week</label>
+            </div>
+
+            <Table bordered>
+              <thead>
+                <tr>
+                  <td className='information'>Ticket ID</td>
+                  <td className='information'>Input Expense</td>
+                  <td className='date'>{expenseFirstDay.date()}</td>
+                  <td className='date'>
+                    {expenseFirstDay.add(1, 'day').date()}
+                  </td>
+                  <td className='date'>
+                    {expenseFirstDay.add(1, 'day').date()}
+                  </td>
+                  <td className='date'>
+                    {expenseFirstDay.add(1, 'day').date()}
+                  </td>
+                  <td className='date'>
+                    {expenseFirstDay.add(1, 'day').date()}
+                  </td>
+                  <td className='date'>
+                    {expenseFirstDay.add(1, 'day').date()}
+                  </td>
+                  <td className='date'>
+                    {expenseFirstDay.add(1, 'day').date()}
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.expense_ticket_numbers.map(ticket_number => (
+                  <SubmissionRow
+                    onCellChange={this.onCellChange.bind(
+                      this,
+                      'expense',
+                      ticket_number - 1
+                    )}
+                    ticket_number={ticket_number}
+                    key={ticket_number}
+                  />
+                ))}
+                <tr>
+                  <td>
+                    <IconButton
+                      onClick={this.addRow.bind(this, 'expense')}
+                      aria-label='delete'
+                      size='small'
+                    >
+                      <AddCircle color='primary' fontSize='inherit' />
+                    </IconButton>
+                    <IconButton
+                      onClick={this.deleteRow.bind(this, 'expense')}
+                      aria-label='delete'
+                      size='small'
+                    >
+                      <Delete color='primary' fontSize='inherit' />
+                    </IconButton>
+                  </td>
+                  <td>Total Expense</td>
+                  <td>{this.state.expense_cols[0]}</td>
+                  <td>{this.state.expense_cols[1]}</td>
+                  <td>{this.state.expense_cols[2]}</td>
+                  <td>{this.state.expense_cols[3]}</td>
+                  <td>{this.state.expense_cols[4]}</td>
+                  <td>{this.state.expense_cols[5]}</td>
+                  <td>{this.state.expense_cols[6]}</td>
+                </tr>
               </tbody>
             </Table>
-            <div className="submit_button">
-              <button type="button" className="btn btn-success">Submit</button>
+            <div className='submit_button'>
+              <button type='button' className='btn btn-success'>
+                Submit
+              </button>
             </div>
-            <div className="error_message">
+            <div className='error_message'>
               <p>{this.state.expense_error}</p>
             </div>
           </div>
+        ) : (
+          <div className='outer_box'>
+            <p className='title'>Invoice Input</p>
+            <div className='submissionSection bootstrap-iso'>
+              <form className='form-inline'>
+                <div className='form-group row col-sm-6'>
+                  <label htmlFor='month' className='col-sm-3 col-form-label '>
+                    Month
+                  </label>
+                  <div className='col-sm-3'>
+                    <input
+                      type='text'
+                      className='form-control small-input'
+                      id='month'
+                    />
+                  </div>
+                </div>
+                <div className='form-group row col-sm-6'>
+                  <label
+                    htmlFor='invoice_no'
+                    className='col-sm-4 col-form-label'
+                  >
+                    Invoice Number
+                  </label>
+                  <div className='col-sm-2'>
+                    <input
+                      type='text'
+                      className='form-control small-input'
+                      id='invoice_no'
+                    />
+                  </div>
+                </div>
+                <div className='form-group row'>
+                  <label
+                    htmlFor='total_days'
+                    className='col-sm-6 col-form-label'
+                  >
+                    Total Days in the invoice:
+                  </label>
+                  <input
+                    type='text'
+                    className='form-control col-sm-6'
+                    id='total_dyas'
+                  />
+                </div>
 
-        </div>
+                <div className='form-group row'>
+                  <label
+                    htmlFor='total_amount'
+                    className='col-sm-6 col-form-label'
+                  >
+                    Total Amount Submitted:
+                  </label>
+                  <input
+                    type='text'
+                    className='form-control col-sm-6'
+                    id='total_amount'
+                  />
+                </div>
 
-
+                <div className='form-group row'>
+                  <label htmlFor='service' className='col-sm-6 col-form-label'>
+                    Nature of Services Provided:
+                  </label>
+                  <input
+                    type='text'
+                    className='form-control col-sm-6'
+                    id='service'
+                  />
+                </div>
+              </form>
+              <div className='submit_button'>
+                <button
+                  type='button'
+                  class='btn btn-success'
+                  onClick={() => this.handleSubmit('timesheet')}
+                >
+                  Submit
+                </button>
+              </div>
+              <div className='error_message'>
+                <p> {this.state.timesheet_error}</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     );
   }
-};
+}
 
 SubmissionTable.propTypes = {
   firstDay: PropTypes.instanceOf(moment).isRequired

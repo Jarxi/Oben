@@ -33,13 +33,7 @@ class SubmissionPage extends React.Component {
               onChange={this.handleChange}
             />
           </div>
-          <ApprovalLog
-            page={
-              sessionStorage.getItem('user_type') === 'contractor'
-                ? 'contractor'
-                : ''
-            }
-          />
+          <ApprovalLog page={'submission'} />
         </div>
         <div className='col'>
           <SubmissionTable

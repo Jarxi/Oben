@@ -31,11 +31,12 @@ td.date {
 .submit_button {
   margin-top: 20px;
   margin-bottom: 20px;
-  margin-left: 60%;
+  display: flex;
+  justify-content: flex-end;
 }
 
-.buttons {
-  margin-left: 60%;
+.btn {
+  border: 2px solid white !important;
 }
 
 AddCircle {
