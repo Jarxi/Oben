@@ -1,0 +1,13 @@
+.LeftCol{
+    width: 40%;
+    height: 300px;
+    float: left;
+    border: 5px solid rgba(101, 107, 195, 0.5);
+}
+
+.RightCol{
+    width: 40%;
+    height: 300px;
+    float: left;
+    border: 5px solid rgba(101, 107, 195, 0.5);
+}

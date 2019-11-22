@@ -9,6 +9,7 @@ import SubmissionPage from '../Pages/SubmissionPage';
 import ApprovalPage from '../Pages/ApprovalPage';
 import OverridePage from '../Pages/OverridePage';
 import TopBar from './TopBar';
+import ProfilePage from '../Pages/ProfilePage';
 class MainContent extends React.Component {
   render() {
     const window = this.props.window;
@@ -20,7 +21,9 @@ class MainContent extends React.Component {
           <Route path='/home/approval' component={ApprovalPage} />
           <Route path='/home/override' component={OverridePage} />
           <Route path='/home/submission' component={SubmissionPage} />
+          <Route path='/home/profile' component={ProfilePage} />
           <Route path='/home' exact={true} component={Dashboard} />
+          
           <Route
             path='/'
             children={() => <p style={{ color: 'red' }}>Page in development</p>}
