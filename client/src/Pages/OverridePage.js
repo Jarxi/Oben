@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import Sidebar from '../Components/Sidebar';
 import ApprovalTable from '../Components/ApprovalTable';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import ApprovalLog from '../Components/ApprovalLog';
-import '../CSS/ApprovalPage.css';
-class ApprovalPage extends React.Component {
+import SubmissionTable from '../Components/SubmissionTable';
+import 'react-datepicker/dist/react-datepicker.css';
+import '../CSS/SubmissionPage.css';
+class OverridePage extends React.Component {
   handleChange = date => {
     this.setState({
       startDate: date
@@ -29,8 +29,14 @@ class ApprovalPage extends React.Component {
   render() {
     return (
       <div class='row'>
-        <ApprovalLog />
-        <ApprovalTable
+        <div class='datePick'>
+          <DatePicker
+            inline={true}
+            selected={this.state.startDate}
+            onChange={this.handleChange}
+          />
+        </div>
+        <SubmissionTable
           firstDay={moment(this.state.startDate).startOf('week')}
         />
       </div>
@@ -38,4 +44,4 @@ class ApprovalPage extends React.Component {
   }
 }
 
-export default ApprovalPage;
+export default OverridePage;
