@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import Sidebar from '../Components/Sidebar';
-import ApprovalTable from "../Components/ApprovalTable";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import ApprovalLog from "../Components/ApprovalLog";
-import "../CSS/ApprovalPage.css";
+import ApprovalTable from '../Components/ApprovalTable';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import ApprovalLog from '../Components/ApprovalLog';
+import '../CSS/ApprovalPage.css';
 class ApprovalPage extends React.Component {
-
   handleChange = date => {
     this.setState({
-      startDate: date,
+      startDate: date
     });
   };
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       startDate: new Date()
     };
-    this.handleChange = this.handleChange.bind(this)
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange = date => {
@@ -27,14 +26,18 @@ class ApprovalPage extends React.Component {
     });
   };
 
-  render(){
+  render() {
     return (
-        <div class="row">
-          <ApprovalLog/>
-          <ApprovalTable firstDay={moment(this.state.startDate).startOf('week')}/>
+      <div className='container'>
+        <div class='row'>
+          <ApprovalLog />
+          <ApprovalTable
+            firstDay={moment(this.state.startDate).startOf('week')}
+          />
         </div>
+      </div>
     );
   }
-};
+}
 
 export default ApprovalPage;

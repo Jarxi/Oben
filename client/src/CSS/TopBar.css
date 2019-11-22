@@ -19,6 +19,13 @@
   text-align: center;
 }
 
+.chooseTeamAndMember {
+  color: #4651af !important;
+  font-size: 20px;
+  width: 50%;
+  height: 100%;
+  line-height: 150px;
+}
 .Setting_Icon {
   position: absolute;
   right: 0px;
