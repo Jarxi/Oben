@@ -1,13 +1,54 @@
 .LeftCol{
-    width: 40%;
-    height: 300px;
+    width: 48%;
+    height: fit-content;
     float: left;
-    border: 5px solid rgba(101, 107, 195, 0.5);
+    padding-left: 10px;
 }
 
 .RightCol{
-    width: 40%;
+    width: 50%;
     height: 300px;
     float: left;
+}
+.title {
+    color: #4651af;
+    font-size: 20px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+.ProfileInfoWrapper{
+    border: 5px solid rgba(101, 107, 195, 0.5);
+    height: fit-content;
+    width: 90%;
+    padding:0px;
+    margin-bottom: 20px;
+}
+.content{
+    color: black;
+    padding-left: 8px;
+    line-height: 10px;
+}
+.bootstrap-iso .table > tbody > tr > th{
+    border-top: none;
+    padding:5px;
+    padding-top: 0;
+    padding-bottom: 2px;
+}
+
+.bootstrap-iso .table > tbody > tr > td{
+    border-top: none;
+    padding: 5px;
+    padding-top: 0;
+    padding-bottom: 2px;
+}
+
+.bootstrap-iso .paymentInput{
+    border: 1px groove hsla(0, 4%, 95%, 0.584);
+    border-width: thin;
+}
+
+.Reset_Container{
+    width:100%;
     border: 5px solid rgba(101, 107, 195, 0.5);
 }
+

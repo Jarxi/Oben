@@ -3,6 +3,7 @@
 Global
 ```
 npm -i -g nodemon
+npm install react-radio-buttons --save
 ```
 ```
 cd client
