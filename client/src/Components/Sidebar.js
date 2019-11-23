@@ -8,7 +8,7 @@ import {
 import { TiThumbsUp } from 'react-icons/ti';
 import { FaAddressBook, FaChartBar } from 'react-icons/fa';
 import '../CSS/Home.css';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 
 class Sidebar extends React.Component {
@@ -51,7 +51,7 @@ class Sidebar extends React.Component {
             )}
             {this.state.user_type !== 'aic' && (
               <p>
-                <Link to='home/submission'>
+                <Link to='/home/submission'>
                   <button>
                     <span>
                       <MdAssignment />
