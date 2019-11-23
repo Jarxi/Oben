@@ -26,7 +26,7 @@ class ApprovalLog extends React.Component {
     return (
       <div className='outside_box'>
         <span style={{ color: '#4651af' }}>
-          {this.props.page === 'contractor' ? 'Status' : 'Approval Log'}
+          {this.props.page === 'submission' ? 'Status' : 'Approval Log'}
         </span>
         <div class='box bootstrap-iso'>
           <Table>

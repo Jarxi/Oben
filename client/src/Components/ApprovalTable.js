@@ -256,15 +256,13 @@ class ApprovalTable extends React.Component {
                 </tr>
               </tbody>
             </Table>
-            <div className='row'>
-              <div className='buttons'>
-                <button type='button' className='btn btn-success col'>
-                  Approve
-                </button>
-                <button type='button' className='btn btn-danger col'>
-                  Return
-                </button>
-              </div>
+            <div className='submit_button'>
+              <button type='button' className='btn btn-success col'>
+                Approve
+              </button>
+              <button type='button' className='btn btn-danger col'>
+                Return
+              </button>
             </div>
             <div className='error_message'>
               <p> {this.state.timesheet_error}</p>
@@ -340,15 +338,13 @@ class ApprovalTable extends React.Component {
                 </tr>
               </tbody>
             </Table>
-            <div className='row'>
-              <div className='buttons'>
-                <button type='button' className='btn btn-success col'>
-                  Approve
-                </button>
-                <button type='button' className='btn btn-danger col'>
-                  Return
-                </button>
-              </div>
+            <div className='submit_button'>
+              <button type='button' className='btn btn-success col'>
+                Approve
+              </button>
+              <button type='button' className='btn btn-danger col'>
+                Return
+              </button>
             </div>
             <div className='error_message'>
               <p>{this.state.expense_error}</p>
@@ -421,15 +417,13 @@ class ApprovalTable extends React.Component {
               </div>
             </form>
 
-            <div className='row'>
-              <div className='buttons'>
-                <button type='button' className='btn btn-success col'>
-                  Approve
-                </button>
-                <button type='button' className='btn btn-danger col'>
-                  Return
-                </button>
-              </div>
+            <div className='submit_button'>
+              <button type='button' className='btn btn-success col'>
+                Approve
+              </button>
+              <button type='button' className='btn btn-danger col'>
+                Return
+              </button>
             </div>
             <div className='error_message'>
               <p>{this.state.expense_error}</p>
