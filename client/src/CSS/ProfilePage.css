@@ -28,14 +28,16 @@
     padding-left: 8px;
     line-height: 10px;
 }
-.bootstrap-iso .table > tbody > tr > th{
+.bootstrap-iso .ProfileInfoWrapper 
+.table > tbody > tr > th{
     border-top: none;
     padding:5px;
     padding-top: 0;
     padding-bottom: 2px;
 }
 
-.bootstrap-iso .table > tbody > tr > td{
+.bootstrap-iso .ProfileInfoWrapper 
+.table > tbody > tr > td{
     border-top: none;
     padding: 5px;
     padding-top: 0;
