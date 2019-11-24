@@ -1,39 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../CSS/SubmissionTable.css';
-import Axios from 'axios';
-import { ListGroup, Container, Row, Col } from 'react-bootstrap';
+import { ListGroup, Row, Col } from 'react-bootstrap';
 
 class ApprovalLogRow extends React.Component {
   constructor(props) {
     super(props);
   }
 
+
+
+
   render() {
-    const { name, dateType, status } = this.props;
-    function alertClicked() {
-      alert('clicked');
-    }
+    let { submitter_name, type, status, _id } = this.props.submissionData;
+
+    console.log(this.props.submissionData)
+
     return (
-      <ListGroup.Item
-        action
-        onClick={alertClicked}
-        className='submissionListItem'
-      >
-        <div className='wrapper'>
-          <div className='column'>{name}</div>
-          <div className='column'>{dateType}</div>
-          <div className='column'>{status}</div>
-        </div>
-      </ListGroup.Item>
+        <ListGroup.Item action onClick={()=>this.props.selectCallback(this.props.submissionData)}
+        className='submissionListItem'>
+          <div className='wrapper'>
+            <div className='column'>{submitter_name}</div>
+            <div className='column'>{type}</div>
+            <div className='column'>{status}</div>
+          </div>
+        </ListGroup.Item>
     );
   }
 }
-
-ApprovalLogRow.propTypes = {
-  name: PropTypes.string.isRequired,
-  dateType: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired
-};
 
 export default ApprovalLogRow;

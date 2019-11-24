@@ -15,9 +15,11 @@ class ApprovalPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: new Date()
+      startDate: new Date(),
+      selectedSubmission: 'noselection',
     };
     this.handleChange = this.handleChange.bind(this);
+    this.selectCallback = this.selectCallback.bind(this)
   }
 
   handleChange = date => {
@@ -26,12 +28,19 @@ class ApprovalPage extends React.Component {
     });
   };
 
+  selectCallback(submissionData) {
+    this.setState({
+      selectedSubmission: submissionData
+    })
+  }
+
   render() {
     return (
       <div class='row'>
-        <ApprovalLog />
+        <ApprovalLog selectCallback={this.selectCallback}/>
         <ApprovalTable
           firstDay={moment(this.state.startDate).startOf('week')}
+          selectedSubmission={this.state.selectedSubmission}
         />
       </div>
     );

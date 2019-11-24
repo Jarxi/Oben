@@ -19,16 +19,18 @@ class SubmissionTable extends React.Component {
     // this.ticket_numbers = [1, 2];
     this.timesheetErrorRef = React.createRef();
     this.state = {
-      timesheet_ticket_numbers: [1],
-      expense_ticket_numbers: [1],
       firstDay: moment(),
-      timesheet_rows: [['', '', '', '', '', '', '']],
-      expense_rows: [['', '', '', '', '', '', '']],
-      timesheet_cols: ['', '', '', '', '', '', ''],
-      expense_cols: ['', '', '', '', '', '', ''],
+
+      timesheet_ticket_numbers: [1],
       timesheet_projects: [''],
-      expense_projects: [''],
+      timesheet_rows: [['', '', '', '', '', '', '']],
+      timesheet_cols: ['', '', '', '', '', '', ''],
       timesheet_error: '',
+
+      expense_ticket_numbers: [1],
+      expense_projects: [''],
+      expense_rows: [['', '', '', '', '', '', '']],
+      expense_cols: ['', '', '', '', '', '', ''],
       expense_error: ''
     };
     this.onCellChange = this.onCellChange.bind(this);
@@ -120,10 +122,9 @@ class SubmissionTable extends React.Component {
 
   handleSubmit(type) {
     if (type === 'timesheet') {
-        const { timesheet_ticket_numbers } = this.state;
-        const newTicketNumber =
-        timesheet_ticket_numbers[timesheet_ticket_numbers.length - 1] + 1;
-
+      const { timesheet_ticket_numbers } = this.state;
+      const newTicketNumber = 1;
+        // timesheet_ticket_numbers[timesheet_ticket_numbers.length - 1] + 1;
         let params = this.parseParam(type);
         if(params === null){
             this.onError('timesheet', 'Submit Unseccessful!');
@@ -131,40 +132,42 @@ class SubmissionTable extends React.Component {
                 this.onError('timesheet', '');
             }, 2000);
         }else{
+
         console.log(params);
         const url = 'http://localhost:3000/api/submission/submit';
         const config = {
-            headers: {
+          headers: {
             authorization: 'Bearer ' + sessionStorage.getItem('token')
-            }
+          }
         };
         axios
-            .post(url, params, config)
-            .then(res => {
+          .post(url, params, config)
+          .then(res => {
             console.log(res);
             if (res.status === 200) {
-                alert('Succeeded in Submit the time!');
-                window.location.reload();
+              alert('Succeeded in Submit the time!');
+              window.location.reload();
             }
-            })
-            .catch(e => {
+          })
+          .catch(e => {
             console.log(e);
             console.log('Time Sheet Submission failed');
-            });
+          });
 
         this.setState({
-            timesheet_ticket_numbers: [newTicketNumber],
-            timesheet_rows: [['', '', '', '', '', '', '']],
-            timesheet_cols: ['', '', '', '', '', '', '']
+          timesheet_ticket_numbers: [newTicketNumber],
+          timesheet_rows: [['', '', '', '', '', '', '']],
+          timesheet_cols: ['', '', '', '', '', '', '']
         });
         this.onError('timesheet', ' ✅ Submit successful!');
         setTimeout(() => {
-            this.onError('timesheet', '');
+          this.onError('timesheet', '');
         }, 2000);
-    }
+      }
     } else if (type == 'expense') {
         const{expense_ticket_numbers} = this.state;
-        const newTicketNumber = expense_ticket_numbers[expense_ticket_numbers.length - 1] + 1;
+        const newTicketNumber = 1;
+        // expense_ticket_numbers[expense_ticket_numbers.length - 1] + 1;
         let params = this.parseParam(type);
         if(params === null){
             this.onError('expense', 'Submit Unseccessful!');
@@ -172,35 +175,36 @@ class SubmissionTable extends React.Component {
                 this.onError('expense', '');
             }, 2000);
         }else{
-        const url = 'http://localhost:3000/api/submission/submit';
-        const config = {
-            headers: {
-            authorization: 'Bearer ' + sessionStorage.getItem('token')
-            }
-        };
-        axios
-            .post(url, params, config)
-            .then(res => {
-            console.log(res);
-            if (res.status === 200) {
-                alert('Succeeded in Submit the expense!');
-                window.location.reload();
-            }
-            })
-            .catch(e => {
-            console.log(e);
-            console.log('Expense Submission failed');
-        });
-        this.setState({
-            expense_ticket_numbers: [newTicketNumber],
-            expense_rows:[['', '', '', '', '', '', '']],
-            expense_cols: ['', '', '', '', '', '', '']
-        });
-        this.onError('expense', ' ✅ Submit successful!');
-        setTimeout(() => {
-        this.onError('expense', '');
-        }, 2000);
-    }
+            const url = 'http://localhost:3000/api/submission/submit';
+            const config = {
+                headers: {
+                authorization: 'Bearer ' + sessionStorage.getItem('token')
+                }
+            };
+            axios
+                .post(url, params, config)
+                .then(res => {
+                console.log(res);
+                if (res.status === 200) {
+                    alert('Succeeded in Submit the expense!');
+                    window.location.reload();
+                }
+                })
+                .catch(e => {
+                console.log(e);
+                console.log('Expense Submission failed');
+            });
+            this.setState({
+                expense_ticket_numbers: [newTicketNumber],
+                expense_rows:[['', '', '', '', '', '', '']],
+                expense_cols: ['', '', '', '', '', '', '']
+            });
+            this.onError('expense', ' ✅ Submit successful!');
+            setTimeout(() => {
+            this.onError('expense', '');
+            }, 2000);
+        }
+
     }
   }
 
@@ -229,9 +233,9 @@ class SubmissionTable extends React.Component {
           project_name: this.state.timesheet_projects[i],
           dateAmount: dailyTime
         };
-        if(inputParam.project_name === ""){
-            alert("No project selected!");
-            return null;
+        if (inputParam.project_name === '') {
+          alert('No project selected!');
+          return null;
         }
         input.push(inputParam);
       }
@@ -241,44 +245,44 @@ class SubmissionTable extends React.Component {
         submitter: sessionStorage.user_id
       };
       return finalParam;
-    }else{
-    const { firstDay } = this.props;
-    let input = [];
-    for (let i = 0; i < this.state.expense_rows.length; ++i) {
-      let dailyTime = [];
-      for (let j = 0; j < this.state.expense_rows[i].length; ++j) {
-        const timesheetFirstDay = moment(firstDay);
-        if (
-          this.state.expense_rows[i][j] === '' ||
-          this.state.expense_rows[i][j] === 0
-        ) {
-          continue;
+    } else {
+      const { firstDay } = this.props;
+      let input = [];
+      for (let i = 0; i < this.state.expense_rows.length; ++i) {
+        let dailyTime = [];
+        for (let j = 0; j < this.state.expense_rows[i].length; ++j) {
+          const timesheetFirstDay = moment(firstDay);
+          if (
+            this.state.expense_rows[i][j] === '' ||
+            this.state.expense_rows[i][j] === 0
+          ) {
+            continue;
+          }
+          let param = {
+            date: moment(timesheetFirstDay.add(j, 'day')).format('YYYY/MM/DD'),
+            amount: this.state.expense_rows[i][j]
+          };
+          console.log(param);
+          dailyTime.push(param);
         }
-        let param = {
-          date: moment(timesheetFirstDay.add(j, 'day')).format('YYYY/MM/DD'),
-          amount: this.state.expense_rows[i][j]
+        let inputParam = {
+          project_name: this.state.expense_projects[i],
+          dateAmount: dailyTime
         };
-        console.log(param);
-        dailyTime.push(param);
+        if (inputParam.project_name === '') {
+          alert('No project selected!');
+          return null;
+        }
+        input.push(inputParam);
       }
-      let inputParam = {
-        project_name: this.state.expense_projects[i],
-        dateAmount: dailyTime
+      let finalParam = {
+        input: input,
+        type: 'expense',
+        submitter: sessionStorage.user_id
       };
-      if(inputParam.project_name === ""){
-        alert("No project selected!");
-        return null;
+      return finalParam;
     }
-      input.push(inputParam);
-    }
-    let finalParam = {
-      input: input,
-      type: 'expense',
-      submitter: sessionStorage.user_id
-    };
-    return finalParam;
   }
-}
 
   addRow(option) {
     if (option === 'timesheet') {
@@ -383,7 +387,7 @@ class SubmissionTable extends React.Component {
                 <td>
                   <IconButton
                     onClick={this.addRow.bind(this, 'timesheet')}
-                    aria-label='delete'
+                    aria-label='add'
                     size='small'
                   >
                     <AddCircle color='primary' fontSize='inherit' />
@@ -494,7 +498,11 @@ class SubmissionTable extends React.Component {
               </tbody>
             </Table>
             <div className='submit_button'>
-              <button type='button' className='btn btn-success' onClick={() => this.handleSubmit('expense')}>
+              <button
+                type='button'
+                className='btn btn-success'
+                onClick={() => this.handleSubmit('expense')}
+              >
                 Submit
               </button>
             </div>
