@@ -35,15 +35,9 @@ const send = async (req) => {
       html: emailBody.toString()
     };
     sgMail.send(msg);
-<<<<<<< HEAD
-    return res.status(200).json('msg: Invitation sent');
-  } catch(err) {
-    return res.status(500).json(err);
-=======
   } catch(err) {
     // return res.status(500).json(err);
     console.log(err);
->>>>>>> 764678c52d924496f95eef89245cd56320cd4776
   }
 };
 // send()

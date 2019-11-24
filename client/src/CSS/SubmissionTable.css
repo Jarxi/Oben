@@ -85,9 +85,15 @@ label {
   border-radius: 0 !important;
 }
 
+.submissionListItem .inner{
+  width: 33%;
+  float: left;
+  text-align: center;
+}
+
 .list-group {
-  width: 300px;
-  overflow-y: scroll !important;
+  width: 350px;
+  overflow-y: scroll;
   height: 800px;
 }
 
@@ -99,4 +105,8 @@ label {
 
 .wrapper .column {
   flex-basis: 33%;
+}
+
+.box {
+  width: 350px !important;
 }

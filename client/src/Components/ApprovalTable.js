@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Table, Row, Col, Form } from 'react-bootstrap';
 import SubmissionRow from '../Components/SubmissionRow';
 import moment from 'moment';
+import axios from 'axios'
 import '../CSS/Home.css';
 import '../CSS/SubmissionTable.css';
 import '../CSS/bootstrap/css/bootstrap-iso.css';
@@ -11,51 +12,61 @@ class ApprovalTable extends React.Component {
   constructor(props) {
     super(props);
     // this.ticket_numbers = [1, 2];
-    this.timesheetErrorRef = React.createRef();
+    this.returnMessage = React.createRef();
     this.state = {
       timesheet_ticket_numbers: [1],
       expense_ticket_numbers: [1],
       firstDay: moment(),
-      timesheet_rows: [['', '', '', '', '', '', '']],
-      expense_rows: [['', '', '', '', '', '', '']],
-      timesheet_cols: ['', '', '', '', '', '', ''],
-      expense_cols: ['', '', '', '', '', '', ''],
-      timesheet_projects: [''],
-      expense_projects: [''],
-      timesheet_error: '',
-      expense_error: '',
     };
 
-    this.onError = this.onError.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.getWeeklyDateAmount = this.getWeeklyDateAmount.bind(this);
     this.getTotalAmount = this.getTotalAmount.bind(this);
+    this.approve = this.approve.bind(this);
+    this.returnSub = this.returnSub.bind(this);
   }
 
-  onError(type, message) {
-    if (type === 'timesheet') {
-      this.setState({ timesheet_error: message });
-    } else if (type === 'expense') {
-      this.setState({ expense_error: message });
-    }
+  approve(id){
+    const param = {
+        _id: id
+    };
+    const config = {
+        headers:{            
+            authorization: "Bearer " + sessionStorage.getItem('token')
+        }
+    };
+    const url = "http://localhost:3000/api/submission/approve";
+    axios.put(url,param,config).then((res)=>{
+        console.log(res)
+        if(res.status === 200){
+            alert("Approval success")
+        }
+    }).catch((e)=>{
+        console.log(e)
+        console.log("Approval failed")
+    })
   }
 
-  handleSubmit(type) {
-    if (type === 'timesheet') {
-      const { timesheet_ticket_numbers } = this.state;
-      const newTicketNumber =
-        timesheet_ticket_numbers[timesheet_ticket_numbers.length - 1] + 1;
-      this.setState({
-        timesheet_ticket_numbers: [newTicketNumber],
-        timesheet_rows: [['', '', '', '', '', '', '']],
-        timesheet_cols: ['', '', '', '', '', '', '']
-      });
-      this.onError('timesheet', ' ✅ Submit successful!');
-      setTimeout(() => {
-        this.onError('timesheet', '');
-      }, 2000);
-    } else if (type == 'expense') {
-    }
+  returnSub(id){
+    const message = this.returnMessage.current.value;
+    const param = {
+        _id: id, 
+        note: message,
+    };
+    const config = {
+        headers:{            
+            authorization: "Bearer " + sessionStorage.getItem('token')
+        }
+    };
+    const url = "http://localhost:3000/api/submission/return";
+    axios.put(url,param,config).then((res)=>{
+        console.log(res)
+        if(res.status === 200){
+            alert("Returned")
+        }
+    }).catch((e)=>{
+        console.log(e)
+        console.log("Failed to return")
+    })
   }
 
   getWeeklyDateAmount(submittedDateAmount, firstDayofWeek){
@@ -78,10 +89,12 @@ class ApprovalTable extends React.Component {
 
   render() {
     // const ticket_numbers = [1];
-    let tableType, status, input, total_amount, firstDay, allDays;
+    let tableType, status, id, input, total_amount, firstDay, allDays;
+
     if(this.props.selectedSubmission !== 'noselection'){
       tableType = this.props.selectedSubmission.type;
       status = this.props.selectedSubmission.status;
+      id = this.props.selectedSubmission._id;
       input = this.props.selectedSubmission.input;
       firstDay = moment(input[0].dateAmount[0].date).startOf('week');
       let currDay = moment(firstDay);
@@ -91,6 +104,48 @@ class ApprovalTable extends React.Component {
       }
       total_amount = this.getTotalAmount(this.props.selectedSubmission.total_amount,firstDay);
     }
+
+    const actionRow = (
+      <div className='submit_button'>
+        <Row>
+          <Col lg={{span: 2}}>
+            <Form.Label>Return Message</Form.Label>
+          </Col>
+          <Col lg={{span:6}}>
+            <Form.Control placeholder="return message" ref={this.returnMessage}/>
+          </Col>
+          <Col md={{span:3}}/>
+          <Col>
+            <button type='button' className='btn btn-success col' onClick={()=>this.approve(id)}>Approve</button>
+          </Col>
+          <Col>
+            <button type='button' className='btn btn-danger col' onClick={()=>this.returnSub(id)}>Return</button>
+          </Col>
+        </Row>
+      </div>);
+
+    const approvedBanner = (
+      <div className='submit_button'>
+        <Row>
+          <Col lg={{span: 8}}/>
+          <Col md={{span:3}}/>
+          <Col>
+            <h4><span className='badge badge-success col'>Submission Approved</span></h4>
+          </Col>
+        </Row>
+      </div>);
+    
+    const returnedBanner = (
+      <div className='submit_button'>
+        <Row>
+          <Col lg={{span: 8}}/>
+          Message: 
+          <Col md={{span:3}}/>
+          <Col>
+            <h4><span className='badge badge-success col'>Submission Returned</span></h4>
+          </Col>
+        </Row>
+      </div>);
   
     return (
       this.props.selectedSubmission !== 'noselection' &&
@@ -131,23 +186,9 @@ class ApprovalTable extends React.Component {
                 </tr>
               </tbody>
             </Table>
-            <div className='submit_button'>
-              <Row>
-                <Col lg={{span: 2}}>
-                  <Form.Label>Return Message</Form.Label>
-                </Col>
-                <Col lg={{span:6}}>
-                  <Form.Control placeholder="return message" />
-                </Col>
-                <Col md={{span:3}}/>
-                <Col>
-                  <button type='button' className='btn btn-success col'>Approve</button>
-                </Col>
-                <Col>
-                  <button type='button' className='btn btn-danger col'>Return</button>
-                </Col>
-              </Row>
-            </div>
+            {status === 'pending' && actionRow}
+            {status === 'accepted' && approvedBanner}
+            {status == 'returned' && returnedBanner}
             <div className='error_message'>
               <p> {this.state.timesheet_error}</p>
             </div>
@@ -157,6 +198,7 @@ class ApprovalTable extends React.Component {
         { tableType === 'expense' &&
         <div className='outer_box'>
           <p className='title'>Expense Approval</p>
+
           <div className='submissionSection bootstrap-iso'>
             <Table bordered>
               <thead>
@@ -189,14 +231,9 @@ class ApprovalTable extends React.Component {
                 </tr>
               </tbody>
             </Table>
-            <div className='submit_button'>
-              <button type='button' className='btn btn-success col'>
-                Approve
-              </button>
-              <button type='button' className='btn btn-danger col'>
-                Return
-              </button>
-            </div>
+            {status === 'pending' && actionRow}
+            {status === 'accepted' && approvedBanner}
+            {status == 'returned' && returnedBanner}
             <div className='error_message'>
               <p>{this.state.expense_error}</p>
             </div>
@@ -268,15 +305,7 @@ class ApprovalTable extends React.Component {
                 />
               </div>
             </form>
-
-            <div className='submit_button'>
-              <button type='button' className='btn btn-success col'>
-                Approve
-              </button>
-              <button type='button' className='btn btn-danger col'>
-                Return
-              </button>
-            </div>
+            {actionRow}
             <div className='error_message'>
               <p>{this.state.expense_error}</p>
             </div>
