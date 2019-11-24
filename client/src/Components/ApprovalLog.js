@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import '../CSS/bootstrap/css/bootstrap-iso.css';
 import ApprovalLogRow from './ApprovalLogRow';
 import { Table, ListGroup } from 'react-bootstrap';
@@ -10,17 +9,7 @@ class ApprovalLog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      submissions: [
-        // {
-        //   id: '123123123123123',
-        //   name: 'abc',
-        //   dateType:
-        //     moment()
-        //       .format('MM/DD')
-        //       .toString() + ' Invoice',
-        //   status: 'submitted'
-        // }
-      ]
+      submissions: []
     };
     this.fetchSubmissions = this.fetchSubmissions.bind(this)
   }
@@ -35,16 +24,7 @@ class ApprovalLog extends React.Component {
     const options = {headers: { authorization: 'Bearer ' + sessionStorage.getItem('token') }};
     axios.get(url, options).then((res)=>{
         if(res.status === 200){
-            // console.log("HERE")
-            submissionList = res.data.submissions.map(function(submission){
-              return {
-                name: submission.submitter.substring(19),
-                dateType: submission.type,
-                status: submission.status,
-                id: submission._id,
-              }
-            })
-            this.setState({submissions: submissionList});
+            this.setState({submissions: res.data.submissions});
         }
     }).catch((e)=>{
         console.log(e)
@@ -64,21 +44,21 @@ class ApprovalLog extends React.Component {
           <Table>
             <thead>
               <tr>
-                {/* <td className='name'>Name</td>
-                <td className='dateType'>Type</td>
-                <td className='status'>Status</td> */}
-                <td> Name&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                  Type&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Status</td>
+                <td colspan='3'>
+                  <div className='wrapper' style={{ margin: '10px 0px' }}>
+                    <div className='column'>Name</div>
+                    <div className='column'>Type</div>
+                    <div className='column'>Status</div>
+                  </div>
+                </td>
               </tr>
             </thead>
             <tbody>
               <ListGroup variant="flush">
                 {this.state.submissions.map(submission => (
                   <ApprovalLogRow
-                    name={submission.name}
-                    dateType={submission.dateType}
-                    status={submission.status}
-                    key={submission.id}
+                    submissionData={submission}
+                    selectCallback={this.props.selectCallback}
                   />
                 ))}
               </ListGroup>

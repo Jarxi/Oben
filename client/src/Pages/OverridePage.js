@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import ApprovalTable from '../Components/ApprovalTable';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import SubmissionTable from '../Components/SubmissionTable';
