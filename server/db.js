@@ -78,6 +78,7 @@ const storage = new GridFsStorage({
 const upload = multer({ storage });
 
 const getFile = (req, res) => {
+    console.log(req.body)
     const filename = req.body.filename;
     const file = gfs.find({filename : filename});
     file.count(function(err, count) {

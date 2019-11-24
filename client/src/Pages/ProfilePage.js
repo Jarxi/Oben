@@ -4,6 +4,7 @@ import ProfileInfo from '../Components/ProfileInfo';
 import PaymentAddress from '../Components/PaymentAddress';
 import ResetPasswordForm from '../Components/ResetPasswordForm';
 import ProfileSelfInput from '../Components/ProfileSelfInput';
+import InvoiceInput from '../Components/InvoiceInput';
 
 import '../CSS/ProfilePage.css';
 
@@ -21,7 +22,8 @@ class ProfilePage extends React.Component {
                     {sessionStorage.getItem('user_type')  === 'contractor'?<PaymentAddress/>:<ProfileSelfInput/>}
                 </div>
                 <div class="RightCol">
-                    <ResetPasswordForm/>
+                    {/* <ResetPasswordForm/> */}
+                    <InvoiceInput />
                 </div>
             </div>
             

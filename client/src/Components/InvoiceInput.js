@@ -94,42 +94,42 @@ class InvoiceInput extends React.Component {
 
     handleDownload(){
         // console.log(11111111)
-        // const config = {
-        //     headers:{            
-        //         authorization: "Bearer " + sessionStorage.getItem('token')
-        //     }
-        // };
-        // const param = {
-        //     filename: this.state.encoded_filename
-        // }
-        // console.log(param);
-        // // axios.get("http://localhost:3000/api/download",param, config)
-        // // .then(
-        // //     (res) => {
-        // //         // console.log(res)
-        // //         // this.setState({
-        // //         //     isLoaded: true,
-        // //         //     projects: res.data.projects
-        // //         // });
-        // //         console.log(11)
-        // //     },
-        // //     (error) => {
-        // //         console.log(error)
-        // //         console.log(1111)
-        // //     });
-        // axios({
-        //     url:"http://localhost:3000/api/download",
-        //     method: 'GET',
-        //     responseType: 'blob',
-        //     params: param
-        // }).then((response) => {
-        //     const url = window.URL.createObjectURL(new Blob([response.data]));
-        //     const link = document.createElement('a');
-        //     link.href = url;
-        //     link.setAttribute('download', 'file.pdf'); //or any other extension
-        //     document.body.appendChild(link);
-        //     link.click();
-        //  });
+        const config = {
+            headers:{            
+                authorization: "Bearer " + sessionStorage.getItem('token')
+            }
+        };
+        const param = {
+            filename: this.state.encoded_filename
+        }
+        console.log(param);
+        // axios.get("http://localhost:3000/api/download",param, config)
+        // .then(
+        //     (res) => {
+        //         // console.log(res)
+        //         // this.setState({
+        //         //     isLoaded: true,
+        //         //     projects: res.data.projects
+        //         // });
+        //         console.log(11)
+        //     },
+        //     (error) => {
+        //         console.log(error)
+        //         console.log(1111)
+        //     });
+        axios({
+            url:"http://localhost:3000/api/download",
+            method: 'GET',
+            responseType: 'blob',
+            params: param
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'file.pdf'); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+         });
     }
     render() {
         return (

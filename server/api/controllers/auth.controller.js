@@ -29,9 +29,12 @@ const signUp = async (req, res) => {
     await increment({ counter_category: 'employee_id' });
     console.log(user_data);
     // if (!loading){
-      // loading = true;
-      send(req);
-    // }
+    // loading = true;
+
+    const auth = await Auth.findOneAndUpdate({ user: user }, { $set: newAuth });
+    if (auth === null) {
+      auth = await Auth.create(newAuth);
+    }
     return res.status(200).json({
       message: 'user created!',
       user
@@ -69,7 +72,10 @@ const signIn = async (req, res) => {
       token
     };
 
-    const auth = await Auth.create(newAuth);
+    const auth = await Auth.findOneAndUpdate({ user: user }, { $set: newAuth });
+    if (auth === null) {
+      auth = await Auth.create(newAuth);
+    }
 
     return res.status(200).json({
       message: `User signed in!`,
@@ -137,13 +143,42 @@ const resetPassword = async (req, res) => {
     if (!update) {
       sendErr(res, '', 'Some error occurred tryint to update password');
     }
+    const auth = await Auth.findOneAndUpdate(
+      { user: user._id },
+      {
+        $set: {
+          status: 'confirmed'
+        }
+      },
+      { new: true }
+    );
 
     return res.status(200).json({
       message: `Password Resetted!`,
       user
     });
   } catch (err) {
-    return sendErr(res, err);
+    console.log(err.message);
+    return sendErr(res, '', err.message);
+  }
+};
+
+const confirmSignUp = async (req, res) => {
+  try {
+    const auth = await Auth.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $set: {
+          status: 'confirmed'
+        }
+      }
+    );
+    return res.status(200).json({
+      message: 'Account is confirmed'
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ msg: 'Server error' });
   }
 };
 
@@ -151,5 +186,6 @@ module.exports = {
   signUp,
   signIn,
   resetPassword,
-  signOut
+  signOut,
+  confirmSignUp
 };

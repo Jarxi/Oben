@@ -23,6 +23,11 @@ const AuthSchema = new Schema({
   created_date: {
     type: Date,
     default: moment().format()
+  },
+  status: {
+    type: String,
+    default: 'pending',
+    enum: ['pending', 'confirmed']
   }
 });
 
