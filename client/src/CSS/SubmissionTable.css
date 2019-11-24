@@ -90,6 +90,13 @@ label {
   display: flex;
   justify-content: space-between !important;
   text-align: center;
+  height: 50px;
+  line-height: 50px;
+}
+
+.wrapper > div {
+  padding: 0px 10px;
+  line-height: 40px;
 }
 
 .column-1 {
