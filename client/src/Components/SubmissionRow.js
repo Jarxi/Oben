@@ -24,7 +24,7 @@ class SubmissionRow extends React.Component {
     };
     axios.get('http://localhost:3000/api/project/projects', config).then(
       res => {
-        const projectname = [];
+        const projectname = ['Select'];
         for (var i = 0; i < res.data.projects.length; i++) {
           projectname.push(res.data.projects[i].project_name);
         }
