@@ -320,7 +320,6 @@ class EditTeamMember extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className='bootstrap-iso'><button type="button" className="btn btn-success inlineButton" onClick={this.handleSave}>Save</button></div>
             </div>
             
             
