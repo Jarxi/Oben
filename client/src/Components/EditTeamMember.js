@@ -39,6 +39,7 @@ class EditTeamMember extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleFileChange = this.handleFileChange.bind(this);
     this.handleRadioSelect = this.handleRadioSelect.bind(this);
+    this.handleSave = this.handleSave.bind(this);
   }
 
   handleSelect(item) {
@@ -72,6 +73,13 @@ class EditTeamMember extends React.Component {
   handleRadioSelect(value) {
     this.setState({ method: value });
   }
+
+  handleSave(){
+    console.log('====================================');
+    console.log(this.state);
+    console.log('====================================');
+  }
+
   render() {
     return (
       <div class='canvas'>
@@ -331,12 +339,16 @@ class EditTeamMember extends React.Component {
               </div>
               <div className='single_box' style={{ background: '#eee' }}>
                 <div className='form-group' style={{ witdh: 'inherit' }}>
-                  <button
-                    className='btn btn-success btn-block'
-                    style={{ witdh: 'inherit' }}
+                    <div className='bootstrap-iso'>
+                    <button
+                    type='button'
+                    className='btn btn-success inlineButton'
+                    onClick={this.handleSave}
                   >
                     Save
                   </button>
+                    </div>
+                 
                 </div>
               </div>
             </div>
