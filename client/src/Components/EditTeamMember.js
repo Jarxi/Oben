@@ -19,11 +19,9 @@ class EditTeamMember extends React.Component {
 
   handleSelect(item) {
     this.setState({
-        selectedemployee: item
-    })
-
-}
-
+      selectedemployee: item
+    });
+  }
 
   render() {
     return (
@@ -53,221 +51,224 @@ class EditTeamMember extends React.Component {
         <div class='employeeList'>
           <p class='ListTitle'>Name of Employee</p>
           <div class='ListWrapper'>
-            <EmployeeList selectCallback={this.handleSelect}/>
+            <EmployeeList selectCallback={this.handleSelect} />
           </div>
         </div>
-        {this.state.selectedemployee == null?<div></div>:(
-        <form>
-          <div id='container'>
-            <div className='nested'>
-              <div className='title'>{this.state.selectedemployee.name}</div>
-              <div className='input'>
-                <div>
-                  <label>Team</label>
+        {this.state.selectedemployee == null ? (
+          <div></div>
+        ) : (
+          <form>
+            <div id='container'>
+              <div className='nested'>
+                <div className='title'>{this.state.selectedemployee.name}</div>
+                <div className='input'>
+                  <div>
+                    <label>Team</label>
+                  </div>
+                  <div>
+                    <input
+                      type='text'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <input
-                    type='text'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
+                <div className='input'>
+                  <div>
+                    <label>Job Title</label>
+                  </div>
+                  <div>
+                    <input
+                      type='text'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                </div>
+                <div className='input'>
+                  <div>
+                    <label>Supervisor</label>
+                  </div>
+                  <div>
+                    <input
+                      type='text'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                </div>
+                <div className='input'>
+                  <div>
+                    <label>Start Date</label>
+                  </div>
+                  <div>
+                    <input
+                      type='text'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                </div>
+                <div className='input'>
+                  <div>
+                    <label>Work Email</label>
+                  </div>
+                  <div>
+                    <input
+                      type='text'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                </div>
+                <div className='input'>
+                  <div>
+                    <label>Phone</label>
+                  </div>
+                  <div>
+                    <input
+                      type='text'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                </div>
+                <div className='title'>Contract Agreement</div>
+                <div className='input'>
+                  <div>
+                    <label>Contract on file</label>
+                  </div>
+                  <div>
+                    <input
+                      type='text'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </div>
                 </div>
               </div>
-              <div className='input'>
-                <div>
-                  <label>Job Title</label>
+              <div className='nested'>
+                <div className='title'>Contract Status</div>
+                <div className='input'>
+                  <div>
+                    <label>W9 On File</label>
+                  </div>
+                  <div>
+                    <input
+                      type='text'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <input
-                    type='text'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
+                <div className='input'>
+                  <div>
+                    <label>Contract Expire Date</label>
+                  </div>
+                  <div>
+                    <input
+                      type='text'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className='input'>
-                <div>
-                  <label>Supervisor</label>
+                <div className='title'>Payment Information</div>
+                <div className='input'>
+                  <div>
+                    <label>Method</label>
+                  </div>
+                  <div>
+                    Check
+                    <input
+                      type='checkbox'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div>
+                    ACH
+                    <input
+                      type='checkbox'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <input
-                    type='text'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
+                <div className='input'>
+                  <div>
+                    <label>Address</label>
+                  </div>
+                  <div>
+                    <input
+                      type='text'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className='input'>
-                <div>
-                  <label>Start Date</label>
+                <div className='input'>
+                  <div>
+                    <label>Address 2</label>
+                  </div>
+                  <div>
+                    <input
+                      type='text'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <input
-                    type='text'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
+                <div className='input'>
+                  <div>
+                    <label>City</label>
+                  </div>
+                  <div>
+                    <input
+                      type='text'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className='input'>
-                <div>
-                  <label>Work Email</label>
+                <div className='input'>
+                  <div>
+                    <label>State</label>
+                  </div>
+                  <div>
+                    <input
+                      type='text'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div>
+                    <label>Zip</label>
+                  </div>
+                  <div>
+                    <input
+                      type='text'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <input
-                    type='text'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-              <div className='input'>
-                <div>
-                  <label>Phone</label>
-                </div>
-                <div>
-                  <input
-                    type='text'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-              <div className='title'>Contract Agreement</div>
-              <div className='input'>
-                <div>
-                  <label>Contract on file</label>
-                </div>
-                <div>
-                  <input
-                    type='text'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
+                <div className='input'>
+                  <div>
+                    <label>Rate Information</label>
+                  </div>
+                  <div>
+                    <input
+                      type='text'
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-            <div className='nested'>
-              <div className='title'>Contract Status</div>
-              <div className='input'>
-                <div>
-                  <label>W9 On File</label>
-                </div>
-                <div>
-                  <input
-                    type='text'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-              <div className='input'>
-                <div>
-                  <label>Contract Expire Date</label>
-                </div>
-                <div>
-                  <input
-                    type='text'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-              <div className='title'>Payment Information</div>
-              <div className='input'>
-                <div>
-                  <label>Method</label>
-                </div>
-                <div>
-                  Check
-                  <input
-                    type='checkbox'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                </div>
-                <div>
-                  ACH
-                  <input
-                    type='checkbox'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-              <div className='input'>
-                <div>
-                  <label>Address</label>
-                </div>
-                <div>
-                  <input
-                    type='text'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-              <div className='input'>
-                <div>
-                  <label>Address 2</label>
-                </div>
-                <div>
-                  <input
-                    type='text'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-              <div className='input'>
-                <div>
-                  <label>City</label>
-                </div>
-                <div>
-                  <input
-                    type='text'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-              <div className='input'>
-                <div>
-                  <label>State</label>
-                </div>
-                <div>
-                  <input
-                    type='text'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                </div>
-                <div>
-                  <label>Zip</label>
-                </div>
-                <div>
-                  <input
-                    type='text'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-              <div className='input'>
-                <div>
-                  <label>Rate Information</label>
-                </div>
-                <div>
-                  <input
-                    type='text'
-                    value={this.state.value}
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>)}
+          </form>
+        )}
       </div>
     );
   }
