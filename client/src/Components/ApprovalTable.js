@@ -1,15 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table } from 'react-bootstrap';
+import { Table, Row, Col, Form } from 'react-bootstrap';
 import SubmissionRow from '../Components/SubmissionRow';
 import moment from 'moment';
 import '../CSS/Home.css';
 import '../CSS/SubmissionTable.css';
 import '../CSS/bootstrap/css/bootstrap-iso.css';
-import AddCircle from '@material-ui/icons/Add';
-import Delete from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
-import { FaCommentsDollar } from 'react-icons/fa';
 
 class ApprovalTable extends React.Component {
   constructor(props) {
@@ -136,12 +132,21 @@ class ApprovalTable extends React.Component {
               </tbody>
             </Table>
             <div className='submit_button'>
-              <button type='button' className='btn btn-success col'>
-                Approve
-              </button>
-              <button type='button' className='btn btn-danger col'>
-                Return
-              </button>
+              <Row>
+                <Col lg={{span: 2}}>
+                  <Form.Label>Return Message</Form.Label>
+                </Col>
+                <Col lg={{span:6}}>
+                  <Form.Control placeholder="return message" />
+                </Col>
+                <Col md={{span:3}}/>
+                <Col>
+                  <button type='button' className='btn btn-success col'>Approve</button>
+                </Col>
+                <Col>
+                  <button type='button' className='btn btn-danger col'>Return</button>
+                </Col>
+              </Row>
             </div>
             <div className='error_message'>
               <p> {this.state.timesheet_error}</p>
@@ -174,13 +179,13 @@ class ApprovalTable extends React.Component {
                 <tr>
                   <td></td>
                   <td>Total Expense</td>
-                  <td>{total_amount[0]}</td>
-                  <td>{total_amount[1]}</td>
-                  <td>{total_amount[2]}</td>
-                  <td>{total_amount[3]}</td>
-                  <td>{total_amount[4]}</td>
-                  <td>{total_amount[5]}</td>
-                  <td>{total_amount[6]}</td>
+                  <td>{total_amount[0] == 0? '' : `$${total_amount[0]}`}</td>
+                  <td>{total_amount[1] == 0? '' : `$${total_amount[1]}`}</td>
+                  <td>{total_amount[2] == 0? '' : `$${total_amount[2]}`}</td>
+                  <td>{total_amount[3] == 0? '' : `$${total_amount[3]}`}</td>
+                  <td>{total_amount[4] == 0? '' : `$${total_amount[4]}`}</td>
+                  <td>{total_amount[5] == 0? '' : `$${total_amount[5]}`}</td>
+                  <td>{total_amount[6] == 0? '' : `$${total_amount[6]}`}</td>
                 </tr>
               </tbody>
             </Table>

@@ -29,10 +29,16 @@ td.date {
 }
 
 .submit_button {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 40px;
+  margin-right: 15px;
+  margin-bottom: -10px;
   display: flex;
   justify-content: flex-end;
+}
+
+.submit_button .form-label{
+  line-height: 1.5;
+  padding-top: 5px !important;
 }
 
 .btn {
