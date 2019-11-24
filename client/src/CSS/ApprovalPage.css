@@ -20,3 +20,7 @@ table {
   border-color: #4651af;
   clear: both;
 }
+
+.right_content {
+  padding: 20px;
+}
