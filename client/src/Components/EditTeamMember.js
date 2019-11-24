@@ -6,15 +6,39 @@ import '../CSS/bootstrap/css/bootstrap-iso.css';
 import AddCircle from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
+import { RadioGroup, RadioButton } from 'react-radio-buttons';
 
 class EditTeamMember extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedemployee: null,
-      teams: ['engineering', 'marketing']
+      teams: ['engineering', 'marketing'],
+      team:"",
+      job_title:"",
+      supervisor:"",
+      start_date:"",
+      work_email:"",
+      phone:"",
+      contract_file: null,
+      contract_filename:"",
+      contract_encoded_filename:"",
+      w9_file: null,
+      w9_filename:"",
+      w9_encoded_filename:"",
+      contract_expire_date:"",
+      payment_method:"check",
+      address:"",
+      address2:"",
+      city:"",
+      state:"",
+      zip:"",
+      rate:"",
     };
     this.handleSelect = this.handleSelect.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleFileChange = this.handleFileChange.bind(this);
+    this.handleRadioSelect = this.handleRadioSelect.bind(this);
   }
 
   handleSelect(item) {
@@ -23,6 +47,31 @@ class EditTeamMember extends React.Component {
     });
   }
 
+  handleChange(e){
+    let value = e.target.value;
+    let name = e.target.name;
+    this.setState({
+        [name]: value
+    })
+  }
+
+  handleFileChange(e){
+    if(e.target.name === 'contract'){
+        this.setState({
+            contract_file: e.target.files[0],
+            contract_filename: e.target.files[0].name,
+        });
+    }else{
+        this.setState({
+            w9_file: e.target.files[0],
+            w9_filename: e.target.files[0].name,
+        });
+    }
+  }
+
+  handleRadioSelect(value){       
+    this.setState({method: value});
+}
   render() {
     return (
       <div class='canvas'>
@@ -68,8 +117,9 @@ class EditTeamMember extends React.Component {
                   <div>
                     <input
                       type='text'
-                      value={this.state.value}
+                      value={this.state.team}
                       onChange={this.handleChange}
+                      name='team'
                     />
                   </div>
                 </div>
@@ -80,8 +130,9 @@ class EditTeamMember extends React.Component {
                   <div>
                     <input
                       type='text'
-                      value={this.state.value}
+                      value={this.state.job_title}
                       onChange={this.handleChange}
+                      name='job_title'
                     />
                   </div>
                 </div>
@@ -92,8 +143,9 @@ class EditTeamMember extends React.Component {
                   <div>
                     <input
                       type='text'
-                      value={this.state.value}
+                      value={this.state.supervisor}
                       onChange={this.handleChange}
+                      name='supervisor'
                     />
                   </div>
                 </div>
@@ -104,8 +156,9 @@ class EditTeamMember extends React.Component {
                   <div>
                     <input
                       type='text'
-                      value={this.state.value}
+                      value={this.state.start_date}
                       onChange={this.handleChange}
+                      name='start_date'
                     />
                   </div>
                 </div>
@@ -116,8 +169,9 @@ class EditTeamMember extends React.Component {
                   <div>
                     <input
                       type='text'
-                      value={this.state.value}
+                      value={this.state.work_email}
                       onChange={this.handleChange}
+                      name='work_email'
                     />
                   </div>
                 </div>
@@ -128,8 +182,9 @@ class EditTeamMember extends React.Component {
                   <div>
                     <input
                       type='text'
-                      value={this.state.value}
+                      value={this.state.phone}
                       onChange={this.handleChange}
+                      name='phone'
                     />
                   </div>
                 </div>
@@ -140,9 +195,9 @@ class EditTeamMember extends React.Component {
                   </div>
                   <div>
                     <input
-                      type='text'
-                      value={this.state.value}
-                      onChange={this.handleChange}
+                      type='file'
+                      name='contract'
+                      onChange={this.handleFileChange}
                     />
                   </div>
                 </div>
@@ -155,9 +210,9 @@ class EditTeamMember extends React.Component {
                   </div>
                   <div>
                     <input
-                      type='text'
-                      value={this.state.value}
-                      onChange={this.handleChange}
+                      type='file'
+                      name='w9'
+                      onChange={this.handleFileChange}
                     />
                   </div>
                 </div>
@@ -168,7 +223,8 @@ class EditTeamMember extends React.Component {
                   <div>
                     <input
                       type='text'
-                      value={this.state.value}
+                      value={this.state.contract_expire_date}
+                      name='contract_expire_date'
                       onChange={this.handleChange}
                     />
                   </div>
@@ -178,22 +234,14 @@ class EditTeamMember extends React.Component {
                   <div>
                     <label>Method</label>
                   </div>
-                  <div>
-                    Check
-                    <input
-                      type='checkbox'
-                      value={this.state.value}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <div>
-                    ACH
-                    <input
-                      type='checkbox'
-                      value={this.state.value}
-                      onChange={this.handleChange}
-                    />
-                  </div>
+                  <RadioGroup style={{height:40+'px',display:'inline-flex',width:'100%'}}value={this.state.payment_method} onChange={ this.handleRadioSelect } horizontal>
+                    <RadioButton className="radio" value="check">
+                        Check
+                    </RadioButton>
+                    <RadioButton className="radio" value="ACH">
+                        ACH
+                    </RadioButton>
+                  </RadioGroup>
                 </div>
                 <div className='input'>
                   <div>
@@ -202,7 +250,8 @@ class EditTeamMember extends React.Component {
                   <div>
                     <input
                       type='text'
-                      value={this.state.value}
+                      value={this.state.address}
+                      name='address'
                       onChange={this.handleChange}
                     />
                   </div>
@@ -214,7 +263,8 @@ class EditTeamMember extends React.Component {
                   <div>
                     <input
                       type='text'
-                      value={this.state.value}
+                      value={this.state.address2}
+                      name='address2'
                       onChange={this.handleChange}
                     />
                   </div>
@@ -226,7 +276,8 @@ class EditTeamMember extends React.Component {
                   <div>
                     <input
                       type='text'
-                      value={this.state.value}
+                      value={this.state.city}
+                      name='city'
                       onChange={this.handleChange}
                     />
                   </div>
@@ -238,7 +289,8 @@ class EditTeamMember extends React.Component {
                   <div>
                     <input
                       type='text'
-                      value={this.state.value}
+                      value={this.state.state}
+                      name='state'
                       onChange={this.handleChange}
                     />
                   </div>
@@ -248,7 +300,8 @@ class EditTeamMember extends React.Component {
                   <div>
                     <input
                       type='text'
-                      value={this.state.value}
+                      value={this.state.zip}
+                      name='zip'
                       onChange={this.handleChange}
                     />
                   </div>
@@ -260,13 +313,16 @@ class EditTeamMember extends React.Component {
                   <div>
                     <input
                       type='text'
-                      value={this.state.value}
+                      value={this.state.rate}
+                      name='rate'
                       onChange={this.handleChange}
                     />
                   </div>
                 </div>
               </div>
             </div>
+            
+            
           </form>
         )}
       </div>
