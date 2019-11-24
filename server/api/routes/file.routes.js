@@ -10,7 +10,7 @@ router.use(authUtil.verifyToken);
 router.use(authUtil.isLoggedIn);
 
 router.post('/upload', upload.single('file'), (req, res) => {
-    res.json({ file: req.file });
+    res.json({ filename: req.file.filename });
 });
 
 // @route GET /files/:filename

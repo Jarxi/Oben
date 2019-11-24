@@ -1,6 +1,5 @@
 import React from 'react';
 import '../CSS/bootstrap/css/bootstrap-iso.css';
-import '../CSS/SubmissionTable.css';
 import ApprovalLogRow from './ApprovalLogRow';
 import { Table, ListGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
@@ -12,14 +11,14 @@ class ApprovalLog extends React.Component {
     this.state = {
       submissions: []
     };
-    this.fetchSubmissions = this.fetchSubmissions.bind(this);
+    this.fetchSubmissions = this.fetchSubmissions.bind(this)
   }
 
-  componentDidMount() {
-    this.fetchSubmissions();
+  componentDidMount(){
+    this.fetchSubmissions()
   }
 
-  fetchSubmissions() {
+  fetchSubmissions(){
     let submissionList = [];
     const url = "http://localhost:3000/api/submission/getAll";
     const options = {headers: { authorization: 'Bearer ' + sessionStorage.getItem('token') }};
@@ -27,12 +26,13 @@ class ApprovalLog extends React.Component {
         if(res.status === 200){
             this.setState({submissions: res.data.submissions});
         }
-      })
-      .catch(e => {
-        console.log(e);
-        console.log('Get all submissions failed');
-      });
-  }
+    }).catch((e)=>{
+        console.log(e)
+        console.log('Get all submissions failed')
+    });
+}
+
+  
 
   render() {
     return (
@@ -54,7 +54,7 @@ class ApprovalLog extends React.Component {
               </tr>
             </thead>
             <tbody>
-              <ListGroup variant='flush'>
+              <ListGroup variant="flush">
                 {this.state.submissions.map(submission => (
                   <ApprovalLogRow
                     submissionData={submission}

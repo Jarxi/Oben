@@ -1,5 +1,4 @@
-
-.container{
+.container {
   background-color: white;
   column-count: 2;
   column-gap: 200px;
@@ -12,95 +11,150 @@
 .TopRow {
   height: 8em;
 }
-.canvas{
-    padding: 10px;
-    margin: 10px;
+.canvas {
+  padding: 10px;
+  margin: 10px;
 }
 .Setting_Icon {
   float: right;
 }
 
-.title{
-    color: blue;
+.title {
+  color: blue;
 }
 
-.line{
-    filter: alpha(opacity=100,finishopacity=0,style=3);
-    width: 90%;
-    color:#987cb9;
-    size: 3;
+.line {
+  filter: alpha(opacity=100, finishopacity=0, style=3);
+  width: 90%;
+  color: #987cb9;
+  size: 3;
 }
 
-.EmployeeMenu{
-    color: black;
-    padding: 0px;
-    margin: 0;
-    text-align: center;
+.EmployeeMenu {
+  color: black;
+  padding: 0px;
+  margin: 0;
+  text-align: center;
 }
 
-#EmployeeList{
+#EmployeeList {
   padding: 0px;
 }
 
-.PageSubTitle{
-    color: rgba(101, 107, 195, 1.0);
-    font-size: 20px;
+.PageSubTitle {
+  color: rgba(101, 107, 195, 1);
+  font-size: 20px;
 }
 
-.ListWrapper{
-    padding: 5px;
-    height: 450px;
-    overflow-y: scroll;
-
-
+.ListWrapper {
+  padding: 5px;
+  height: 450px;
+  overflow-y: scroll;
 }
-.ButtonWrapper{
-    width: 10%;
-    height: 500px;
-    float: left;
-    margin-right: 3%;
-    padding-top: 80px;
-
+.ButtonWrapper {
+  width: 10%;
+  height: 500px;
+  float: left;
+  margin-right: 3%;
+  padding-top: 80px;
 }
-.employeeList{
-    width: 15%;
-    height: 500px;
-    margin-right: 3%;
-    border: 5px solid rgba(101, 107, 195, 0.5);
-    float: left;
+.employeeList {
+  width: 15%;
+  height: 500px;
+  margin-right: 3%;
+  border: 5px solid rgba(101, 107, 195, 0.5);
+  float: left;
 }
 
-.ListTitle{
-    color: black;
-    margin: 0;
-    padding: 5px;
-    font-size: 18px;
+.ListTitle {
+  color: black;
+  margin: 0;
+  padding: 5px;
+  font-size: 18px;
 }
 
-.UserInfo{
-    width:77%;
-    height: 500px;
-    border: 5px solid rgba(101, 107, 195, 0.5);
-    float:left;
+.UserInfo {
+  width: 77%;
+  height: 500px;
+  border: 5px solid rgba(101, 107, 195, 0.5);
+  float: left;
 }
 
-.ExpenseInfo{
-    width: 50%;
-    height: 500px;
-    border: 5px solid rgba(101, 107, 195, 0.5);
-    float:left;
+.ExpenseInfo {
+  width: 50%;
+  height: 500px;
+  border: 5px solid rgba(101, 107, 195, 0.5);
+  float: left;
 }
 
-.inlineButton{
-    width: 100%;
+.inlineButton {
+  width: 100%;
 }
 
-.informButton{
-    padding-left: 30%;
+.informButton {
+  padding-left: 30%;
 }
-#informButtonEdit{
-    margin-right:5%;
+#informButtonEdit {
+  margin-right: 5%;
 }
-.FormField{
-    padding-left: 10px;
+.FormField {
+  padding-left: 10px;
+}
+
+.title {
+  color: #4651af;
+  margin-left: 50px;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: flex-start !important;
+  flex-wrap: wrap;
+  color: black;
+  margin: 10px 0px;
+}
+
+.wrapper div {
+  flex-basis: auto;
+  padding: 10px;
+}
+
+.wrapper div input {
+  text-align: center;
+}
+
+#container {
+  border: 5px solid rgba(101, 107, 195, 0.5);
+  color: black;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  grid-auto-rows: minmax(100px, auto);
+  min-height: 500px;
+}
+
+#container > div {
+  /* background: #eee; */
+  padding: 20px;
+}
+
+#container > div:nth-child(odd) {
+  /* background: #ddd; */
+}
+
+.nested {
+  display: grid;
+}
+
+.input {
+  margin: 0px 10%;
+  display: flex;
+  justify-content: space-between !important;
+}
+.input > div {
+  padding: 0px 20px;
+}
+
+input {
+  background: #eee;
 }
