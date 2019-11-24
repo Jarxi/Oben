@@ -122,7 +122,6 @@ class SubmissionTable extends React.Component {
   handleSubmit(type) {
     if (type === 'timesheet') {
       const { timesheet_ticket_numbers } = this.state;
-<<<<<<< HEAD
       const newTicketNumber = 1;
         // timesheet_ticket_numbers[timesheet_ticket_numbers.length - 1] + 1;
         let params = this.parseParam(type);
@@ -132,18 +131,6 @@ class SubmissionTable extends React.Component {
                 this.onError('timesheet', '');
             }, 2000);
         }else{
-=======
-      const newTicketNumber =
-        timesheet_ticket_numbers[timesheet_ticket_numbers.length - 1] + 1;
-
-      let params = this.parseParam(type);
-      if (params === null) {
-        this.onError('timesheet', 'Submit Unseccessful!');
-        setTimeout(() => {
-          this.onError('timesheet', '');
-        }, 2000);
-      } else {
->>>>>>> 9bbffa1d532f66897e40286cbeff1cc8ee339b37
         console.log(params);
         const url = 'http://localhost:3000/api/submission/submit';
         const config = {
@@ -176,7 +163,6 @@ class SubmissionTable extends React.Component {
         }, 2000);
       }
     } else if (type == 'expense') {
-<<<<<<< HEAD
         const{expense_ticket_numbers} = this.state;
         const newTicketNumber = 1;
         // expense_ticket_numbers[expense_ticket_numbers.length - 1] + 1;
@@ -216,47 +202,6 @@ class SubmissionTable extends React.Component {
             this.onError('expense', '');
             }, 2000);
         }
-=======
-      const { expense_ticket_numbers } = this.state;
-      const newTicketNumber =
-        expense_ticket_numbers[expense_ticket_numbers.length - 1] + 1;
-      let params = this.parseParam(type);
-      if (params === null) {
-        this.onError('expense', 'Submit Unseccessful!');
-        setTimeout(() => {
-          this.onError('expense', '');
-        }, 2000);
-      } else {
-        const url = 'http://localhost:3000/api/submission/submit';
-        const config = {
-          headers: {
-            authorization: 'Bearer ' + sessionStorage.getItem('token')
-          }
-        };
-        axios
-          .post(url, params, config)
-          .then(res => {
-            console.log(res);
-            if (res.status === 200) {
-              alert('Succeeded in Submit the expense!');
-              window.location.reload();
-            }
-          })
-          .catch(e => {
-            console.log(e);
-            console.log('Expense Submission failed');
-          });
-        this.setState({
-          expense_ticket_numbers: [newTicketNumber],
-          expense_rows: [['', '', '', '', '', '', '']],
-          expense_cols: ['', '', '', '', '', '', '']
-        });
-        this.onError('expense', ' ✅ Submit successful!');
-        setTimeout(() => {
-          this.onError('expense', '');
-        }, 2000);
-      }
->>>>>>> 9bbffa1d532f66897e40286cbeff1cc8ee339b37
     }
   }
 
