@@ -5,6 +5,19 @@ import '../CSS/bootstrap/css/bootstrap-iso.css';
 
 class EmployeeList extends React.Component{
 
+    constructor(props){
+        super(props);
+        this.state = {
+            selectedEmployee: null,
+        };
+        this.handleEmployeeSelect = this.handleEmployeeSelect.bind(this);
+    }
+
+    handleEmployeeSelect(employee){
+        this.setState({selectedEmployee:employee})
+        this.props.selectCallback(employee)
+    }
+
     render(){
         // Hardcoded users info format!
         // TODO: Backend API return registered User Info
@@ -14,9 +27,9 @@ class EmployeeList extends React.Component{
         ];
 
         return(
-            <ul id="EmployeeList" class="list-group bootstrap-iso">
-                {users.map(user => <li class="list-group-item list-group-item-light"><a href="#" >{user.name}</a></li>)}
-            </ul>
+            <div id="EmployeeList" class="list-group bootstrap-iso">
+                {users.map(user => <button type="button" class="list-group-item list-group-item-action" onClick={() => this.handleEmployeeSelect(user)}>{user.name}</button>)}
+            </div>
         )
     }
 }

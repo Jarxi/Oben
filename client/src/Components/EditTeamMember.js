@@ -11,9 +11,20 @@ class EditTeamMember extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      selectedemployee: null,
       teams: ['engineering', 'marketing']
     };
+    this.handleSelect = this.handleSelect.bind(this);
   }
+
+  handleSelect(item) {
+    this.setState({
+        selectedemployee: item
+    })
+
+}
+
+
   render() {
     return (
       <div class='canvas'>
@@ -42,13 +53,14 @@ class EditTeamMember extends React.Component {
         <div class='employeeList'>
           <p class='ListTitle'>Name of Employee</p>
           <div class='ListWrapper'>
-            <EmployeeList />
+            <EmployeeList selectCallback={this.handleSelect}/>
           </div>
         </div>
+        {this.state.selectedemployee == null?<div></div>:(
         <form>
           <div id='container'>
             <div className='nested'>
-              <div className='title'>Joe Johnson</div>
+              <div className='title'>{this.state.selectedemployee.name}</div>
               <div className='input'>
                 <div>
                   <label>Team</label>
@@ -255,7 +267,7 @@ class EditTeamMember extends React.Component {
               </div>
             </div>
           </div>
-        </form>
+        </form>)}
       </div>
     );
   }
