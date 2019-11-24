@@ -11,6 +11,11 @@ const submit = async (req, res) => {
       // check submit time or expense
       const dateAmountMap = new Map();
       for (let i = 0; i < submission.input.length; i++) {
+        if (submission.input[i].project_name.length <= 0) {
+          return res.status(500).json({
+            'message': 'Project name cannot be empty'
+          });
+        }
         const input = submission.input[i];
         const dateAmount = input.dateAmount;
         for (let j = 0; j < dateAmount.length; j++) {
