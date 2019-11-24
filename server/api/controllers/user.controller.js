@@ -71,9 +71,23 @@ const getUserById = async (req, res) => {
     sendErr(res, err);
   }
 };
+
+const getUsersInTeam = async (req, res) => {
+  try {
+    const users = await User.find({ team: req.team });
+    return res.status(200).json({
+      message: 'Users are found',
+      users
+    });
+  } catch (err) {
+    console.log(err);
+    sendErr(res, err);
+  }
+};
 // if you add functions above, add it here too
 module.exports = {
   updateUserInfo,
   getUsers,
-  getUserById
+  getUserById,
+  getUsersInTeam
 };
