@@ -12,6 +12,7 @@ router.post("/submit", submission.submit);
 router.put("/approve", submission.approve);
 router.put("/return", submission.reject);
 router.get("/getAll", submission.getSubmissions);
+router.put("/update", submission.update);
 
 // If you want to create a new counter category, uncomment this
 // router.post("/create", counter.createCategory);

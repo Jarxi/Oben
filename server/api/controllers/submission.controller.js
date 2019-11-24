@@ -150,12 +150,99 @@ const reject = async (req, res) => {
   }
 };
 
+
 const getSubmissions = async (req, res) => {
   try {
     const submissions = await Submission.find();
+    // find if the search limits user and time range
+    const user = req.body.userId;
+    const startDate = req.body.start_date;
+    const endDate = req.body.end_date;
+    if (user && startDate && endDate) {
+      const selectedSubmissions = await Submission.find(
+          {submitter : user, input : {dateAmount: {date: {$gte: startDate, $lte: endDate}}}});
+      return res.status(200).json({
+        message: "Submissions found. " + user + " " + startDate + " " + endDate,
+        selectedSubmissions
+      });
+    } else {
+      return res.status(200).json({
+        message: "Submissions found.",
+        submissions
+      });
+    }
+  } catch (err){
+    return sendErr(res, err);
+  }
+};
+
+const update = async (req, res) => {
+  try{
+    // TODO: Upload W4 file and generate filename
+    const user = req.body.user;
+    const startDate = req.body.start_date;
+    const endDate = req.body.end_date;
+    const type = req.body.type;
+
+
+    for (let i = 0; i < req.body.input.length; i++) {
+      const project_name = req.body.input[i].project_name;
+      const date = req.body.input[i].date;
+      const amount = req.body.input[i].amount;
+      const update = await Submission.findOneAndUpdate(
+          { submitter : user,
+            type : type,
+          },
+          { $set : { "input.$[outer].dateAmount.$[inner].amount" : amount}},
+          {
+            arrayFilters: [{ "outer.project_name" : project_name}, { "inner.date" : date}]
+          }
+      );
+      const ticket_no = update.ticket_no;
+      console.log(ticket_no);
+
+      // recalculate totalamount;
+      const dateAmountMap = new Map();
+      for (let k = 0; k < update.input.length; k++) {
+        const input = update.input[k];
+        const dateAmount = input.dateAmount;
+        for (let j = 0; j < dateAmount.length; j++) {
+          if (dateAmountMap.has(dateAmount[j].date)) {
+            const amount = dateAmountMap.get(dateAmount[j].date) + dateAmount[j].amount;
+            if (update.type === 'time' && amount > 24) {
+              return res.status(500).json({
+                message: dateAmount[j].date + " amount is larger than 24"
+              });
+            }
+            dateAmountMap.set(dateAmount[j].date, amount);
+          } else{
+            if (update.type === 'time' && dateAmount[j].amount > 24) {
+              return res.status(500).json({
+                message: dateAmount[j].date + " amount is larger than 24"
+              });
+            }
+            dateAmountMap.set(dateAmount[j].date, dateAmount[j].amount);
+          }
+        }
+      }
+
+      let totalAmountArrayObject = [];
+      for (let [key, value] of dateAmountMap){
+        const dateAmountObject = {'date': key, 'amount': value};
+        totalAmountArrayObject.push(dateAmountObject);
+      }
+      const update_totalamount = await Submission.findOneAndUpdate(
+          { ticket_no : ticket_no},
+          { total_amount: totalAmountArrayObject}
+      );
+
+      if (!update || !update_totalamount){
+        sendErr(res, '', "Some error occurred trying to override submission");
+      }
+    }
+
     return res.status(200).json({
-      message: "Submissions found.",
-      submissions
+      message: `Submission overrode!`
     });
   } catch (err){
     return sendErr(res, err);
@@ -166,5 +253,6 @@ module.exports = {
   submit,
   approve,
   reject,
-  getSubmissions
+  getSubmissions,
+  update
 };
