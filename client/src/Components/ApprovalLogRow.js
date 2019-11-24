@@ -10,7 +10,7 @@ class ApprovalLogRow extends React.Component {
   }
 
 
-  
+
 
   render() {
     const { name, dateType, status } = this.props;
@@ -18,11 +18,16 @@ class ApprovalLogRow extends React.Component {
       alert("clicked");
     }
     return (
-        <ListGroup.Item action onClick={alertClicked} className='submissionListItem'>
-          {/* <td>{name}</td>
-          <td>{dateType}</td>
-          <td>{status}</td> */}
-          <td> {name}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{dateType}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{status} </td>
+        <ListGroup.Item
+            action
+            onClick={alertClicked}
+            className='submissionListItem'
+        >
+          <div className='wrapper'>
+            <div className='column'>{name}</div>
+            <div className='column'>{dateType}</div>
+            <div className='column'>{status}</div>
+          </div>
         </ListGroup.Item>
     );
   }
