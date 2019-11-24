@@ -23,7 +23,7 @@ class ApprovalLog extends React.Component {
             <thead>
               <tr>
                 <td colspan='3'>
-                  <div className='wrapper' style={{ margin: '10px 0px' }}>
+                  <div className='header' style={{ margin: '10px 0px' }}>
                     <div className='column'>Name</div>
                     <div className='column'>Type</div>
                     <div className='column'>Status</div>
