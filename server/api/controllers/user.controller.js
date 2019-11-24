@@ -8,9 +8,9 @@ const updateUserInfo = async (req, res) => {
   try {
     // TODO: Upload W4 file and generate filename
     req.body.w4_filename = '';
-    const id = req.body.employee_id;
+    const id = req.userId;
     let user = await User.findOne({
-      employee_id: id
+      _id: req.userId
     });
     if (!user) {
       return sendErr(
@@ -23,7 +23,7 @@ const updateUserInfo = async (req, res) => {
     }
     user = await User.findOneAndUpdate(
       {
-        employee_id: req.body.employee_id
+        _id: req.userId
       },
       {
         $set: req.body

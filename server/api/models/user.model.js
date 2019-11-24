@@ -155,9 +155,6 @@ const UserSchema = new Schema({
     },
     rate: {
       type: String
-    },
-    information: {
-      type: String
     }
   }
 });

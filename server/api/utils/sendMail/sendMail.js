@@ -43,11 +43,11 @@ const send = async (req, res) => {
     sgMail.send(msg);
     return res.status(200).json('msg: Invitation sent');
   } catch {
-    // return res.status(500).json(err);
+    return res.status(500).json(err);
   }
 };
 
-// send();
+send();
 
 module.exports = {
   send
