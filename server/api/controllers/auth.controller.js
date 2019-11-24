@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { encryptPassword, decryptPassword } = require('../utils/password');
 const sendErr = require('../utils/sendErr');
 const { nextId, increment } = require('./counter.controller');
-
+const { send } = require('../utils/sendMail/sendMail');
 
 const signUp = async (req, res) => {
   try {
@@ -13,26 +13,26 @@ const signUp = async (req, res) => {
       email
     });
 
-    if (exist){
+    if (exist) {
       return res.status(401).json({
-        message: "Email already exists!"
+        message: 'Email already exists!'
       });
     }
 
     const password = await encryptPassword(user_data.password);
     user_data.password = password.password;
-    const employee_id = await nextId({'counter_category': 'employee_id'});
+    const employee_id = await nextId({ counter_category: 'employee_id' });
     user_data.employee_id = employee_id.count;
     const user = await User.create(user_data);
-    await increment({'counter_category': 'employee_id'});
+    await increment({ counter_category: 'employee_id' });
+    send();
     return res.status(200).json({
-      message: "user created!",
+      message: 'user created!',
       user
-    })
-  }catch (err){
+    });
+  } catch (err) {
     return sendErr(res, err);
   }
-
 };
 
 const signIn = async (req, res) => {
@@ -44,7 +44,7 @@ const signIn = async (req, res) => {
     });
 
     if (!user) {
-      return sendErr(res, "Email does not exist");
+      return sendErr(res, 'Email does not exist');
     }
 
     const decrypted = await decryptPassword(user_data.password, user.password);
@@ -77,15 +77,18 @@ const signIn = async (req, res) => {
 
 const signOut = async (req, res) => {
   try {
-    await Auth.findOneAndUpdate({
-      user: req.userId,
-      token: req.headers.authorization.split(' ')[1]
-    }, {
-      $set: {
-        token: null,
-        isLoggedIn: false
+    await Auth.findOneAndUpdate(
+      {
+        user: req.userId,
+        token: req.headers.authorization.split(' ')[1]
+      },
+      {
+        $set: {
+          token: null,
+          isLoggedIn: false
+        }
       }
-    });
+    );
 
     return res.status(200).json({
       message: 'User logged out!'
@@ -96,7 +99,7 @@ const signOut = async (req, res) => {
 };
 
 const resetPassword = async (req, res) => {
-  try{
+  try {
     const user_data = req.body;
     const email = req.body.email;
     const new_password = req.body.new_password;
@@ -105,8 +108,8 @@ const resetPassword = async (req, res) => {
       email
     });
 
-    if (!user){
-      return sendErr(res, "Email does not exist");
+    if (!user) {
+      return sendErr(res, 'Email does not exist');
     }
 
     const decrypted = await decryptPassword(user_data.password, user.password);
@@ -115,25 +118,25 @@ const resetPassword = async (req, res) => {
     }
 
     const update = await User.findOneAndUpdate(
-        {
-          email: email
-        },
-        {
-          $set: {
-            password: encrypted_password.password
-          }
+      {
+        email: email
+      },
+      {
+        $set: {
+          password: encrypted_password.password
         }
+      }
     );
 
-    if (!update){
-      sendErr(res, '', "Some error occurred tryint to update password");
+    if (!update) {
+      sendErr(res, '', 'Some error occurred tryint to update password');
     }
 
     return res.status(200).json({
       message: `Password Resetted!`,
       user
     });
-  } catch (err){
+  } catch (err) {
     return sendErr(res, err);
   }
 };
@@ -143,4 +146,4 @@ module.exports = {
   signIn,
   resetPassword,
   signOut
-}
+};

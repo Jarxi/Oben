@@ -7,9 +7,9 @@ const sendErr = require('../utils/sendErr');
 const updateUserInfo = async (req, res) => {
   try {
     // TODO: Upload W4 file and generate filename
-    const w4_filename = '';
+    req.body.w4_filename = '';
     const id = req.body.employee_id;
-    const user = await User.findOne({
+    let user = await User.findOne({
       employee_id: id
     });
     if (!user) {
@@ -18,35 +18,20 @@ const updateUserInfo = async (req, res) => {
         'Internal Error: Cannot find employee with id: ' + id
       );
     }
-
-    const update = await User.findOneAndUpdate(
+    if (req.body.w4_filename === null) {
+      req.body.w4_filename = '';
+    }
+    console.log(req.body);
+    user = await User.findOneAndUpdate(
       {
         employee_id: req.body.employee_id
       },
       {
-        $set: {
-          team: req.body.team,
-          start_date: req.body.start_date,
-          birthday: req.body.birthday,
-          status: req.body.status,
-          past_status: req.body.past_status,
-          email: req.body.email,
-          phone: req.body.phone,
-          legal_status: req.body.legal_status,
-          visa_expiration: req.body.visa_expiration,
-          insurance: req.body.insurance,
-          dental: req.body.dental,
-          vision: req.body.vision,
-          leader: req.body.leader,
-          team_led: req.body.team_led,
-          approve_timesheet: req.body.approve_timesheet,
-          approve_invoice: req.body.approve_invoice,
-          w4: w4_filename
-        }
+        $set: req.body
       }
     );
 
-    if (!update) {
+    if (!user) {
       sendErr(res, '', 'Some error occurred trying to update user info');
     }
 

@@ -4,12 +4,10 @@ const fs = require('fs');
 const ejs = require('ejs');
 devEnv.init();
 
-
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-
-const generateEmailBody = async (data) => {
+const generateEmailBody = async data => {
   try {
     const templateStr = await fs.readFileSync(`./signup.ejs`);
     const body = await ejs.render(templateStr.toString(), data);
@@ -21,19 +19,18 @@ const generateEmailBody = async (data) => {
 };
 
 const send = async (req, res) => {
-  try{
-
+  try {
     // req.body.data = {
     //   "toName": "abc",
     //   "email":"abc@usc.edu",
     //   "password": "abc"
     // };
-
+    console.log('send is called');
     const data = {
-        "toName": "abc",
-        "email":"abc@usc.edu",
-        "password": "abc"
-      };
+      toName: 'abc',
+      email: 'abc@usc.edu',
+      password: 'abc'
+    };
 
     const emailBody = await generateEmailBody(data);
     const msg = {
@@ -44,15 +41,13 @@ const send = async (req, res) => {
       html: emailBody.toString()
     };
     sgMail.send(msg);
-
+    return res.status(200).json('msg: Invitation sent');
+  } catch {
+    // return res.status(500).json(err);
   }
-  catch{
-    return res.status(500).json(err);
-  }
-
 };
 
-send();
+// send();
 
 module.exports = {
   send
