@@ -74,23 +74,13 @@ label {
 }
 
 .submissionListItem {
-  border-right: 0 !important;
-  border-left: 0 !important;
-  border-radius: 0 !important;
+    border-right: 0 !important;
+    border-left: 0 !important;
+    border-radius: 0 !important;
 }
 
 .list-group {
   width: 300px;
   overflow-y: scroll !important;
   height: 800px;
-}
-
-.wrapper {
-  display: flex;
-  justify-content: space-between;
-  text-align: center;
-}
-
-.wrapper .column {
-  flex-basis: 33%;
 }

@@ -6,11 +6,12 @@ import '../CSS/bootstrap/css/bootstrap-iso.css';
 import AddCircle from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
+
 class EditTeamMember extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      teams: ['Engineering', 'Marketing', 'Oben']
+      teams: ['engineering', 'marketing']
     };
   }
   render() {
