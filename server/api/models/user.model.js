@@ -132,6 +132,33 @@ const UserSchema = new Schema({
   },
   approve_invoice: {
     type: Boolean
+  },
+  payment: {
+    type: Object,
+    method: {
+      type: String
+    },
+    address: {
+      type: String
+    },
+    address2: {
+      type: String
+    },
+    city: {
+      type: String
+    },
+    state: {
+      type: String
+    },
+    zip: {
+      type: String
+    },
+    rate: {
+      type: String
+    },
+    information: {
+      type: String
+    }
   }
 });
 

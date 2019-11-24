@@ -21,20 +21,22 @@ const updateUserInfo = async (req, res) => {
     if (req.body.w4_filename === null) {
       req.body.w4_filename = '';
     }
-    console.log(req.body);
     user = await User.findOneAndUpdate(
       {
         employee_id: req.body.employee_id
       },
       {
         $set: req.body
+      },
+      {
+        new: true
       }
     );
 
     if (!user) {
       sendErr(res, '', 'Some error occurred trying to update user info');
     }
-
+    console.log(user);
     return res.status(200).json({
       message: `User info updated!`,
       user
