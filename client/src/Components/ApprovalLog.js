@@ -11,28 +11,31 @@ class ApprovalLog extends React.Component {
     this.state = {
       submissions: []
     };
-    this.fetchSubmissions = this.fetchSubmissions.bind(this)
+    this.fetchSubmissions = this.fetchSubmissions.bind(this);
   }
 
-  componentDidMount(){
-    this.fetchSubmissions()
+  componentDidMount() {
+    this.fetchSubmissions();
   }
 
-  fetchSubmissions(){
+  fetchSubmissions() {
     let submissionList = [];
-    const url = "http://localhost:3000/api/submission/getAll";
-    const options = {headers: { authorization: 'Bearer ' + sessionStorage.getItem('token') }};
-    axios.get(url, options).then((res)=>{
-        if(res.status === 200){
-            this.setState({submissions: res.data.submissions});
+    const url = 'http://localhost:3000/api/submission/getAll';
+    const options = {
+      headers: { authorization: 'Bearer ' + sessionStorage.getItem('token') }
+    };
+    axios
+      .get(url, options)
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({ submissions: res.data.submissions });
         }
-    }).catch((e)=>{
-        console.log(e)
-        console.log('Get all submissions failed')
-    });
-}
-
-  
+      })
+      .catch(e => {
+        console.log(e);
+        console.log('Get all submissions failed');
+      });
+  }
 
   render() {
     return (
@@ -45,7 +48,7 @@ class ApprovalLog extends React.Component {
             <thead>
               <tr>
                 <td colspan='3'>
-                  <div className='wrapper' style={{ margin: '10px 0px' }}>
+                  <div className='header' style={{ margin: '10px 0px' }}>
                     <div className='column'>Name</div>
                     <div className='column'>Type</div>
                     <div className='column'>Status</div>
@@ -54,7 +57,7 @@ class ApprovalLog extends React.Component {
               </tr>
             </thead>
             <tbody>
-              <ListGroup variant="flush">
+              <ListGroup variant='flush'>
                 {this.state.submissions.map(submission => (
                   <ApprovalLogRow
                     submissionData={submission}

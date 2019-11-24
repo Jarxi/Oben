@@ -117,9 +117,9 @@ class ApprovalTable extends React.Component {
     }
 
     const actionRow = (
-      <div className='wrapper'>
+      <div className='return_message'>
         <div>Return Message</div>
-        <div className='column-1' style={{ marginTop: '5px' }}>
+        <div className='column-1'>
           <Form.Control placeholder='return message' ref={this.returnMessage} />
         </div>
         <div>

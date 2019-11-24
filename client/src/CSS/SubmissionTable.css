@@ -90,21 +90,29 @@ label {
   display: flex;
   justify-content: space-between !important;
   text-align: center;
-  height: 50px;
-  line-height: 50px;
+}
+.header {
+  display: flex;
+  justify-content: space-between !important;
+  text-align: center;
+}
+
+.header > div {
+  padding: 0px 10px;
+}
+
+.wrapper :nth-child(n + 2) {
+  line-height: 40px;
 }
 
 .wrapper > div {
   padding: 0px 10px;
-  line-height: 40px;
+  min-height: 40px;
 }
 
 .column-1 {
   flex: 1;
-}
-
-.column-2 {
-  flex: 2;
+  margin-top: 5px;
 }
 
 .wrapper .column {
@@ -118,5 +126,17 @@ label {
 
 .wrapper-right > div {
   padding: 0px 10px;
+  line-height: 40px;
+}
+
+.return_message {
+  display: flex;
+  justify-content: space-between !important;
+  text-align: center;
+}
+
+.return_message > div {
+  padding: 0px 10px;
+  min-height: 40px;
   line-height: 40px;
 }
