@@ -14,13 +14,29 @@ class ProfileInfo extends React.Component {
             supervisor: "John Smith",
             start_date: "2018-01-01",
             phone: "1233211231",
+            //Specification for Contractor
             w9: "Yichun Lu's w9 on file",
             contract: "Yichun Lu's contract on file",
-            expire_date: "YYYY/MM/DD"
+            expire_date: "YYYY/MM/DD",
+            //Specification for Employee
+            employee_id: 3,
+            birthday: "1998/08/21",
+            status: "Full-Time",
+            past_status: "NA",
+            w4: "Yichun Lu's w4.pdf",
+            legal_status: "H-1B",
+            visa: "2018/12/31",
+            insurance: "PPO",
+            additional_insured: "Spouse",
+            dental: "PPO",
+            vision: "PPO",
          };
          this.handleChange = this.handleChange.bind(this);
     }
 
+    componentDidMount(){
+        //TODO: load Info
+    }
     handleChange(event){
         this.setState({expire_date: event.target.value});
     }
@@ -48,6 +64,56 @@ class ProfileInfo extends React.Component {
             </>
         }else{
             title = <p>Employee Profile:</p>
+            specification = <>
+            <tr>
+            <th scope="row">Employee ID:</th>
+            <td>{this.state.employee_id}</td>
+            </tr>
+            <tr>
+            <th scope="row">Birthday:</th>
+            <td>{this.state.birthday}</td>
+            </tr>
+            <tr>
+            <th scope="row">Status:</th>
+            <td>{this.state.status}</td>
+            </tr>
+            <tr>
+            <th scope="row">Past Status:</th>
+            <td>{this.state.past_status}</td>
+            </tr>
+            <tr>
+            <th scope="row">W4 on File:</th>
+            <td><a href="#">{this.state.w4}</a></td>
+            </tr>
+            <tr>
+            <th scope="row">Legal Status:</th>
+            <td>{this.state.legal_status}</td>
+            </tr>
+            <tr>
+            <th scope="row">Visa Expiration:</th>
+            <td>{this.state.visa}</td>
+            </tr>
+            <tr>
+            <th scope="row">&nbsp;</th>
+            <td></td>
+            </tr>
+            <tr>
+            <th scope="row">Insurance:</th>
+            <td>{this.state.insurance}</td>
+            </tr>
+            <tr>
+            <th scope="row">Additional Insured:</th>
+            <td>{this.state.additional_insured}</td>
+            </tr>
+            <tr>
+            <th scope="row">Dental:</th>
+            <td>{this.state.dental}</td>
+            </tr>
+            <tr>
+            <th scope="row">Vision:</th>
+            <td>{this.state.vision}</td>
+            </tr>
+            </>
         }
 
         return (

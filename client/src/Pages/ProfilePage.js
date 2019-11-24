@@ -3,8 +3,10 @@ import ProfilePageTopNav from '../Components/ProfilePageTopNav';
 import ProfileInfo from '../Components/ProfileInfo';
 import PaymentAddress from '../Components/PaymentAddress';
 import ResetPasswordForm from '../Components/ResetPasswordForm';
+import ProfileSelfInput from '../Components/ProfileSelfInput';
 
 import '../CSS/ProfilePage.css';
+
 
 
 class ProfilePage extends React.Component {
@@ -16,7 +18,7 @@ class ProfilePage extends React.Component {
                 <ProfilePageTopNav/>
                 <div class="LeftCol">
                     <ProfileInfo/>
-                    <PaymentAddress/>
+                    {sessionStorage.getItem('user_type')  === 'contractor'?<PaymentAddress/>:<ProfileSelfInput/>}
                 </div>
                 <div class="RightCol">
                     <ResetPasswordForm/>
