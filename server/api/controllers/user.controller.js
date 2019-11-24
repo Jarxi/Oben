@@ -81,10 +81,23 @@ const deleteUser = async (req, res) => {
     return res.status(500).json('Server error');
   }
 }
+const getUsersInTeam = async (req, res) => {
+  try {
+    const users = await User.find({ team: req.team });
+    return res.status(200).json({
+      message: 'Users are found',
+      users
+    });
+  } catch (err) {
+    console.log(err);
+    sendErr(res, err);
+  }
+};
 // if you add functions above, add it here too
 module.exports = {
   updateUserInfo,
   getUsers,
   getUserById,
   deleteUser,
+  getUsersInTeam
 };

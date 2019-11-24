@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import '../CSS/ProfilePage.css';
 import '../CSS/bootstrap/css/bootstrap-iso.css'
 
@@ -6,8 +7,8 @@ class ProfileInfo extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-            first_name:"Yichun",
-            last_name:"Lu",
+            first_name:"",
+            last_name:"",
             email:"yichunlu@usc.edu",
             team:"Engineering",
             job_title: "Engineer",
@@ -17,7 +18,7 @@ class ProfileInfo extends React.Component {
             //Specification for Contractor
             w9: "Yichun Lu's w9 on file",
             contract: "Yichun Lu's contract on file",
-            expire_date: "YYYY/MM/DD",
+            expire_date:"",
             //Specification for Employee
             employee_id: 3,
             birthday: "1998/08/21",
@@ -35,7 +36,48 @@ class ProfileInfo extends React.Component {
     }
 
     componentDidMount(){
-        //TODO: load Info
+        const config = {
+            headers:{            
+                authorization: "Bearer " + sessionStorage.getItem('token')
+            }
+        };
+        axios.get("http://localhost:3000/api/user",config)
+        .then(
+            (res) => {
+                // console.log(res)
+                let user = res.data.user[0];
+                this.setState({
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    email: user.email,
+                    team: user.team,
+                    job_title: user.job_title,
+                    supervisor: user.supervisor,
+                    start_date: user.start_date,
+                    phone: user.phone,
+                    //Specification for Contractor
+                    w9: user.w9,
+                    contract: user.contract_on_file,
+                    expire_date: user.contract_expiration,
+                    //Specification for Employee
+                    employee_id: user.employee_id,
+                    birthday: user.birthday,
+                    status: user.status,
+                    past_status: user.post_status,
+                    w4: user.w4,
+                    legal_status: user.legal_status,
+                    visa: user.visa_expiration,
+                    insurance: user.insurance,
+                    additional_insured: user.additional_insured,
+                    dental: user.dental,
+                    vision: user.vision,
+                });
+
+            },
+            (error) => {
+                console.log(error);
+            }
+        )
     }
     handleChange(event){
         this.setState({expire_date: event.target.value});
@@ -59,7 +101,7 @@ class ProfileInfo extends React.Component {
             </tr>
             <tr>
             <th scope="row">Contract Expire on:</th>
-            <td><input type="text" value={this.state.expire_date} onChange={this.handleChange}/></td>
+            <td><input type="text" value={this.state.expire_date} placeholder={typeof this.state.expire_date == "undefined"?"YYYY/MM/DD":this.state.expire_date}onChange={this.handleChange}/></td>
             </tr>
             </>
         }else{

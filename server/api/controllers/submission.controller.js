@@ -18,9 +18,11 @@ const submit = async (req, res) => {
         }
         const input = submission.input[i];
         const dateAmount = input.dateAmount;
+        console.log(dateAmount);
         for (let j = 0; j < dateAmount.length; j++) {
+          const amount_num = Number(dateAmount[j].amount);
           if (dateAmountMap.has(dateAmount[j].date)) {
-            const amount = dateAmountMap.get(dateAmount[j].date) + dateAmount[j].amount;
+            const amount = dateAmountMap.get(dateAmount[j].date) + amount_num;
             if (req.body.type === 'time' && amount > 24) {
               return res.status(500).json({
                 message: dateAmount[j].date + " amount is larger than 24"
@@ -28,12 +30,12 @@ const submit = async (req, res) => {
             }
             dateAmountMap.set(dateAmount[j].date, amount);
           } else{
-            if (req.body.type === 'time' && dateAmount[j].amount > 24) {
+            if (req.body.type === 'time' && amount_num > 24) {
               return res.status(500).json({
                 message: dateAmount[j].date + " amount is larger than 24"
               });
             }
-            dateAmountMap.set(dateAmount[j].date, dateAmount[j].amount);
+            dateAmountMap.set(dateAmount[j].date, amount_num);
           }
         }
       }
@@ -212,8 +214,9 @@ const update = async (req, res) => {
         const input = update.input[k];
         const dateAmount = input.dateAmount;
         for (let j = 0; j < dateAmount.length; j++) {
+          const amount_num = Number(dateAmount[j].amount);
           if (dateAmountMap.has(dateAmount[j].date)) {
-            const amount = dateAmountMap.get(dateAmount[j].date) + dateAmount[j].amount;
+            const amount = dateAmountMap.get(dateAmount[j].date) + amount_num;
             if (update.type === 'time' && amount > 24) {
               return res.status(500).json({
                 message: dateAmount[j].date + " amount is larger than 24"
@@ -221,12 +224,12 @@ const update = async (req, res) => {
             }
             dateAmountMap.set(dateAmount[j].date, amount);
           } else{
-            if (update.type === 'time' && dateAmount[j].amount > 24) {
+            if (update.type === 'time' && amount_num > 24) {
               return res.status(500).json({
                 message: dateAmount[j].date + " amount is larger than 24"
               });
             }
-            dateAmountMap.set(dateAmount[j].date, dateAmount[j].amount);
+            dateAmountMap.set(dateAmount[j].date, amount_num);
           }
         }
       }
