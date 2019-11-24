@@ -8,33 +8,11 @@ import axios from 'axios';
 class ApprovalLog extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      submissions: []
-    };
-    this.fetchSubmissions = this.fetchSubmissions.bind(this)
   }
-
-  componentDidMount(){
-    this.fetchSubmissions()
-  }
-
-  fetchSubmissions(){
-    let submissionList = [];
-    const url = "http://localhost:3000/api/submission/getAll";
-    const options = {headers: { authorization: 'Bearer ' + sessionStorage.getItem('token') }};
-    axios.get(url, options).then((res)=>{
-        if(res.status === 200){
-            this.setState({submissions: res.data.submissions});
-        }
-    }).catch((e)=>{
-        console.log(e)
-        console.log('Get all submissions failed')
-    });
-}
-
-  
 
   render() {
+    let submissions = this.props.allSubmissions;
+
     return (
       <div className='outside_box'>
         <span style={{ color: '#4651af' }}>
@@ -55,7 +33,7 @@ class ApprovalLog extends React.Component {
             </thead>
             <tbody>
               <ListGroup variant="flush">
-                {this.state.submissions.map(submission => (
+                {submissions.map(submission => (
                   <ApprovalLogRow
                     submissionData={submission}
                     selectCallback={this.props.selectCallback}

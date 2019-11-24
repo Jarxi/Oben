@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Table, Row, Col, Form } from 'react-bootstrap';
 import SubmissionRow from '../Components/SubmissionRow';
 import moment from 'moment';
@@ -13,11 +12,6 @@ class ApprovalTable extends React.Component {
     super(props);
     // this.ticket_numbers = [1, 2];
     this.returnMessage = React.createRef();
-    this.state = {
-      timesheet_ticket_numbers: [1],
-      expense_ticket_numbers: [1],
-      firstDay: moment(),
-    };
 
     this.getWeeklyDateAmount = this.getWeeklyDateAmount.bind(this);
     this.getTotalAmount = this.getTotalAmount.bind(this);
@@ -38,7 +32,8 @@ class ApprovalTable extends React.Component {
     axios.put(url,param,config).then((res)=>{
         console.log(res)
         if(res.status === 200){
-            alert("Approval success")
+          this.props.onProcess();
+          this.props.selectedSubmission.status = 'accepted';
         }
     }).catch((e)=>{
         console.log(e)
@@ -59,9 +54,10 @@ class ApprovalTable extends React.Component {
     };
     const url = "http://localhost:3000/api/submission/return";
     axios.put(url,param,config).then((res)=>{
-        console.log(res)
         if(res.status === 200){
-            alert("Returned")
+          this.props.onProcess();
+          this.props.selectedSubmission.status = 'returned';
+          this.props.selectedSubmission.note = message;
         }
     }).catch((e)=>{
         console.log(e)
@@ -79,7 +75,6 @@ class ApprovalTable extends React.Component {
   }
 
   getTotalAmount(submittedTotalAmount, firstDayofWeek){
-    console.log("getTotalAmount", submittedTotalAmount)
     let weeklyTotalAmount = [0, 0, 0, 0, 0, 0, 0];
     submittedTotalAmount.forEach(entry =>
       weeklyTotalAmount[moment(entry.date).diff(firstDayofWeek,'days')] = entry.amount
@@ -89,7 +84,7 @@ class ApprovalTable extends React.Component {
 
   render() {
     // const ticket_numbers = [1];
-    let tableType, status, id, input, total_amount, firstDay, allDays;
+    let tableType, status, id, input, total_amount, firstDay, allDays, note;
 
     if(this.props.selectedSubmission !== 'noselection'){
       tableType = this.props.selectedSubmission.type;
@@ -103,6 +98,7 @@ class ApprovalTable extends React.Component {
         allDays.push(<td className='date'>{currDay.add(1,'day').date()}</td>)
       }
       total_amount = this.getTotalAmount(this.props.selectedSubmission.total_amount,firstDay);
+      note = this.props.selectedSubmission.note;
     }
 
     const actionRow = (
@@ -139,10 +135,9 @@ class ApprovalTable extends React.Component {
       <div className='submit_button'>
         <Row>
           <Col lg={{span: 8}}/>
-          Message: 
           <Col md={{span:3}}/>
           <Col>
-            <h4><span className='badge badge-success col'>Submission Returned</span></h4>
+            <h4><span className='badge badge-success col'>Submission Returned: {note}</span></h4>
           </Col>
         </Row>
       </div>);
@@ -188,10 +183,7 @@ class ApprovalTable extends React.Component {
             </Table>
             {status === 'pending' && actionRow}
             {status === 'accepted' && approvedBanner}
-            {status == 'returned' && returnedBanner}
-            <div className='error_message'>
-              <p> {this.state.timesheet_error}</p>
-            </div>
+            {status === 'returned' && returnedBanner}
           </div>
         </div>
         }
@@ -233,10 +225,7 @@ class ApprovalTable extends React.Component {
             </Table>
             {status === 'pending' && actionRow}
             {status === 'accepted' && approvedBanner}
-            {status == 'returned' && returnedBanner}
-            <div className='error_message'>
-              <p>{this.state.expense_error}</p>
-            </div>
+            {status === 'returned' && returnedBanner}
           </div>
         </div>
         }
@@ -306,9 +295,6 @@ class ApprovalTable extends React.Component {
               </div>
             </form>
             {actionRow}
-            <div className='error_message'>
-              <p>{this.state.expense_error}</p>
-            </div>
           </div>
         </div>
         }
@@ -317,7 +303,4 @@ class ApprovalTable extends React.Component {
   }
 }
 
-ApprovalTable.propTypes = {
-  firstDay: PropTypes.instanceOf(moment).isRequired
-};
 export default ApprovalTable;

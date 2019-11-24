@@ -9,12 +9,10 @@ class ApprovalLogRow extends React.Component {
   }
 
 
-
-
   render() {
     let { submitter_name, type, status, _id } = this.props.submissionData;
 
-    console.log(this.props.submissionData)
+    // console.log(this.props.submissionData)
 
     return (
         <ListGroup.Item action onClick={()=>this.props.selectCallback(this.props.submissionData)}
