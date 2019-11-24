@@ -72,6 +72,15 @@ const getUserById = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  try {
+    await User.findOneAndDelete({email: req.body.email});
+    return res.status(200).json({msg:'user is deleted'});
+  }catch (err){
+    console.log(err);
+    return res.status(500).json('Server error');
+  }
+}
 const getUsersInTeam = async (req, res) => {
   try {
     const users = await User.find({ team: req.team });
@@ -89,5 +98,6 @@ module.exports = {
   updateUserInfo,
   getUsers,
   getUserById,
+  deleteUser,
   getUsersInTeam
 };

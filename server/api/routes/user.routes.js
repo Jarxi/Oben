@@ -13,4 +13,5 @@ router.put('/userInfo', user.updateUserInfo);
 router.get('/users', user.getUsers);
 router.get('/team', user.getUsersInTeam);
 router.get('/', user.getUserById);
+router.delete('/', user.deleteUser);
 module.exports = router;

@@ -9,7 +9,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const generateEmailBody = async data => {
   try {
-    const templateStr = await fs.readFileSync(`./signup.ejs`);
+    const templateStr = await fs.readFileSync(`${__dirname}/./signup.ejs`);
     const body = await ejs.render(templateStr.toString(), data);
 
     return body;
@@ -18,37 +18,35 @@ const generateEmailBody = async data => {
   }
 };
 
-const send = async (req, res) => {
+const send = async (req) => {
   try {
-    // req.body.data = {
-    //   "toName": "abc",
-    //   "email":"abc@usc.edu",
-    //   "password": "abc"
-    // };
-    console.log('send is called');
     const data = {
-      toName: 'abc',
-      email: 'abc@usc.edu',
-      password: 'abc'
+      toName: req.body.first_name + ' ' + req.body.last_name,
+      email: req.body.email,
+      password: req.body.tempPassword
     };
 
+    console.log(data);
     const emailBody = await generateEmailBody(data);
     const msg = {
-      to: 'ruoxijia@usc.edu',
-      from: 'ruoxijia@usc.com',
+      to: data.email,
+      from: 'oben@usc.edu',
       subject: 'Your Account is Created',
-      text: 'and easy to do anywhere, even with Node.js',
       html: emailBody.toString()
     };
     sgMail.send(msg);
+<<<<<<< HEAD
     return res.status(200).json('msg: Invitation sent');
   } catch(err) {
     return res.status(500).json(err);
+=======
+  } catch(err) {
+    // return res.status(500).json(err);
+    console.log(err);
+>>>>>>> 764678c52d924496f95eef89245cd56320cd4776
   }
 };
-
-send();
-
+// send()
 module.exports = {
   send
 };
