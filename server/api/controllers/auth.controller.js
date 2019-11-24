@@ -9,9 +9,11 @@ const signUp = async (req, res) => {
   try {
     const user_data = req.body;
     const email = req.body.email;
+    req.body.tempPassword = user_data.password;
     const exist = await User.findOne({
       email
     });
+    // let loading = false;
 
     if (exist) {
       return res.status(401).json({
@@ -25,7 +27,11 @@ const signUp = async (req, res) => {
     user_data.employee_id = employee_id.count;
     const user = await User.create(user_data);
     await increment({ counter_category: 'employee_id' });
-    send();
+    console.log(user_data);
+    // if (!loading){
+      // loading = true;
+      send(req);
+    // }
     return res.status(200).json({
       message: 'user created!',
       user

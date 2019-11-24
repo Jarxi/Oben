@@ -71,9 +71,20 @@ const getUserById = async (req, res) => {
     sendErr(res, err);
   }
 };
+
+const deleteUser = async (req, res) => {
+  try {
+    await User.findOneAndDelete({email: req.body.email});
+    return res.status(200).json({msg:'user is deleted'});
+  }catch (err){
+    console.log(err);
+    return res.status(500).json('Server error');
+  }
+}
 // if you add functions above, add it here too
 module.exports = {
   updateUserInfo,
   getUsers,
-  getUserById
+  getUserById,
+  deleteUser,
 };
