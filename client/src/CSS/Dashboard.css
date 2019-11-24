@@ -21,9 +21,9 @@
   column-count: 2;
   column-gap: 200px;
   display: block;
-  margin-top: 100px;
-  margin-left: 100px !important;
+  margin: 0px auto;
   width: fit-content;
+  margin-top: 100px;
 }
 
 .TopRow {
@@ -49,10 +49,18 @@
   width: 250px;
   display: block;
 }
+
+.missionIcon {
+  margin: 20px 0px;
+}
 .HARD_CODE_SHADE {
   background: #4a3f80;
 }
 
 .title {
   color: blue;
+}
+
+a {
+  text-decoration: none !important;
 }

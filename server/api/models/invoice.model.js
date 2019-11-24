@@ -7,6 +7,9 @@ const InvoiceSchema = new Schema({
         type: Number,
         required: true
     },
+    month: {
+        type: String,
+    },
     total_days: {
         type: Number,
         required: true
@@ -19,9 +22,12 @@ const InvoiceSchema = new Schema({
         type: String,
         required: true
     },
-    attached_filename: [{
+    attached_filename: {
         type: String,
-    }],
+    },
+    attached_encoded_filename: {
+        type: String,
+    },
     submitter: {
         type: Schema.Types.ObjectId,
         ref: 'User',

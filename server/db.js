@@ -88,7 +88,7 @@ const getFile = (req, res) => {
             });
         }
     });
-    var readstream = gfs.createReadStream({ filename: filename });
+    const readstream = gfs.openDownloadStreamByName(filename);
     readstream.pipe(res);
 };
 

@@ -7,6 +7,15 @@
 .App__Aside {
   width: 70%;
   background-color: #2841a4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.App__Aside img {
+  flex-shrink: 0;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .App__Form {
