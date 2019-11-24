@@ -77,8 +77,24 @@ const storage = new GridFsStorage({
 });
 const upload = multer({ storage });
 
+const getFile = (req, res) => {
+    const filename = req.body.filename;
+    const file = gfs.find({filename : filename});
+    file.count(function(err, count) {
+        if (count < 1) {
+            // console.log ("success");
+            return res.status(500).json({
+                message: "Cannot find " + filename + " on server."
+            });
+        }
+    });
+    var readstream = gfs.createReadStream({ filename: filename });
+    readstream.pipe(res);
+};
+
 module.exports = {
     upload,
-    conn
+    conn,
+    getFile
 };
 

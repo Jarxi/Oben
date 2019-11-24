@@ -15,7 +15,8 @@ const {
   projectRoutes,
   submissionRoutes,
   authRoutes,
-  teamRoutes
+  teamRoutes,
+  fileRoutes
 } = require('./api/routes');
 const { send } = require('./api/utils/sendMail/sendMail');
 
@@ -53,7 +54,8 @@ app.use('/api/submission', submissionRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/team', teamRoutes);
 app.use('/api/send', send);
-// app.use("/api/upload", uploadfile);
+app.use('/api/file', fileRoutes);
+app.use('/api/download', db.getFile);
 
 // Invalid routes handling middleware
 app.use((req, res, next) => {
