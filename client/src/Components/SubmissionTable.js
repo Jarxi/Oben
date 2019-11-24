@@ -3,6 +3,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Table } from 'react-bootstrap';
 import SubmissionRow from '../Components/SubmissionRow';
+import InvoiceInput from '../Components/InvoiceInput';
 import ApprovalLog from '../Components/ApprovalLog';
 import moment, { relativeTimeThreshold } from 'moment';
 import '../CSS/Home.css';
@@ -507,88 +508,7 @@ class SubmissionTable extends React.Component {
               <p>{this.state.expense_error}</p>
             </div>
           </div>
-        ) : (
-          <div className='outer_box'>
-            <p className='title'>Invoice Input</p>
-            <div className='submissionSection bootstrap-iso'>
-              <form className='form-inline'>
-                <div className='form-group row col-sm-6'>
-                  <label htmlFor='month' className='col-sm-3 col-form-label '>
-                    Month
-                  </label>
-                  <div className='col-sm-3'>
-                    <input
-                      type='text'
-                      className='form-control small-input'
-                      id='month'
-                    />
-                  </div>
-                </div>
-                <div className='form-group row col-sm-6'>
-                  <label
-                    htmlFor='invoice_no'
-                    className='col-sm-4 col-form-label'
-                  >
-                    Invoice Number
-                  </label>
-                  <div className='col-sm-2'>
-                    <input
-                      type='text'
-                      className='form-control small-input'
-                      id='invoice_no'
-                    />
-                  </div>
-                </div>
-                <div className='form-group row'>
-                  <label
-                    htmlFor='total_days'
-                    className='col-sm-6 col-form-label'
-                  >
-                    Total Days in the invoice:
-                  </label>
-                  <input
-                    type='text'
-                    className='form-control col-sm-6'
-                    id='total_dyas'
-                  />
-                </div>
-
-                <div className='form-group row'>
-                  <label
-                    htmlFor='total_amount'
-                    className='col-sm-6 col-form-label'
-                  >
-                    Total Amount Submitted:
-                  </label>
-                  <input
-                    type='text'
-                    className='form-control col-sm-6'
-                    id='total_amount'
-                  />
-                </div>
-
-                <div className='form-group row'>
-                  <label htmlFor='service' className='col-sm-6 col-form-label'>
-                    Nature of Services Provided:
-                  </label>
-                  <input
-                    type='text'
-                    className='form-control col-sm-6'
-                    id='service'
-                  />
-                </div>
-              </form>
-              <div className='submit_button'>
-                <button type='button' class='btn btn-success'>
-                  Submit
-                </button>
-              </div>
-              <div className='error_message'>
-                <p> {this.state.timesheet_error}</p>
-              </div>
-            </div>
-          </div>
-        )}
+        ) : <InvoiceInput/>}
       </div>
     );
   }
