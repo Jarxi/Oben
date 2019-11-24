@@ -108,3 +108,8 @@ label {
   display: flex;
   justify-content: flex-end;
 }
+
+.wrapper-right > div {
+  padding: 0px 10px;
+  line-height: 40px;
+}

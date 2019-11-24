@@ -159,8 +159,8 @@ class ApprovalTable extends React.Component {
 
     const returnedBanner = (
       <div className='wrapper-right'>
-        <div style={{ 'line-height': '40px' }}>Message:</div>
-        <div className='column-2'></div>
+        <div>Message: </div>
+        <div className='column-2'>You spend too much</div>
         <div>
           <h4>
             <span className='badge badge-success col'>Submission Returned</span>
