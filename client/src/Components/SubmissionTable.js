@@ -143,6 +143,7 @@ class SubmissionTable extends React.Component {
             console.log(res);
             if (res.status === 200) {
                 alert('Succeeded in Submit the time!');
+                window.location.reload();
             }
             })
             .catch(e => {
