@@ -18,16 +18,18 @@ class SubmissionTable extends React.Component {
     // this.ticket_numbers = [1, 2];
     this.timesheetErrorRef = React.createRef();
     this.state = {
-      timesheet_ticket_numbers: [1],
-      expense_ticket_numbers: [1],
       firstDay: moment(),
-      timesheet_rows: [['', '', '', '', '', '', '']],
-      expense_rows: [['', '', '', '', '', '', '']],
-      timesheet_cols: ['', '', '', '', '', '', ''],
-      expense_cols: ['', '', '', '', '', '', ''],
+
+      timesheet_ticket_numbers: [1],
       timesheet_projects: [''],
-      expense_projects: [''],
+      timesheet_rows: [['', '', '', '', '', '', '']],
+      timesheet_cols: ['', '', '', '', '', '', ''],
       timesheet_error: '',
+
+      expense_ticket_numbers: [1],
+      expense_projects: [''],
+      expense_rows: [['', '', '', '', '', '', '']],
+      expense_cols: ['', '', '', '', '', '', ''],
       expense_error: ''
     };
     this.onCellChange = this.onCellChange.bind(this);
@@ -120,8 +122,8 @@ class SubmissionTable extends React.Component {
   handleSubmit(type) {
     if (type === 'timesheet') {
       const { timesheet_ticket_numbers } = this.state;
-      const newTicketNumber =
-        timesheet_ticket_numbers[timesheet_ticket_numbers.length - 1] + 1;
+      const newTicketNumber = 1;
+        // timesheet_ticket_numbers[timesheet_ticket_numbers.length - 1] + 1;
 
       let params = this.parseParam(type);
       console.log(params);
@@ -154,6 +156,45 @@ class SubmissionTable extends React.Component {
         this.onError('timesheet', '');
       }, 2000);
     } else if (type == 'expense') {
+        const{expense_ticket_numbers} = this.state;
+        const newTicketNumber = 1;
+        // expense_ticket_numbers[expense_ticket_numbers.length - 1] + 1;
+        let params = this.parseParam(type);
+        if(params === null){
+            this.onError('expense', 'Submit Unseccessful!');
+            setTimeout(() => {
+                this.onError('expense', '');
+            }, 2000);
+           }else{
+                const url = 'http://localhost:3000/api/submission/submit';
+                const config = {
+                    headers: {
+                    authorization: 'Bearer ' + sessionStorage.getItem('token')
+                    }
+                };
+                axios
+                    .post(url, params, config)
+                    .then(res => {
+                    console.log(res);
+                    if (res.status === 200) {
+                        alert('Succeeded in Submit the expense!');
+                        window.location.reload();
+                    }
+                    })
+                    .catch(e => {
+                    console.log(e);
+                    console.log('Expense Submission failed');
+                });
+                this.setState({
+                    expense_ticket_numbers: [newTicketNumber],
+                    expense_rows:[['', '', '', '', '', '', '']],
+                    expense_cols: ['', '', '', '', '', '', '']
+                });
+                this.onError('expense', ' ✅ Submit successful!');
+                setTimeout(() => {
+                this.onError('expense', '');
+                }, 2000);
+            }
     }
   }
 

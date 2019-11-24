@@ -9,6 +9,7 @@ import '../CSS/bootstrap/css/bootstrap-iso.css';
 import AddCircle from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
+import { FaCommentsDollar } from 'react-icons/fa';
 
 class ApprovalTable extends React.Component {
   constructor(props) {
@@ -26,20 +27,13 @@ class ApprovalTable extends React.Component {
       timesheet_projects: [''],
       expense_projects: [''],
       timesheet_error: '',
-      expense_error: ''
+      expense_error: '',
     };
-    this.onCellChange = this.onCellChange.bind(this);
-    this.isFloat = this.isFloat.bind(this);
+
     this.onError = this.onError.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  isFloat(value) {
-    return (
-      !isNaN(value) &&
-      parseFloat(Number(value)) == value &&
-      !isNaN(parseFloat(value, 10))
-    );
+    this.getWeeklyDateAmount = this.getWeeklyDateAmount.bind(this);
+    this.getTotalAmount = this.getTotalAmount.bind(this);
   }
 
   onError(type, message) {
@@ -47,69 +41,6 @@ class ApprovalTable extends React.Component {
       this.setState({ timesheet_error: message });
     } else if (type === 'expense') {
       this.setState({ expense_error: message });
-    }
-  }
-  onCellChange(type, row, col, value) {
-    if (type === 'timesheet') {
-      if (col === 'project') {
-        let timesheet_projects = this.state.timesheet_projects;
-        timesheet_projects[row] = value;
-        this.setState({ timesheet_projects });
-        return;
-      }
-      if (value && !this.isFloat(value)) {
-        this.onError('timesheet', ' ❌ Please enter a number!');
-        return;
-      } else {
-        this.onError('timesheet', '');
-      }
-      let timesheet_rows = this.state.timesheet_rows;
-      timesheet_rows[row][col] = value;
-      this.setState({ timesheet_rows });
-
-      let sum = 0.0;
-      for (let i = 0; i < timesheet_rows.length; i++) {
-        if (timesheet_rows[i][col] !== '') {
-          sum += parseFloat(timesheet_rows[i][col]);
-        }
-      }
-      if (sum === 0) {
-        sum = '';
-      }
-      let timesheet_cols = this.state.timesheet_cols;
-      timesheet_cols[col] = sum;
-      this.setState({ timesheet_cols: timesheet_cols });
-    } else if (type === 'expense') {
-      console.log(row, col, value);
-      if (col === 'project') {
-        let expense_projects = this.state.expense_projects;
-        expense_projects[row] = value;
-        this.setState({ expense_projects });
-        return;
-      }
-      if (value && !this.isFloat(value)) {
-        this.onError('expense', ' ❌ Please enter a number!');
-        return;
-      } else {
-        this.onError('expense', '');
-      }
-      let expense_rows = this.state.expense_rows;
-      expense_rows[row][col] = value;
-      this.setState({ expense_rows });
-
-      console.log(expense_rows);
-      let sum = 0.0;
-      for (let i = 0; i < expense_rows.length; i++) {
-        if (expense_rows[i][col] !== '') {
-          sum += parseFloat(expense_rows[i][col]);
-        }
-      }
-      if (sum === 0) {
-        sum = '';
-      }
-      let expense_cols = this.state.expense_cols;
-      expense_cols[col] = sum;
-      this.setState({ expense_cols: expense_cols });
     }
   }
 
@@ -131,61 +62,44 @@ class ApprovalTable extends React.Component {
     }
   }
 
-  addRow(option) {
-    if (option === 'timesheet') {
-      let { timesheet_ticket_numbers } = this.state;
-      timesheet_ticket_numbers.push(timesheet_ticket_numbers.length + 1);
-      this.setState({ timesheet_ticket_numbers });
-
-      let { timesheet_rows } = this.state;
-      timesheet_rows.push(['', '', '', '', '', '', '']);
-      this.setState({ timesheet_rows });
-
-      let { timesheet_projects } = this.state;
-      timesheet_projects.push('');
-      this.setState({ timesheet_projects });
-    } else if (option === 'expense') {
-      let { expense_ticket_numbers } = this.state;
-      expense_ticket_numbers.push(expense_ticket_numbers.length + 1);
-      this.setState({ expense_ticket_numbers });
-
-      let { expense_rows } = this.state;
-      expense_rows.push(['', '', '', '', '', '', '']);
-      this.setState({ expense_rows });
-
-      let { expense_projects } = this.state;
-      expense_projects.push('');
-      this.setState({ expense_projects });
+  getWeeklyDateAmount(submittedDateAmount, firstDayofWeek){
+    let weeklyDateAmount = [0, 0, 0, 0, 0, 0, 0];
+    submittedDateAmount.forEach(entry => {
+      weeklyDateAmount[moment(entry.date).diff(firstDayofWeek,'days')] = entry.amount
     }
+    );
+    return weeklyDateAmount;
   }
 
-  deleteRow(option) {
-    if (option === 'timesheet') {
-      let { timesheet_ticket_numbers } = this.state;
-      timesheet_ticket_numbers.pop();
-      this.setState({ timesheet_ticket_numbers });
-
-      let { timesheet_rows } = this.state;
-      timesheet_rows.pop();
-      this.setState({ timesheet_rows });
-    } else if (option === 'expense') {
-      let { expense_ticket_numbers } = this.state;
-      expense_ticket_numbers.pop();
-      this.setState({ expense_ticket_numbers });
-
-      let { expense_rows } = this.state;
-      expense_rows.pop();
-      this.setState({ expense_rows });
-    }
+  getTotalAmount(submittedTotalAmount, firstDayofWeek){
+    console.log("getTotalAmount", submittedTotalAmount)
+    let weeklyTotalAmount = [0, 0, 0, 0, 0, 0, 0];
+    submittedTotalAmount.forEach(entry =>
+      weeklyTotalAmount[moment(entry.date).diff(firstDayofWeek,'days')] = entry.amount
+    );
+    return weeklyTotalAmount;
   }
 
   render() {
     // const ticket_numbers = [1];
-    const { firstDay } = this.props;
-    const timesheetFirstDay = moment(firstDay);
-    const expenseFirstDay = moment(firstDay);
+    let tableType, status, input, total_amount, firstDay, allDays;
+    if(this.props.selectedSubmission !== 'noselection'){
+      tableType = this.props.selectedSubmission.type;
+      status = this.props.selectedSubmission.status;
+      input = this.props.selectedSubmission.input;
+      firstDay = moment(input[0].dateAmount[0].date).startOf('week');
+      let currDay = moment(firstDay);
+      allDays = [<td className='date'>{currDay.date()}</td>]
+      for(let i = 0; i < 6; ++i){
+        allDays.push(<td className='date'>{currDay.add(1,'day').date()}</td>)
+      }
+      total_amount = this.getTotalAmount(this.props.selectedSubmission.total_amount,firstDay);
+    }
+  
     return (
+      this.props.selectedSubmission !== 'noselection' &&
       <div>
+        { tableType === 'time' &&
         <div className='outer_box'>
           <p className='title'>Time Sheet Approval</p>
 
@@ -194,65 +108,30 @@ class ApprovalTable extends React.Component {
               <thead>
                 <tr>
                   <td className='information'>Ticket ID</td>
-                  <td className='information'>Input Timesheet</td>
-                  <td className='date'>{timesheetFirstDay.date()}</td>
-                  <td className='date'>
-                    {timesheetFirstDay.add(1, 'day').date()}
-                  </td>
-                  <td className='date'>
-                    {timesheetFirstDay.add(1, 'day').date()}
-                  </td>
-                  <td className='date'>
-                    {timesheetFirstDay.add(1, 'day').date()}
-                  </td>
-                  <td className='date'>
-                    {timesheetFirstDay.add(1, 'day').date()}
-                  </td>
-                  <td className='date'>
-                    {timesheetFirstDay.add(1, 'day').date()}
-                  </td>
-                  <td className='date'>
-                    {timesheetFirstDay.add(1, 'day').date()}
-                  </td>
+                  <td className='information'>Project</td>
+                  {allDays}
                 </tr>
               </thead>
               <tbody>
-                {this.state.timesheet_ticket_numbers.map(ticket_number => (
+                {input.map((ipt,idx) => (
                   <SubmissionRow
-                    onCellChange={this.onCellChange.bind(
-                      this,
-                      'timesheet',
-                      ticket_number - 1
-                    )}
-                    ticket_number={ticket_number}
-                    key={ticket_number}
+                    ticket_number={idx+1}
+                    key={idx+1}
+                    viewOnly={true}
+                    projectName={ipt.project_name}
+                    weeklyDateAmount={this.getWeeklyDateAmount(ipt.dateAmount,firstDay)}
                   />
                 ))}
                 <tr>
-                  <td>
-                    <IconButton
-                      onClick={this.addRow.bind(this, 'timesheet')}
-                      aria-label='delete'
-                      size='small'
-                    >
-                      <AddCircle color='primary' fontSize='inherit' />
-                    </IconButton>
-                    <IconButton
-                      onClick={this.deleteRow.bind(this, 'timesheet')}
-                      aria-label='delete'
-                      size='small'
-                    >
-                      <Delete color='primary' fontSize='inherit' />
-                    </IconButton>
-                  </td>
+                  <td></td>
                   <td>Total Hour</td>
-                  <td>{this.state.timesheet_cols[0]}</td>
-                  <td>{this.state.timesheet_cols[1]}</td>
-                  <td>{this.state.timesheet_cols[2]}</td>
-                  <td>{this.state.timesheet_cols[3]}</td>
-                  <td>{this.state.timesheet_cols[4]}</td>
-                  <td>{this.state.timesheet_cols[5]}</td>
-                  <td>{this.state.timesheet_cols[6]}</td>
+                  <td>{total_amount[0]}</td>
+                  <td>{total_amount[1]}</td>
+                  <td>{total_amount[2]}</td>
+                  <td>{total_amount[3]}</td>
+                  <td>{total_amount[4]}</td>
+                  <td>{total_amount[5]}</td>
+                  <td>{total_amount[6]}</td>
                 </tr>
               </tbody>
             </Table>
@@ -269,6 +148,8 @@ class ApprovalTable extends React.Component {
             </div>
           </div>
         </div>
+        }
+        { tableType === 'expense' &&
         <div className='outer_box'>
           <p className='title'>Expense Approval</p>
           <div className='submissionSection bootstrap-iso'>
@@ -276,65 +157,30 @@ class ApprovalTable extends React.Component {
               <thead>
                 <tr>
                   <td className='information'>Ticket ID</td>
-                  <td className='information'>Input Expense</td>
-                  <td className='date'>{expenseFirstDay.date()}</td>
-                  <td className='date'>
-                    {expenseFirstDay.add(1, 'day').date()}
-                  </td>
-                  <td className='date'>
-                    {expenseFirstDay.add(1, 'day').date()}
-                  </td>
-                  <td className='date'>
-                    {expenseFirstDay.add(1, 'day').date()}
-                  </td>
-                  <td className='date'>
-                    {expenseFirstDay.add(1, 'day').date()}
-                  </td>
-                  <td className='date'>
-                    {expenseFirstDay.add(1, 'day').date()}
-                  </td>
-                  <td className='date'>
-                    {expenseFirstDay.add(1, 'day').date()}
-                  </td>
+                  <td className='information'>Project</td>
+                  {allDays}
                 </tr>
               </thead>
               <tbody>
-                {this.state.expense_ticket_numbers.map(ticket_number => (
+              {input.map((ipt,idx) => (
                   <SubmissionRow
-                    onCellChange={this.onCellChange.bind(
-                      this,
-                      'expense',
-                      ticket_number - 1
-                    )}
-                    ticket_number={ticket_number}
-                    key={ticket_number}
+                    ticket_number={idx+1}
+                    key={idx+1}
+                    viewOnly={true}
+                    projectName={ipt.project_name}
+                    weeklyDateAmount={this.getWeeklyDateAmount(ipt.dateAmount,firstDay)}
                   />
                 ))}
                 <tr>
-                  <td>
-                    <IconButton
-                      onClick={this.addRow.bind(this, 'expense')}
-                      aria-label='delete'
-                      size='small'
-                    >
-                      <AddCircle color='primary' fontSize='inherit' />
-                    </IconButton>
-                    <IconButton
-                      onClick={this.deleteRow.bind(this, 'expense')}
-                      aria-label='delete'
-                      size='small'
-                    >
-                      <Delete color='primary' fontSize='inherit' />
-                    </IconButton>
-                  </td>
+                  <td></td>
                   <td>Total Expense</td>
-                  <td>{this.state.expense_cols[0]}</td>
-                  <td>{this.state.expense_cols[1]}</td>
-                  <td>{this.state.expense_cols[2]}</td>
-                  <td>{this.state.expense_cols[3]}</td>
-                  <td>{this.state.expense_cols[4]}</td>
-                  <td>{this.state.expense_cols[5]}</td>
-                  <td>{this.state.expense_cols[6]}</td>
+                  <td>{total_amount[0]}</td>
+                  <td>{total_amount[1]}</td>
+                  <td>{total_amount[2]}</td>
+                  <td>{total_amount[3]}</td>
+                  <td>{total_amount[4]}</td>
+                  <td>{total_amount[5]}</td>
+                  <td>{total_amount[6]}</td>
                 </tr>
               </tbody>
             </Table>
@@ -351,7 +197,8 @@ class ApprovalTable extends React.Component {
             </div>
           </div>
         </div>
-
+        }
+        { tableType === 'invoice' &&
         <div className='outer_box'>
           <p className='title'>Invoice Approval</p>
           <div className='submissionSection bootstrap-iso'>
@@ -430,6 +277,7 @@ class ApprovalTable extends React.Component {
             </div>
           </div>
         </div>
+        }
       </div>
     );
   }

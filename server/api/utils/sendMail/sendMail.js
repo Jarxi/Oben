@@ -42,7 +42,7 @@ const send = async (req, res) => {
     };
     sgMail.send(msg);
     return res.status(200).json('msg: Invitation sent');
-  } catch {
+  } catch(err) {
     return res.status(500).json(err);
   }
 };

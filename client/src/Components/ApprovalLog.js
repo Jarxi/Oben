@@ -10,17 +10,7 @@ class ApprovalLog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      submissions: [
-        // {
-        //   id: '123123123123123',
-        //   name: 'abc',
-        //   dateType:
-        //     moment()
-        //       .format('MM/DD')
-        //       .toString() + ' Invoice',
-        //   status: 'submitted'
-        // }
-      ]
+      submissions: []
     };
     this.fetchSubmissions = this.fetchSubmissions.bind(this)
   }
@@ -35,16 +25,15 @@ class ApprovalLog extends React.Component {
     const options = {headers: { authorization: 'Bearer ' + sessionStorage.getItem('token') }};
     axios.get(url, options).then((res)=>{
         if(res.status === 200){
-            // console.log("HERE")
-            submissionList = res.data.submissions.map(function(submission){
-              return {
-                name: submission.submitter.substring(19),
-                dateType: submission.type,
-                status: submission.status,
-                id: submission._id,
-              }
-            })
-            this.setState({submissions: submissionList});
+            // submissionList = res.data.submissions.map(function(submission){
+            //   return {
+            //     name: submission.submitter.substring(19),
+            //     dateType: submission.type,
+            //     status: submission.status,
+            //     id: submission._id,
+            //   }
+            // })
+            this.setState({submissions: res.data.submissions});
         }
     }).catch((e)=>{
         console.log(e)
@@ -75,10 +64,8 @@ class ApprovalLog extends React.Component {
               <ListGroup variant="flush">
                 {this.state.submissions.map(submission => (
                   <ApprovalLogRow
-                    name={submission.name}
-                    dateType={submission.dateType}
-                    status={submission.status}
-                    key={submission.id}
+                    submissionData={submission}
+                    selectCallback={this.props.selectCallback}
                   />
                 ))}
               </ListGroup>
