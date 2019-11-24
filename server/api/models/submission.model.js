@@ -28,6 +28,9 @@ const SubmissionSchema = new Schema({
     ref: 'User',
     required: true
   },
+  submitter_name: {
+    type: String,
+  },
   status: {
     type: String,
     default: 'pending',

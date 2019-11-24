@@ -1,4 +1,4 @@
-const { Submission, Invoice } = require('../models');
+const { Submission, Invoice, User } = require('../models');
 const { nextId, increment } = require('./counter.controller');
 const moment = require('moment');
 const sendErr = require('../utils/sendErr');
@@ -7,6 +7,16 @@ const submit = async (req, res) => {
   try {
     const submission = req.body;
     submission.submitter = req.userId;
+    console.log(req.userId);
+    console.log(submission.submitter);
+    const user = await User.findById(submission.submitter);
+    if (!user) {
+      return res.status(500).json({
+        'message': 'Failed to find user'
+      });
+    } else {
+      submission.submitter_name = user.first_name + " " + user.last_name;
+    }
     if (req.body.type === 'time' || req.body.type === 'expense'){
       // check submit time or expense
       const dateAmountMap = new Map();
