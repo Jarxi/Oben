@@ -122,3 +122,39 @@
 .wrapper div input {
   text-align: center;
 }
+
+#container {
+  border: 5px solid rgba(101, 107, 195, 0.5);
+  color: black;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  grid-auto-rows: minmax(100px, auto);
+  min-height: 500px;
+}
+
+#container > div {
+  /* background: #eee; */
+  padding: 20px;
+}
+
+#container > div:nth-child(odd) {
+  /* background: #ddd; */
+}
+
+.nested {
+  display: grid;
+}
+
+.input {
+  margin: 0px 10%;
+  display: flex;
+  justify-content: space-between !important;
+}
+.input > div {
+  padding: 0px 20px;
+}
+
+input {
+  background: #eee;
+}
