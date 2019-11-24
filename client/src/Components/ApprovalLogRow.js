@@ -20,7 +20,7 @@ class ApprovalLogRow extends React.Component {
           <div className='wrapper'>
             <div className='column'>{submitter_name}</div>
             <div className='column'>{type}</div>
-            <div className='column'>{status}</div>
+            <div className={`column ${status}`}>{status}</div>
           </div>
         </ListGroup.Item>
     );
