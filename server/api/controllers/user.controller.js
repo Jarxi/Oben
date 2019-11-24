@@ -46,6 +46,49 @@ const updateUserInfo = async (req, res) => {
   }
 };
 
+const updateUserInfoById = async (req, res) => {
+  try {
+    // TODO: Upload W4 file and generate filename
+    req.body.w4_filename = '';
+    const id = req.body._id;
+    let user = await User.findOne({
+      _id: id
+    });
+    if (!user) {
+      return sendErr(
+        res,
+        'Internal Error: Cannot find employee with id: ' + id
+      );
+    }
+    if (req.body.w4_filename === null) {
+      req.body.w4_filename = '';
+    }
+    const data = req.body;
+    user = await User.findOneAndUpdate(
+      {
+        _id: id
+      },
+      {
+        $set: req.body
+      },
+      {
+        new: true
+      }
+    );
+
+    if (!user) {
+      sendErr(res, '', 'Some error occurred trying to update user info');
+    }
+    console.log(user);
+    return res.status(200).json({
+      message: `User info updated!`,
+      user
+    });
+  } catch (err) {
+    return sendErr(res, err);
+  }
+};
+
 const getUsers = async (req, res) => {
   try {
     const users = await User.find({});
@@ -100,5 +143,6 @@ module.exports = {
   getUsers,
   getUserById,
   deleteUser,
-  getUsersInTeam
+  getUsersInTeam,
+  updateUserInfoById
 };
