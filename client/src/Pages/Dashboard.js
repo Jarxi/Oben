@@ -7,7 +7,7 @@ import { FaAddressBook, FaChartBar } from 'react-icons/fa';
 //import for the TopRow need adjust
 import { IconContext } from 'react-icons';
 import { TiCog } from 'react-icons/ti';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 import '../CSS/Dashboard.css';
 
@@ -16,30 +16,36 @@ class Dashboard extends React.Component {
     // const Setup = new MissionBox("Setup");
     return (
       <div class='container'>
-        <MissionBox
-          name='Submission Override'
-          icon={
-            <span>
-              <FaAddressBook size={60} color='211656' />
-            </span>
-          }
-        />
-        <MissionBox
-          name='Setup'
-          icon={
-            <span>
-              <MdPersonAdd size={60} color='211656' />
-            </span>
-          }
-        />
-        <MissionBox
-          name='Approval Requested'
-          icon={
-            <span>
-              <TiThumbsUp size={60} color='211656' />
-            </span>
-          }
-        />
+        <Link to='/home/override'>
+          <MissionBox
+            name='Submission Override'
+            icon={
+              <span>
+                <FaAddressBook size={60} color='211656' />
+              </span>
+            }
+          />
+        </Link>
+        <Link to='/home/setup'>
+          <MissionBox
+            name='Setup'
+            icon={
+              <span>
+                <MdPersonAdd size={60} color='211656' />
+              </span>
+            }
+          />
+        </Link>
+        <Link to='/home/approval'>
+          <MissionBox
+            name='Approval Requested'
+            icon={
+              <span>
+                <TiThumbsUp size={60} color='211656' />
+              </span>
+            }
+          />
+        </Link>
         <MissionBox
           name='Reports'
           icon={

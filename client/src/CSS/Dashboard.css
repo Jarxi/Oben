@@ -60,3 +60,7 @@
 .title {
   color: blue;
 }
+
+a {
+  text-decoration: none !important;
+}
