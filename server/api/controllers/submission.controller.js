@@ -17,7 +17,7 @@ const submit = async (req, res) => {
           });
         }
         const input = submission.input[i];
-        const dateAmount = input.dateAmount;
+        const dateAmount = Number(input.dateAmount);
         for (let j = 0; j < dateAmount.length; j++) {
           if (dateAmountMap.has(dateAmount[j].date)) {
             const amount = dateAmountMap.get(dateAmount[j].date) + dateAmount[j].amount;
@@ -210,7 +210,7 @@ const update = async (req, res) => {
       const dateAmountMap = new Map();
       for (let k = 0; k < update.input.length; k++) {
         const input = update.input[k];
-        const dateAmount = input.dateAmount;
+        const dateAmount = Number(input.dateAmount);
         for (let j = 0; j < dateAmount.length; j++) {
           if (dateAmountMap.has(dateAmount[j].date)) {
             const amount = dateAmountMap.get(dateAmount[j].date) + dateAmount[j].amount;
