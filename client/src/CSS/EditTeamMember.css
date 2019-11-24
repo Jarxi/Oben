@@ -107,7 +107,7 @@
   margin-left: 50px;
 }
 
-.wrapper {
+.teams_wrapper {
   display: flex;
   justify-content: flex-start !important;
   flex-wrap: wrap;
@@ -115,12 +115,12 @@
   margin: 10px 0px;
 }
 
-.wrapper div {
+.teams_wrapper div {
   flex-basis: auto;
   padding: 10px;
 }
 
-.wrapper div input {
+.teams_wrapper div input {
   text-align: center;
 }
 
@@ -148,14 +148,16 @@
 }
 
 .input {
-  margin: 0px 10%;
+  margin: 0px 0px;
   display: flex;
   justify-content: space-between !important;
 }
+
 .input > div {
-  padding: 0px 20px;
+  padding: 0px 10px;
 }
 
 input {
   background: #eee;
+  flex-basis: 50%;
 }

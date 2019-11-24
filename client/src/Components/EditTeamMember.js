@@ -27,7 +27,7 @@ class EditTeamMember extends React.Component {
     return (
       <div class='canvas'>
         <div className='title'>Create Team Names</div>
-        <div className='wrapper'>
+        <div className='teams_wrapper'>
           {this.state.teams.map(team => (
             <div>
               <button className='teamName btn' key={team}>
