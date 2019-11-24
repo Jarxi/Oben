@@ -39,6 +39,7 @@
 
 #EmployeeList {
   padding: 0px;
+  width: inherit;
 }
 
 .PageSubTitle {
