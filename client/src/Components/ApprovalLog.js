@@ -3,7 +3,6 @@ import '../CSS/bootstrap/css/bootstrap-iso.css';
 import ApprovalLogRow from './ApprovalLogRow';
 import { Table, ListGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
 class ApprovalLog extends React.Component {
   constructor(props) {

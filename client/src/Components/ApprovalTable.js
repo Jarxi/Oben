@@ -167,7 +167,11 @@ class ApprovalTable extends React.Component {
         <div class='right_content'>
           {tableType === 'time' && (
             <div className='outer_box'>
-              <span style={{ color: '#4651af' }}>Time Sheet Approval</span>
+              <span style={{ color: '#4651af' }}>
+                {this.props.page === 'submission' ? `Your Submission on ${moment().format('MMMM DD, YYYY')}`
+                :'Time Sheet Approval'
+                }
+              </span>
 
               <div class='submissionSection bootstrap-iso'>
                 <Table bordered>
@@ -204,7 +208,7 @@ class ApprovalTable extends React.Component {
                     </tr>
                   </tbody>
                 </Table>
-                {status === 'pending' && actionRow}
+                {status === 'pending' && this.props.page !== 'submission' && actionRow}
                 {status === 'accepted' && approvedBanner}
                 {status == 'returned' && returnedBanner}
                 <div className='error_message'>
@@ -215,7 +219,11 @@ class ApprovalTable extends React.Component {
           )}
           {tableType === 'expense' && (
             <div className='outer_box'>
-              <span style={{ color: '#4651af' }}>Expense Approval</span>
+              <span style={{ color: '#4651af' }}>
+                {this.props.page === 'submission' ? `Your Submission on ${moment().format('MMMM DD, YYYY')}`
+                :'Expense Approval'
+                }
+              </span>
 
               <div className='submissionSection bootstrap-iso'>
                 <Table bordered>
@@ -266,7 +274,7 @@ class ApprovalTable extends React.Component {
                     </tr>
                   </tbody>
                 </Table>
-                {status === 'pending' && actionRow}
+                {status === 'pending' && this.props.page !== 'submission' && actionRow}
                 {status === 'accepted' && approvedBanner}
                 {status == 'returned' && returnedBanner}
                 <div className='error_message'>
