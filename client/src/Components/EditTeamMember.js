@@ -14,26 +14,26 @@ class EditTeamMember extends React.Component {
     this.state = {
       selectedemployee: null,
       teams: ['engineering', 'marketing'],
-      team:"",
-      job_title:"",
-      supervisor:"",
-      start_date:"",
-      work_email:"",
-      phone:"",
+      team: '',
+      job_title: '',
+      supervisor: '',
+      start_date: '',
+      work_email: '',
+      phone: '',
       contract_file: null,
-      contract_filename:"",
-      contract_encoded_filename:"",
+      contract_filename: '',
+      contract_encoded_filename: '',
       w9_file: null,
-      w9_filename:"",
-      w9_encoded_filename:"",
-      contract_expire_date:"",
-      payment_method:"check",
-      address:"",
-      address2:"",
-      city:"",
-      state:"",
-      zip:"",
-      rate:"",
+      w9_filename: '',
+      w9_encoded_filename: '',
+      contract_expire_date: '',
+      payment_method: 'check',
+      address: '',
+      address2: '',
+      city: '',
+      state: '',
+      zip: '',
+      rate: ''
     };
     this.handleSelect = this.handleSelect.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -47,31 +47,31 @@ class EditTeamMember extends React.Component {
     });
   }
 
-  handleChange(e){
+  handleChange(e) {
     let value = e.target.value;
     let name = e.target.name;
     this.setState({
-        [name]: value
-    })
+      [name]: value
+    });
   }
 
-  handleFileChange(e){
-    if(e.target.name === 'contract'){
-        this.setState({
-            contract_file: e.target.files[0],
-            contract_filename: e.target.files[0].name,
-        });
-    }else{
-        this.setState({
-            w9_file: e.target.files[0],
-            w9_filename: e.target.files[0].name,
-        });
+  handleFileChange(e) {
+    if (e.target.name === 'contract') {
+      this.setState({
+        contract_file: e.target.files[0],
+        contract_filename: e.target.files[0].name
+      });
+    } else {
+      this.setState({
+        w9_file: e.target.files[0],
+        w9_filename: e.target.files[0].name
+      });
     }
   }
 
-  handleRadioSelect(value){       
-    this.setState({method: value});
-}
+  handleRadioSelect(value) {
+    this.setState({ method: value });
+  }
   render() {
     return (
       <div class='canvas'>
@@ -234,12 +234,21 @@ class EditTeamMember extends React.Component {
                   <div>
                     <label>Method</label>
                   </div>
-                  <RadioGroup style={{height:40+'px',display:'inline-flex',width:'100%'}}value={this.state.payment_method} onChange={ this.handleRadioSelect } horizontal>
-                    <RadioButton className="radio" value="check">
-                        Check
+                  <RadioGroup
+                    style={{
+                      height: '40px',
+                      display: 'inline-flex',
+                      width: '100%'
+                    }}
+                    value={this.state.payment_method}
+                    onChange={this.handleRadioSelect}
+                    horizontal
+                  >
+                    <RadioButton className='radio' value='check'>
+                      Check
                     </RadioButton>
-                    <RadioButton className="radio" value="ACH">
-                        ACH
+                    <RadioButton className='radio' value='ACH'>
+                      ACH
                     </RadioButton>
                   </RadioGroup>
                 </div>
@@ -320,9 +329,17 @@ class EditTeamMember extends React.Component {
                   </div>
                 </div>
               </div>
+              <div className='single_box' style={{ background: '#eee' }}>
+                <div className='form-group' style={{ witdh: 'inherit' }}>
+                  <button
+                    className='btn btn-success btn-block'
+                    style={{ witdh: 'inherit' }}
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
             </div>
-            
-            
           </form>
         )}
       </div>
