@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+
 import EmployeeList from './EmployeeList';
 
 import '../CSS/EditTeamMember.css';
@@ -7,12 +9,14 @@ import AddCircle from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
+import { thisTypeAnnotation } from '@babel/types';
 
 class EditTeamMember extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedemployee: null,
+      selectedemployeeid: null,
       teams: ['engineering', 'marketing'],
       team: '',
       job_title: '',
@@ -44,7 +48,22 @@ class EditTeamMember extends React.Component {
 
   handleSelect(item) {
     this.setState({
-      selectedemployee: item
+      selectedemployee: item,
+      selectedemployeeid: item._id,
+    //   team: item.team,
+    //   work_email: item.email,
+    //   job_title: item.job_title,
+    //   supervisor: item.supervisor,
+    //   start_date: item.start_date,
+    //   phone: item.phone,
+    //   contract_expire_date: item.contract_expiration,
+    //   payment_method: item.payment.method,
+    //   address: item.payment.address,
+    //   address2: item.payment.address2,
+    //   city: item.payment.city,
+    //   state: item.payment.state,
+    //   zip: item.payment.zip,
+    //   rate: item.payment.rate
     });
   }
 
@@ -75,10 +94,42 @@ class EditTeamMember extends React.Component {
   }
 
   handleSave(){
-    console.log('====================================');
-    console.log(this.state);
-    console.log('====================================');
+    const temp = {
+        method: this.state.method,
+        address: this.state.address,
+        address2: this.state.address2,
+        city: this.state.city,
+        state: this.state.state,
+        zip: this.state.zip,
+        rate: this.state.rate,
+    }
+    const param = {
+        _id: this.state.selectedemployeeid,
+        job_title: this.state.job_title,
+        start_date: this.state.start_date,
+        email: this.state.work_email,
+        phone: this.state.phone,
+        payment: temp,
+    }
+    const configpost = {
+        headers:{            
+            authorization: "Bearer " + sessionStorage.getItem('token')
+        }
+    };
+    const url = "http://localhost:3000/api/user/userInfoById";
+    axios.put(url,param,configpost).then((res)=>{
+        console.log(res)
+        if(res.status === 200){
+            alert("Succeed in updating info")
+        }
+        }
+
+    ).catch((e)=>{
+        console.log(e)
+        console.log("Update Info failed")
+    })
   }
+
 
   render() {
     return (
