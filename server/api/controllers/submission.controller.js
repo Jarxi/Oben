@@ -30,6 +30,16 @@ const submit = async (req, res) => {
         const dateAmount = input.dateAmount;
         console.log(dateAmount);
         for (let j = 0; j < dateAmount.length; j++) {
+          if (dateAmount[j].date.length < 1) {
+              return res.status(500).json({
+                  message: "Date cannot be empty."
+              });
+          }
+            if (dateAmount[j].amount.length < 1) {
+                return res.status(500).json({
+                    message: "Amount cannot be empty."
+                });
+            }
           const amount_num = Number(dateAmount[j].amount);
           if (dateAmountMap.has(dateAmount[j].date)) {
             const amount = dateAmountMap.get(dateAmount[j].date) + amount_num;
