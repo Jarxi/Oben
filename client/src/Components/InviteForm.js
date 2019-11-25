@@ -30,7 +30,6 @@ class InviteForm extends React.Component {
         const options = {headers: { authorization: 'Bearer ' + sessionStorage.getItem('token') }};
         axios.get(url, options).then((res)=>{
             if(res.status === 200){
-                console.log("HERE")
                 userList = res.data.users.filter(user => user.user_type !== 'aic').map(
                     function(user){
                         return {
