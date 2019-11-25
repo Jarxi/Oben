@@ -185,6 +185,15 @@ class SubmissionTable extends React.Component {
             console.log(res);
             if (res.status === 200) {
               alert('Succeeded in Submit the expense!');
+              this.setState({
+                expense_ticket_numbers: [newTicketNumber],
+                expense_rows: [['', '', '', '', '', '', '']],
+                expense_cols: ['', '', '', '', '', '', '']
+              });
+              this.onError('expense', ' ✅ Submit successful!');
+              setTimeout(() => {
+                this.onError('expense', '');
+              }, 2000);
               window.location.reload();
             }
           })
@@ -192,15 +201,7 @@ class SubmissionTable extends React.Component {
             console.log(e);
             console.log('Expense Submission failed');
           });
-        this.setState({
-          expense_ticket_numbers: [newTicketNumber],
-          expense_rows: [['', '', '', '', '', '', '']],
-          expense_cols: ['', '', '', '', '', '', '']
-        });
-        this.onError('expense', ' ✅ Submit successful!');
-        setTimeout(() => {
-          this.onError('expense', '');
-        }, 2000);
+        
       }
     }
   }
