@@ -49,6 +49,9 @@ const UserSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Team'
   },
+  team_name: {
+    type: String
+  },
   job_title: {
     type: String
   },

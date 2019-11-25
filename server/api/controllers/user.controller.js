@@ -1,7 +1,7 @@
 const moment = require('moment');
 const mongoose = require('mongoose');
 
-const { User } = require('../models');
+const { User, Team } = require('../models');
 const sendErr = require('../utils/sendErr');
 
 const updateUserInfo = async (req, res) => {
@@ -79,7 +79,17 @@ const updateUserInfoById = async (req, res) => {
     if (!user) {
       sendErr(res, '', 'Some error occurred trying to update user info');
     }
-    console.log(user);
+    let team = null;
+    console.log(user.team);
+    if (user.team !== null && user.team !== undefined) {
+      team = await Team.findOne({ _id: user.team });
+      user = await User.findOneAndUpdate(
+        { _id: id },
+        { $set: { team_name: team.team_name } },
+        { new: true }
+      );
+    }
+    // user.add('team_name', team.team_name);
     return res.status(200).json({
       message: `User info updated!`,
       user
