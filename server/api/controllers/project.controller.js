@@ -23,11 +23,18 @@ const create = async (req, res) => {
 
 const getProjects = async (req, res) => {
   try {
-    const projects = await Project.find({});
-    return res.status(200).json({
-      message: "Projects Found!",
-      projects
-    });
+    const projects = await Project.find();
+    if (projects) {
+      return res.status(200).json({
+        message: "Projects Found!",
+        projects
+      });
+    } else {
+      return res.status(500).json({
+        message: "No project found."
+      });
+    }
+
   } catch (err){
     return sendErr(res, err);
   }

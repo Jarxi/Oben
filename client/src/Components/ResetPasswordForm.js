@@ -1,6 +1,7 @@
 import React from 'react';
 import '../CSS/SignUpForm.css';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class ResetPasswordForm extends React.Component {
   constructor() {
@@ -10,12 +11,19 @@ class ResetPasswordForm extends React.Component {
       oldPassword: '',
       newPassword: '',
       success: false,
-      error_message: ''
+      error_message: '',
+      redirect: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.renderRedirect = this.renderRedirect.bind(this);
   }
 
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to='/' />;
+    }
+  };
   handleChange(e) {
     let value = e.target.value;
     let name = e.target.name;
@@ -42,7 +50,9 @@ class ResetPasswordForm extends React.Component {
             success: true
           });
           setTimeout(() => {
-            this.props.history.push('/');
+            this.setState({
+              redirect: true
+            });
           }, 1000);
         }
       })
@@ -111,6 +121,7 @@ class ResetPasswordForm extends React.Component {
 
         {button}
         <div className='error_message'>{this.state.error_message}</div>
+        {this.renderRedirect()}
       </form>
     );
   }
