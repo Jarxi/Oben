@@ -9,6 +9,7 @@ import InvoiceInput from '../Components/InvoiceInput';
 import '../CSS/ProfilePage.css';
 
 class ProfilePage extends React.Component {
+<<<<<<< HEAD
   render() {
     return (
       <div className='ProfilePage'>
