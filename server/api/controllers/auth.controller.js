@@ -27,14 +27,6 @@ const signUp = async (req, res) => {
     user_data.employee_id = employee_id.count;
     const user = await User.create(user_data);
     await increment({ counter_category: 'employee_id' });
-    console.log(user_data);
-    // if (!loading){
-    // loading = true;
-
-    const auth = await Auth.findOneAndUpdate({ user: user }, { $set: newAuth });
-    if (auth === null) {
-      auth = await Auth.create(newAuth);
-    }
     return res.status(200).json({
       message: 'user created!',
       user

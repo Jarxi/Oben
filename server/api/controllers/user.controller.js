@@ -79,14 +79,17 @@ const updateUserInfoById = async (req, res) => {
     if (!user) {
       sendErr(res, '', 'Some error occurred trying to update user info');
     }
-
+    let team = null;
+    console.log(user.team);
     if (user.team !== null && user.team !== undefined) {
-      const team = await Team.findOne({ _id: user.team });
-      if (team !== null) {
-        user.team = team.team_name;
-      }
+      team = await Team.findOne({ _id: user.team });
+      user = await User.findOneAndUpdate(
+        { _id: id },
+        { $set: { team_name: team.team_name } },
+        { new: true }
+      );
     }
-
+    // user.add('team_name', team.team_name);
     return res.status(200).json({
       message: `User info updated!`,
       user
