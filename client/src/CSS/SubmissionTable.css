@@ -101,7 +101,7 @@ label {
   padding: 0px 10px;
 }
 
-.wrapper :nth-child(n + 2) {
+.wrapper :nth-child(n + 1) {
   line-height: 40px;
 }
 
@@ -151,4 +151,10 @@ label {
 
 .pending {
   color: grey;
+}
+
+.line {
+  display: flex;
+  color: black;
+  justify-content: space-between;
 }

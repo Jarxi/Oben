@@ -44,6 +44,9 @@ const UserSchema = new Schema({
   supervisor: {
     type: String
   },
+  work_email: {
+    type: String
+  },
   team: {
     type: Schema.Types.ObjectId,
     ref: 'Team'
