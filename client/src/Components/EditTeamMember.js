@@ -138,7 +138,7 @@ class EditTeamMember extends React.Component {
   handleSave(){
     console.log(this.state);
     const temp = {
-        method: this.state.method,
+        method: this.state.payment_method,
         address: this.state.address,
         address2: this.state.address2,
         city: this.state.city,
@@ -159,8 +159,11 @@ class EditTeamMember extends React.Component {
         contract_on_file: this.state.contract_encoded_filename,
         w9: this.state.w9_encoded_filename,
         supervisor: this.state.supervisor,
-        contract_expiration : this.contract_expire_date,
+        contract_expiration : this.state.contract_expire_date,
     }
+    console.log('====================================');
+    console.log(param);
+    console.log('====================================');
 
     const configpost = {
       headers: {

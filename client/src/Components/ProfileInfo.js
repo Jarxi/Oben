@@ -33,6 +33,9 @@ class ProfileInfo extends React.Component {
       vision: 'PPO'
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleContractDownload = this.handleContractDownload.bind(this);
+    this.handlew9Download = this.handlew9Download.bind(this);
+    this.handlew4Download = this.handlew4Download.bind(this);
   }
 
   componentDidMount() {
@@ -49,7 +52,7 @@ class ProfileInfo extends React.Component {
           first_name: user.first_name,
           last_name: user.last_name,
           email: user.work_email,
-          team: user.team,
+          team: user.team_name,
           job_title: user.job_title,
           supervisor: user.supervisor,
           start_date: user.start_date,
@@ -80,6 +83,81 @@ class ProfileInfo extends React.Component {
   handleChange(event) {
     this.setState({ expire_date: event.target.value });
   }
+
+  handleContractDownload(){
+    const config = {
+        headers: {
+          authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
+      };
+      const param = {
+        filename: this.state.contract
+      };
+
+      axios({
+        url: 'http://localhost:3000/api/download',
+        method: 'GET',
+        responseType: 'blob',
+        params: param
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'file.pdf'); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+      });
+  }
+
+  handlew9Download(){
+    const config = {
+        headers: {
+          authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
+      };
+      const param = {
+        filename: this.state.w9
+      };
+
+      axios({
+        url: 'http://localhost:3000/api/download',
+        method: 'GET',
+        responseType: 'blob',
+        params: param
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'file.pdf'); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+      });
+  }
+
+  handlew4Download(){
+    const config = {
+        headers: {
+          authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
+      };
+      const param = {
+        filename: this.state.w4
+      };
+
+      axios({
+        url: 'http://localhost:3000/api/download',
+        method: 'GET',
+        responseType: 'blob',
+        params: param
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'file.pdf'); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+      });
+  }
   render() {
     const user_type = sessionStorage.getItem('user_type');
     var title;
@@ -93,13 +171,13 @@ class ProfileInfo extends React.Component {
           <tr>
             <th scope='row'>W9 on File:</th>
             <td>
-              <a href='#'>{this.state.w9}</a>
+              <a onClick={this.handlew9Download}>{this.state.w9}</a>
             </td>
           </tr>
           <tr>
             <th scope='row'>Contract on File:</th>
             <td>
-              <a href='#'>{this.state.contract}</a>
+              <a onClick={this.handleContractDownload}>{this.state.contract}</a>
             </td>
           </tr>
           <tr>
@@ -142,7 +220,7 @@ class ProfileInfo extends React.Component {
           <tr>
             <th scope='row'>W4 on File:</th>
             <td>
-              <a href='#'>{this.state.w4}</a>
+              <a onClick={this.handlew4Download}>{this.state.w4}</a>
             </td>
           </tr>
           <tr>

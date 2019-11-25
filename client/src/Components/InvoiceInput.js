@@ -105,20 +105,6 @@ class InvoiceInput extends React.Component {
       filename: this.state.encoded_filename
     };
     console.log(param);
-    // axios.get("http://localhost:3000/api/download",param, config)
-    // .then(
-    //     (res) => {
-    //         // console.log(res)
-    //         // this.setState({
-    //         //     isLoaded: true,
-    //         //     projects: res.data.projects
-    //         // });
-    //         console.log(11)
-    //     },
-    //     (error) => {
-    //         console.log(error)
-    //         console.log(1111)
-    //     });
     axios({
       url: 'http://localhost:3000/api/download',
       method: 'GET',
