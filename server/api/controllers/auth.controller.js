@@ -13,6 +13,12 @@ const signUp = async (req, res) => {
     const exist = await User.findOne({
       email
     });
+    console.log(user_data);
+    if (user_data.first_name.length === 0 || user_data.last_name.length === 0) {
+      return res.status(400).json({
+        message: 'fullname is required'
+      });
+    }
     // let loading = false;
 
     if (exist) {
@@ -33,7 +39,10 @@ const signUp = async (req, res) => {
       user
     });
   } catch (err) {
-    return sendErr(res, err);
+    console.log(err.message);
+    return res.status(500).json({
+      message: err.message
+    });
   }
 };
 
@@ -119,13 +128,9 @@ const resetPassword = async (req, res) => {
 
     const decrypted = await decryptPassword(user_data.password, user.password);
     if (!decrypted.password) {
-<<<<<<< HEAD
       return res
         .status(400)
         .json({ message: 'password and email do not match' });
-=======
-      return sendErr(res, "Email and Password don't match", 'Email and Password do not match');
->>>>>>> 223c7113477f63f125a06e133363ab620610dad7
     }
 
     const update = await User.findOneAndUpdate(
@@ -140,13 +145,9 @@ const resetPassword = async (req, res) => {
     );
 
     if (!update) {
-<<<<<<< HEAD
       return res
         .status(400)
         .json({ message: 'Some error occurred tryint to update password' });
-=======
-      sendErr(res, '', 'Failed to connect to data server');
->>>>>>> 223c7113477f63f125a06e133363ab620610dad7
     }
     const auth = await Auth.findOneAndUpdate(
       { user: user._id },

@@ -82,47 +82,49 @@ class ResetPasswordForm extends React.Component {
     }
 
     return (
-      <form className='SignUpBox' onSubmit={this.handleSubmit}>
-        <div>
-          <input
-            type='text'
-            id='email'
-            className='SignUpField__Input'
-            placeholder='Email'
-            name='email'
-            value={this.state.email}
-            onChange={this.handleChange}
-          />
-        </div>
+      <div>
+        <form className='SignUpBox' onSubmit={this.handleSubmit}>
+          <div>
+            <input
+              type='text'
+              id='email'
+              className='SignUpField__Input'
+              placeholder='Email'
+              name='email'
+              value={this.state.email}
+              onChange={this.handleChange}
+            />
+          </div>
 
-        <div>
-          <input
-            type='text'
-            id='oldPassword'
-            className='SignUpField__Input'
-            placeholder='Enter your Old Password'
-            name='oldPassword'
-            value={this.state.oldPassword}
-            onChange={this.handleChange}
-          />
-        </div>
+          <div>
+            <input
+              type='text'
+              id='oldPassword'
+              className='SignUpField__Input'
+              placeholder='Enter your Old Password'
+              name='oldPassword'
+              value={this.state.oldPassword}
+              onChange={this.handleChange}
+            />
+          </div>
 
-        <div>
-          <input
-            type='password'
-            id='newPassword'
-            className='SignUpField__Input'
-            placeholder='Enter Your New Password'
-            name='newPassword'
-            value={this.state.newPassword}
-            onChange={this.handleChange}
-          />
-        </div>
+          <div>
+            <input
+              type='password'
+              id='newPassword'
+              className='SignUpField__Input'
+              placeholder='Enter Your New Password'
+              name='newPassword'
+              value={this.state.newPassword}
+              onChange={this.handleChange}
+            />
+          </div>
 
-        {button}
+          {button}
+          {this.renderRedirect()}
+        </form>
         <div className='error_message'>{this.state.error_message}</div>
-        {this.renderRedirect()}
-      </form>
+      </div>
     );
   }
 }
