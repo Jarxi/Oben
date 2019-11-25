@@ -140,3 +140,15 @@ label {
   min-height: 40px;
   line-height: 40px;
 }
+
+.accepted {
+  color: green;
+}
+
+.returned {
+  color: red;
+}
+
+.pending {
+  color: grey;
+}

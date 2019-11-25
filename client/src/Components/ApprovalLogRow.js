@@ -13,14 +13,14 @@ class ApprovalLogRow extends React.Component {
     let { submitter_name, type, status, _id } = this.props.submissionData;
 
     // console.log(this.props.submissionData)
-
+    
     return (
         <ListGroup.Item action onClick={()=>this.props.selectCallback(this.props.submissionData)}
         className='submissionListItem'>
           <div className='wrapper'>
             <div className='column'>{submitter_name}</div>
             <div className='column'>{type}</div>
-            <div className='column'>{status}</div>
+            <div className={`column ${status}`}>{status[0].toUpperCase()+status.slice(1)}</div>
           </div>
         </ListGroup.Item>
     );

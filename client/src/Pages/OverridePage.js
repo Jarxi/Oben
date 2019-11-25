@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import SubmissionTable from '../Components/SubmissionTable';
+import axios from 'axios';
+
+import 'react-datepicker/dist/react-datepicker.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../CSS/SubmissionPage.css';
+
 class OverridePage extends React.Component {
   handleChange = date => {
     this.setState({
-      startDate: date
+      startDate: date,
+      currUserSubmissions: []
     });
   };
   constructor(props) {
@@ -16,14 +20,28 @@ class OverridePage extends React.Component {
     this.state = {
       startDate: new Date()
     };
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange = date => {
-    this.setState({
-      startDate: date
+  componentDidMount(){
+    this.fetchSubmissions();
+  }
+
+  fetchSubmissions(){
+    const url = "http://localhost:3000/api/submission/getAll";
+    const options = {headers: { authorization: 'Bearer ' + sessionStorage.getItem('token') }};
+    axios.get(url, options).then((res)=>{
+        if(res.status === 200){
+            console.log(res.data.submissions);
+            this.setState({
+              allSubmissions: res.data.submissions,
+              isfetching: false,
+            })
+        }
+    }).catch((e)=>{
+        console.log(e)
+        console.log('Get all submissions failed')
     });
-  };
+  }
 
   render() {
     return (
@@ -32,11 +50,12 @@ class OverridePage extends React.Component {
           <DatePicker
             inline={true}
             selected={this.state.startDate}
-            onChange={this.handleChange}
+            onChange={(date)=>this.setState({startDate:date})}
           />
         </div>
         <SubmissionTable
           firstDay={moment(this.state.startDate).startOf('week')}
+          submissions={this.state.currUserSubmissions}
         />
       </div>
     );
