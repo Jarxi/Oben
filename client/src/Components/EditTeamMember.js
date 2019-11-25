@@ -17,7 +17,8 @@ class EditTeamMember extends React.Component {
     this.state = {
       selectedemployee: null,
       selectedemployeeid: null,
-      teams: ['engineering', 'marketing'],
+      newTeamName: '',
+      teams: [''],
       team: '',
       job_title: '',
       supervisor: '',
@@ -44,13 +45,35 @@ class EditTeamMember extends React.Component {
     this.handleFileChange = this.handleFileChange.bind(this);
     this.handleRadioSelect = this.handleRadioSelect.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.handleCreateTeam = this.handleCreateTeam.bind(this);
   }
 
+  componentDidMount(){
+    const config = {
+        headers:{            
+            authorization: "Bearer " + sessionStorage.getItem('token')
+        }
+    };
+    axios.get("http://localhost:3000/api/team/getAll",config)
+    .then(
+        (res) => {
+            let teams = res.data.teams;
+            this.setState({
+                teams: teams
+            });
+
+        },
+        (error) => {
+            console.log(error);
+        }
+        )
+  }
   handleSelect(item) {
+
     this.setState({
       selectedemployee: item,
       selectedemployeeid: item._id,
-    //   team: item.team,
+      team: item.team_name,
     //   work_email: item.email,
     //   job_title: item.job_title,
     //   supervisor: item.supervisor,
@@ -90,7 +113,38 @@ class EditTeamMember extends React.Component {
   }
 
   handleRadioSelect(value) {
-    this.setState({ method: value });
+    this.setState({ payment_method: value });
+  }
+
+  handleCreateTeam(){
+    const configpost = {
+        headers:{            
+            authorization: "Bearer " + sessionStorage.getItem('token')
+        }
+    };
+    if(this.state.newTeamName ===''){
+        alert("You could not create a team with empty name!!!")
+        return
+    }
+    const param = {
+        team_name: this.state.newTeamName
+    }
+    let url = "http://localhost:3000/api/team/create"
+    axios.post(url,param,configpost).then((res)=>{
+        console.log(res)
+        if(res.status === 200){
+            alert("Succeeded in Creating a new team!")
+            // this.setState({
+            //     message: this.state.message + fname + "✅",
+            //     encoded_filename: res.data.filename,
+            // })
+        }
+        }
+
+    ).catch((e)=>{
+        console.log(e)
+        console.log("Team Creating failed")
+    })
   }
 
   handleSave(){
@@ -98,19 +152,23 @@ class EditTeamMember extends React.Component {
         method: this.state.method,
         address: this.state.address,
         address2: this.state.address2,
+        supervisor: this.state.supervisor,
         city: this.state.city,
         state: this.state.state,
         zip: this.state.zip,
         rate: this.state.rate,
     }
+    let teamid = this.state.teams.filter(team => team.team_name===this.state.team)[0]._id;
     const param = {
         _id: this.state.selectedemployeeid,
         job_title: this.state.job_title,
+        team: teamid,
         start_date: this.state.start_date,
         email: this.state.work_email,
         phone: this.state.phone,
         payment: temp,
     }
+    console.log(param)
     const configpost = {
         headers:{            
             authorization: "Bearer " + sessionStorage.getItem('token')
@@ -138,8 +196,8 @@ class EditTeamMember extends React.Component {
         <div className='teams_wrapper'>
           {this.state.teams.map(team => (
             <div>
-              <button className='teamName btn' key={team}>
-                {team}
+              <button className='teamName btn' key={team.team_name}>
+                {team.team_name}
               </button>
               <IconButton aria-label='delete' size='small'>
                 <Delete color='primary' fontSize='inherit' />
@@ -147,12 +205,12 @@ class EditTeamMember extends React.Component {
             </div>
           ))}
           <div>
-            <input type='text' placeholder='new team name' />
+            <input type='text' placeholder='new team name' value={this.state.newTeamName} name='newTeamName' onChange={this.handleChange}/>
           </div>
           <div>
             <IconButton aria-label='delete' size='small'>
               {' '}
-              <AddCircle color='primary' fontSize='inherit' />
+              <AddCircle color='primary' fontSize='inherit' onClick={this.handleCreateTeam}/>
             </IconButton>
           </div>
         </div>
@@ -174,12 +232,18 @@ class EditTeamMember extends React.Component {
                     <label>Team</label>
                   </div>
                   <div>
-                    <input
-                      type='text'
-                      value={this.state.team}
-                      onChange={this.handleChange}
-                      name='team'
-                    />
+                    <td>
+                        <select
+                        class='select'
+                        onChange={this.handleChange}
+                        name='team'
+                        value={this.state.team}
+                        >
+                        {this.state.teams.map(team => (
+                            <option value={team.team_name}>{team.team_name}</option>
+                        ))}
+                        </select>
+                    </td>
                   </div>
                 </div>
                 <div className='input'>

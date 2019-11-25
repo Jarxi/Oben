@@ -32,6 +32,10 @@ class PaymentAddress extends React.Component {
         .then(
             (res) => {
                 let user = res.data.user[0];
+                if(typeof user.payment =='undefined'){
+                    return
+                }
+ 
                 this.setState({
                     method: user.payment.method,
                     address: user.payment.address,
