@@ -46,6 +46,8 @@ class EditTeamMember extends React.Component {
     this.handleRadioSelect = this.handleRadioSelect.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleCreateTeam = this.handleCreateTeam.bind(this);
+    this.doContractfileupload = this.doContractfileupload.bind(this);
+    this.dow9fileupload = this.dow9fileupload.bind(this);
   }
 
   componentDidMount(){
@@ -69,24 +71,11 @@ class EditTeamMember extends React.Component {
         )
   }
   handleSelect(item) {
-
+    console.log(this.state.w9_file)
     this.setState({
       selectedemployee: item,
       selectedemployeeid: item._id,
       team: item.team_name,
-    //   work_email: item.email,
-    //   job_title: item.job_title,
-    //   supervisor: item.supervisor,
-    //   start_date: item.start_date,
-    //   phone: item.phone,
-    //   contract_expire_date: item.contract_expiration,
-    //   payment_method: item.payment.method,
-    //   address: item.payment.address,
-    //   address2: item.payment.address2,
-    //   city: item.payment.city,
-    //   state: item.payment.state,
-    //   zip: item.payment.zip,
-    //   rate: item.payment.rate
     });
   }
 
@@ -148,6 +137,7 @@ class EditTeamMember extends React.Component {
   }
 
   handleSave(){
+    console.log(this.state);
     const temp = {
         method: this.state.method,
         address: this.state.address,
@@ -157,6 +147,7 @@ class EditTeamMember extends React.Component {
         state: this.state.state,
         zip: this.state.zip,
         rate: this.state.rate,
+        
     }
     let teamid = this.state.teams.filter(team => team.team_name===this.state.team)[0]._id;
     const param = {
@@ -164,11 +155,13 @@ class EditTeamMember extends React.Component {
         job_title: this.state.job_title,
         team: teamid,
         start_date: this.state.start_date,
-        email: this.state.work_email,
+        work_email: this.state.work_email,
         phone: this.state.phone,
         payment: temp,
+        contract_on_file: this.state.contract_encoded_filename,
+        w9_on_file: this.state.w9_encoded_filename,
     }
-    console.log(param)
+
     const configpost = {
         headers:{            
             authorization: "Bearer " + sessionStorage.getItem('token')
@@ -186,6 +179,66 @@ class EditTeamMember extends React.Component {
         console.log(e)
         console.log("Update Info failed")
     })
+  }
+
+  doContractfileupload(){
+    if (this.state.contract_file != null){
+        const configpost = {
+            headers:{            
+                authorization: "Bearer " + sessionStorage.getItem('token')
+            }
+        };
+        const param = new FormData();
+        param.append('file', this.state.contract_file)
+        let fname = this.state.contract_filename;
+        let url = "http://localhost:3000/api/file/upload"
+        axios.post(url,param,configpost).then((res)=>{
+            console.log(res)
+            if(res.status === 200){
+                alert("Succeeded in Uploading Contract files!")
+                this.setState({
+                    contract_encoded_filename: res.data.filename,
+                },()=>this.dow9fileupload())
+            }
+            }
+
+        ).catch((e)=>{
+            console.log(e)
+            console.log("Upload files failed")
+        })
+    }else{
+        this.dow9fileupload();
+    }
+  }
+
+  dow9fileupload(){
+    if (this.state.w9_file != null){
+        const configpost = {
+            headers:{            
+                authorization: "Bearer " + sessionStorage.getItem('token')
+            }
+        };
+        const param = new FormData();
+        param.append('file', this.state.w9_file)
+        let fname = this.state.w9_filename;
+        let url = "http://localhost:3000/api/file/upload"
+        axios.post(url,param,configpost).then((res)=>{
+            console.log(res)
+            if(res.status === 200){
+                alert("Succeeded in Uploading W9 files!")
+                this.setState({
+                    w9_encoded_filename: res.data.filename,
+                },()=>this.handleSave())
+            }
+            }
+
+        ).catch((e)=>{
+            console.log(e)
+            console.log("Upload files failed")
+        })
+    }else{
+        this.handleSave();
+    }
   }
 
 
@@ -458,7 +511,7 @@ class EditTeamMember extends React.Component {
                     <button
                     type='button'
                     className='btn btn-success inlineButton'
-                    onClick={this.handleSave}
+                    onClick={this.doContractfileupload}
                   >
                     Save
                   </button>

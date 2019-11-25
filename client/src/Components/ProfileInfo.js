@@ -44,12 +44,12 @@ class ProfileInfo extends React.Component {
         axios.get("http://localhost:3000/api/user",config)
         .then(
             (res) => {
-                // console.log(res)
+                console.log(res)
                 let user = res.data.user[0];
                 this.setState({
                     first_name: user.first_name,
                     last_name: user.last_name,
-                    email: user.email,
+                    email: user.working_email,
                     team: user.team,
                     job_title: user.job_title,
                     supervisor: user.supervisor,

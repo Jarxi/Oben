@@ -22,8 +22,7 @@ class ProfilePage extends React.Component {
                     {sessionStorage.getItem('user_type')  === 'contractor'?<PaymentAddress/>:<ProfileSelfInput/>}
                 </div>
                 <div class="RightCol">
-                    {/* <ResetPasswordForm/> */}
-                    <InvoiceInput />
+                    <ResetPasswordForm/>
                 </div>
             </div>
             
