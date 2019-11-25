@@ -180,6 +180,7 @@ class EditTeamMember extends React.Component {
         console.log(res);
         if (res.status === 200) {
           alert('Succeed in updating info');
+          window.location.reload();
         }
       })
       .catch(e => {
