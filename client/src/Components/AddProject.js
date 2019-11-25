@@ -60,12 +60,12 @@ class AddProject extends React.Component {
             <div class = "bootstrap-iso">
                 <form className="FormFields">
                     <div className="FormField">
-                        <label className="FormField__Label">New Project Name</label>
+                        <label className="FormField__Label">Enter Project Name</label>
                         <input type="text" id="projectname" className="FormField__Input" placeholder="Enter the name of new project" 
                                 name="projectname" value={this.state.projectname} onChange={this.handleChange}/>
                     </div>
                     <div className="FormField">
-                        <label className="FormField__Label">The Manager</label>
+                        <label className="FormField__Label">The Manager of this project is</label>
                         <input type="text" id="description" className="FormField__Input" placeholder="Enter the manager name" 
                                 name="description" value={this.state.description} onChange={this.handleChange}/>
                     </div>

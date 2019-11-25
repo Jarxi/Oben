@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 
 import EmployeeList from './EmployeeList';
-
 import '../CSS/EditTeamMember.css';
 import '../CSS/bootstrap/css/bootstrap-iso.css';
 import AddCircle from '@material-ui/icons/Add';
@@ -341,13 +340,17 @@ class EditTeamMember extends React.Component {
           </div>
         </div>
         <div class='employeeList'>
-          <p style={{ color: 'black' }}>Name of Employee</p>
+          <p style={{ color: 'black', textAlign:'center'}}>
+            Name of Employee
+          </p>
           <div class='ListWrapper'>
             <EmployeeList selectCallback={this.handleSelect} />
           </div>
         </div>
         {this.state.selectedemployee == null ? (
-          <div></div>
+          <div className='noSectionBox3'>
+            <div className='banner3'>Select Team Member to Edit</div>
+          </div>
         ) : (
           <form>
             <div id='container'>

@@ -125,7 +125,7 @@ class EditExpenseType extends React.Component {
                         name="newexpensename"/>
             </div>
             <div className="FormField">
-                <label className="FormField__Label">Edit Description</label>
+                <label className="FormField__Label">Edit Description of this Project</label>
                 <input type="text" id="description" className="FormField__Input" value={this.state.newdescription} onChange={this.handleChange}
                         name="newdescription"/>
             </div>
