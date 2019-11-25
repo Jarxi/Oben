@@ -123,7 +123,7 @@ class ResetPasswordForm extends React.Component {
           {button}
           {this.renderRedirect()}
         </form>
-        <div className='error_message'>{this.state.error_message}</div>
+        <span className='error_message'>{this.state.error_message}</span>
       </div>
     );
   }

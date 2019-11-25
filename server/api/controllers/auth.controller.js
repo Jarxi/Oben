@@ -74,10 +74,10 @@ const signIn = async (req, res) => {
       token
     };
 
-    const auth = await Auth.findOneAndUpdate({ user: user }, { $set: newAuth });
-    if (auth === null) {
-      auth = await Auth.create(newAuth);
-    }
+    // const auth = await Auth.findOneAndUpdate({ user: user }, { $set: newAuth });
+    // if (auth === null) {
+    const auth = await Auth.create(newAuth);
+    // }
 
     return res.status(200).json({
       message: `User signed in!`,
