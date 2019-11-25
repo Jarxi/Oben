@@ -26,13 +26,13 @@ class EmployeeList extends React.Component{
                 authorization: "Bearer " + sessionStorage.getItem('token')
             }
         };
-        axios.get("http://localhost:3000/api/user",config)
+        axios.get("http://localhost:3000/api/user/users",config)
         .then(
             (res) => {
-                // console.log(res)
-                let user = res.data.user[0];
+                console.log(res)
+                let user = res.data.users;
                 this.setState({
-                    employeeList: [...this.state.employeeList, user]
+                    employeeList: user
                 });
 
             },
