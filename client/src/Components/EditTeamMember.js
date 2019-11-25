@@ -334,7 +334,7 @@ class EditTeamMember extends React.Component {
           <form>
             <div id='container'>
               <div className='nested'>
-                <div className='title'>{this.state.selectedemployee.last_name + " " + this.state.selectedemployee.first_name +"'s Information"}</div>
+                <div className='title'>{this.state.selectedemployee.first_name + " " + this.state.selectedemployee.last_name +"'s Information"}</div>
                 <div className='input'>
                   <div>
                     <label>Team</label>
