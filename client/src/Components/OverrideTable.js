@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Row, Col, Form } from 'react-bootstrap';
-import SubmissionRow from '../Components/SubmissionRow';
+import OverrideRow from '../Components/OverrideRow';
 import moment from 'moment';
 import axios from 'axios';
 import '../CSS/Home.css';
@@ -24,23 +24,23 @@ class OverrideTable extends React.Component {
 
   valueChangeCallback(projectName, type, submitterId, firstDayofWeek, offsetFromFirstDay, newValue){
     const dateofChange = moment(firstDayofWeek).add(offsetFromFirstDay, 'day').format('YYYY/MM/DD');
-    let { changeInValues } = this.state;
+    let oldValue = [...this.state.changeInValues];
 
     let i;
-    for(i = 0; i < changeInValues.length; ++i){
-        if(changeInValues[i].type === type && changeInValues[i].user === submitterId){
+    for(i = 0; i < oldValue.length; ++i){
+        if(oldValue[i].type === type && oldValue[i].user === submitterId){
             let j;
-            for(j = 0; j < changeInValues[i].input.length; ++j){
+            for(j = 0; j < oldValue[i].input.length; ++j){
                 // override value already exists for the given date and project 
-                if(changeInValues[i].input[j].project_name === projectName && 
-                    changeInValues[i].input[j].date === dateofChange){
-                    changeInValues[i].input[j].amount = newValue;
+                if(oldValue[i].input[j].project_name === projectName && 
+                    oldValue[i].input[j].date === dateofChange){
+                    oldValue[i].input[j].amount = newValue;
                     break;
                 }
             }
             // new date or project override entry
-            if(j === changeInValues[i].input.length){
-                changeInValues[i].input.push({
+            if(j === oldValue[i].input.length){
+                oldValue[i].input.push({
                     project_name: projectName,
                     date: dateofChange,
                     amount: newValue
@@ -49,8 +49,8 @@ class OverrideTable extends React.Component {
             }   
         }
     }
-    if(i === changeInValues.length){
-        changeInValues.push({
+    if(i === oldValue.length){
+        oldValue.push({
             input: [
                 {
                     project_name: projectName,
@@ -62,8 +62,10 @@ class OverrideTable extends React.Component {
             user: submitterId
         })
     }
-
-    console.log(this.state.changeInValues)
+    console.log("NewParam: ", oldValue)
+    this.setState({
+        changeInValues: oldValue 
+    })
   }
 
   override(type){
@@ -96,11 +98,11 @@ class OverrideTable extends React.Component {
                         }, 2000);
                     }else if(type === 'time'){
                         this.setState({
-                            time_message: '✅ Override successful!'
+                            timesheet_message: '✅ Override successful!'
                         })
                         setTimeout(() => {
                             this.setState({
-                                time_message: ''
+                                timesheet_message: ''
                             })
                         }, 2000);
                     }
@@ -223,10 +225,9 @@ class OverrideTable extends React.Component {
                                 </thead>
                                 <tbody>
                                 {input.map((ipt, idx) => (
-                                    <SubmissionRow
+                                    <OverrideRow
                                         ticket_number={idx + 1}
                                         key={idx + 1}
-                                        viewOnly={false}
                                         projectName={ipt.project_name}
                                         weeklyDateAmount={getWeeklyDateAmount(ipt.dateAmount,firstDay)}
                                         onCellChange={this.valueChangeCallback.bind(
@@ -235,8 +236,7 @@ class OverrideTable extends React.Component {
                                             'time',
                                             submitter, // id
                                             firstDay
-                                          )}   
-                                        displayInitialVal={true}                                     
+                                          )}                                       
                                     />
                                 ))}
                                 <tr>
@@ -277,10 +277,9 @@ class OverrideTable extends React.Component {
                                 </thead>
                                 <tbody>
                                   {input.map((ipt, idx) => (
-                                    <SubmissionRow
+                                    <OverrideRow
                                       ticket_number={idx + 1}
                                       key={idx + 1}
-                                      viewOnly={false}
                                       projectName={ipt.project_name}
                                       weeklyDateAmount={getWeeklyDateAmount(ipt.dateAmount,firstDay)}
                                       onCellChange={this.valueChangeCallback.bind(
