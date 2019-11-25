@@ -52,6 +52,11 @@
   padding: 5px;
   height: 400px;
   overflow-y: scroll;
+  position: absolute;
+}
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
 }
 .ButtonWrapper {
   width: 10%;
@@ -66,6 +71,7 @@
   margin-right: 3%;
   border: 5px solid rgba(101, 107, 195, 0.5);
   float: left;
+  position: relative;
 }
 
 .ListTitle {
