@@ -119,7 +119,7 @@ const resetPassword = async (req, res) => {
 
     const decrypted = await decryptPassword(user_data.password, user.password);
     if (!decrypted.password) {
-      return sendErr(res, '', 'Email and Password do not match');
+      return sendErr(res, "Email and Password don't match", 'Email and Password do not match');
     }
 
     const update = await User.findOneAndUpdate(
@@ -134,7 +134,7 @@ const resetPassword = async (req, res) => {
     );
 
     if (!update) {
-      sendErr(res, '', 'Some error occurred tryint to update password');
+      sendErr(res, '', 'Failed to connect to data server');
     }
     const auth = await Auth.findOneAndUpdate(
       { user: user._id },
@@ -147,7 +147,7 @@ const resetPassword = async (req, res) => {
     );
 
     return res.status(200).json({
-      message: `Password Resetted!`,
+      message: `Password reset!`,
       user
     });
   } catch (err) {

@@ -182,11 +182,17 @@ const getSubmissions = async (req, res) => {
         message: "Submissions found. " + user + " " + startDate + " " + endDate,
         selectedSubmissions
       });
-    } else {
+    } else if (submissions) {
+        res.setHeader('Cache-Control','private, no-cache, no-store, must-revalidate');
       return res.status(200).json({
         message: "Submissions found.",
         submissions
       });
+    } else {
+
+        return res.status(500).json({
+            message: "No submissions found.",
+        });
     }
   } catch (err){
     return sendErr(res, err);
