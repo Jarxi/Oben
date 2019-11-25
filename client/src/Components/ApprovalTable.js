@@ -205,9 +205,6 @@ class ApprovalTable extends React.Component {
                 {status === 'pending' && this.props.page !== 'submission' && actionRow}
                 {status === 'accepted' && approvedBanner}
                 {status == 'returned' && returnedBanner}
-                <div className='error_message'>
-                  <p> {this.state.timesheet_error}</p>
-                </div>
               </div>
             </div>
           )}
@@ -271,9 +268,6 @@ class ApprovalTable extends React.Component {
                 {status === 'pending' && this.props.page !== 'submission' && actionRow}
                 {status === 'accepted' && approvedBanner}
                 {status == 'returned' && returnedBanner}
-                <div className='error_message'>
-                  <p>{this.state.expense_error}</p>
-                </div>
               </div>
             </div>
           )}
@@ -352,9 +346,6 @@ class ApprovalTable extends React.Component {
                   </div>
                 </form>
                 {actionRow}
-                <div className='error_message'>
-                  <p>{this.state.expense_error}</p>
-                </div>
               </div>
             </div>
           )}
