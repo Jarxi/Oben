@@ -9,7 +9,8 @@ class ResetPasswordForm extends React.Component {
       email: '',
       oldPassword: '',
       newPassword: '',
-      success: false
+      success: false,
+      error_message: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,6 +36,7 @@ class ResetPasswordForm extends React.Component {
     axios
       .post(url, params)
       .then(res => {
+        console.log(res);
         if (res.status === 200) {
           this.setState({
             success: true
@@ -45,7 +47,10 @@ class ResetPasswordForm extends React.Component {
         }
       })
       .catch(err => {
-        console.log(err);
+        if (err.response !== undefined) {
+          this.setState({ error_message: err.response.data.message });
+          setTimeout(() => this.setState({ error_message: '' }), 5000);
+        }
       });
   }
 
@@ -105,6 +110,7 @@ class ResetPasswordForm extends React.Component {
         </div>
 
         {button}
+        <div className='error_message'>{this.state.error_message}</div>
       </form>
     );
   }

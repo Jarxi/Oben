@@ -114,12 +114,14 @@ const resetPassword = async (req, res) => {
     });
 
     if (!user) {
-      return sendErr(res, 'Email does not exist');
+      return res.status(400).json({ message: 'Email does not exist' });
     }
 
     const decrypted = await decryptPassword(user_data.password, user.password);
     if (!decrypted.password) {
-      return sendErr(res, '', 'Email and Password do not match');
+      return res
+        .status(400)
+        .json({ message: 'password and email do not match' });
     }
 
     const update = await User.findOneAndUpdate(
@@ -134,7 +136,9 @@ const resetPassword = async (req, res) => {
     );
 
     if (!update) {
-      sendErr(res, '', 'Some error occurred tryint to update password');
+      return res
+        .status(400)
+        .json({ message: 'Some error occurred tryint to update password' });
     }
     const auth = await Auth.findOneAndUpdate(
       { user: user._id },
@@ -152,8 +156,7 @@ const resetPassword = async (req, res) => {
     });
   } catch (err) {
     console.log(err.message);
-
-    return sendErr(res, '', err.message);
+    return res.status(500).json({ message: 'Server Error' });
   }
 };
 

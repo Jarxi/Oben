@@ -53,3 +53,9 @@
 .Banner {
   color: red;
 }
+
+.error_message {
+  color: darkred;
+  width: inherit;
+  margin: 10%;
+}

@@ -7,7 +7,7 @@
 
 .RightCol {
   width: 48%;
-  height: 300px;
+  min-height: 300px;
   border: 5px solid rgba(101, 107, 195, 0.5);
   float: right;
   margin-right: 10px;
