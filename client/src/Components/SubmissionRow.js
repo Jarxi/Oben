@@ -10,10 +10,16 @@ class SubmissionRow extends React.Component {
       projectList: []
     };
     this.handleChange = this.handleChange.bind(this);
+    
   }
 
   handleChange(col, event) {
     this.props.onCellChange(col, event.target.value);
+    const newAmount = this.state.initialDateAmount;
+    newAmount[col] = event.target.value;
+    this.setState({
+      initialDateAmount: newAmount
+    })
   }
 
   static getDerivedStateFromProps(props, state){
@@ -49,7 +55,7 @@ class SubmissionRow extends React.Component {
   }
 
   render() {
-    const { ticket_number } = this.props;
+    const { ticket_number,  } = this.props;
     const projectSelect = this.state.projectSubmittedByUser ?
           (<td>{this.state.projectSubmittedByUser}</td>) :
           (<td>
@@ -69,8 +75,9 @@ class SubmissionRow extends React.Component {
         <td>
           <input
             onBlur={this.handleChange.bind(this, i)}
+            onChange={this.handleChange.bind(this,i)}
             disabled={this.state.viewOnly}
-            value={this.state.viewOnly && this.state.initialDateAmount[i]}
+            value={(this.state.viewOnly || this.props.displayInitialVal) && this.state.initialDateAmount[i]}
           ></input>
         </td>
       )
