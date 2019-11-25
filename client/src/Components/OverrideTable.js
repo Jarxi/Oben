@@ -194,7 +194,7 @@ class OverrideTable extends React.Component {
     return (
         <div class='right_content'>
             {
-                submissions.length === 0 && <h1 style={{color:'black'}}>No submission found</h1>
+                submissions.length === 0 && <h1 style={{color:'black'}}>Select Week And Team Member to Override</h1>
             }
             {
                 submissions.length !== 0 && submissions.map(function(submission){

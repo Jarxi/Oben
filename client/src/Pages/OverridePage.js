@@ -17,7 +17,7 @@ class OverridePage extends React.Component {
       userList:[],
       selectedUserName:''
     };
-    this.userSelect = this.userSelect.bind(this);
+    this.getSubmissionBySelectedUser = this.getSubmissionBySelectedUser.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
   }
 
@@ -44,8 +44,9 @@ class OverridePage extends React.Component {
             )
   }
 
-  userSelect(){
-    const res = this.state.allSubmissions.filter(submission => submission.submitter_name === "Good User")
+  getSubmissionBySelectedUser(){
+    alert(this.state.selectedUserName)
+    const res = this.state.allSubmissions.filter(submission => submission.submitter_name === this.state.selectedUserName)
     this.setState({
       currUserSubmissions: [...res]
     })
@@ -54,7 +55,7 @@ class OverridePage extends React.Component {
   handleSelect(e){
     this.setState({
         selectedUserName: e.target.value
-    })
+    },()=>this.getSubmissionBySelectedUser())
   }
 
   fetchSubmissions(){
@@ -87,7 +88,6 @@ class OverridePage extends React.Component {
                   {this.state.userList.map(user => <option value={user.first_name + " " + user.last_name}>{user.first_name + " " + user.last_name}</option>)}
                 </select>
         </div>
-        <button onClick={this.userSelect}>select good user</button>
         <div class='datePick'>
           <DatePicker
             inline={true}
