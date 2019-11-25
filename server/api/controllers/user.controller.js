@@ -80,8 +80,8 @@ const updateUserInfoById = async (req, res) => {
       sendErr(res, '', 'Some error occurred trying to update user info');
     }
 
-    if (req.body.team !== null && req.body.team !== undefined) {
-      const team = await Team.findOne({ _id: req.body.team });
+    if (user.team !== null && user.team !== undefined) {
+      const team = await Team.findOne({ _id: user.team });
       if (team !== null) {
         user.team = team.team_name;
       }
