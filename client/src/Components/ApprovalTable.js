@@ -10,13 +10,7 @@ import '../CSS/bootstrap/css/bootstrap-iso.css';
 class ApprovalTable extends React.Component {
   constructor(props) {
     super(props);
-    // this.ticket_numbers = [1, 2];
     this.returnMessage = React.createRef();
-    this.state = {
-      timesheet_ticket_numbers: [1],
-      expense_ticket_numbers: [1],
-      firstDay: moment()
-    };
 
     this.getWeeklyDateAmount = this.getWeeklyDateAmount.bind(this);
     this.getTotalAmount = this.getTotalAmount.bind(this);
