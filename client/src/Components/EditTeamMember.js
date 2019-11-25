@@ -50,25 +50,23 @@ class EditTeamMember extends React.Component {
     this.dow9fileupload = this.dow9fileupload.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const config = {
-        headers:{            
-            authorization: "Bearer " + sessionStorage.getItem('token')
-        }
+      headers: {
+        authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
     };
-    axios.get("http://localhost:3000/api/team/getAll",config)
-    .then(
-        (res) => {
-            let teams = res.data.teams;
-            this.setState({
-                teams: teams
-            });
-
-        },
-        (error) => {
-            console.log(error);
-        }
-        )
+    axios.get('http://localhost:3000/api/team/getAll', config).then(
+      res => {
+        let teams = res.data.teams;
+        this.setState({
+          teams: teams
+        });
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
   handleSelect(item) {
     console.log(this.state.w9_file)
@@ -105,35 +103,36 @@ class EditTeamMember extends React.Component {
     this.setState({ payment_method: value });
   }
 
-  handleCreateTeam(){
+  handleCreateTeam() {
     const configpost = {
-        headers:{            
-            authorization: "Bearer " + sessionStorage.getItem('token')
-        }
+      headers: {
+        authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
     };
-    if(this.state.newTeamName ===''){
-        alert("You could not create a team with empty name!!!")
-        return
+    if (this.state.newTeamName === '') {
+      alert('You could not create a team with empty name!!!');
+      return;
     }
     const param = {
-        team_name: this.state.newTeamName
-    }
-    let url = "http://localhost:3000/api/team/create"
-    axios.post(url,param,configpost).then((res)=>{
-        console.log(res)
-        if(res.status === 200){
-            alert("Succeeded in Creating a new team!")
-            // this.setState({
-            //     message: this.state.message + fname + "✅",
-            //     encoded_filename: res.data.filename,
-            // })
+      team_name: this.state.newTeamName
+    };
+    let url = 'http://localhost:3000/api/team/create';
+    axios
+      .post(url, param, configpost)
+      .then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          alert('Succeeded in Creating a new team!');
+          // this.setState({
+          //     message: this.state.message + fname + "✅",
+          //     encoded_filename: res.data.filename,
+          // })
         }
-        }
-
-    ).catch((e)=>{
-        console.log(e)
-        console.log("Team Creating failed")
-    })
+      })
+      .catch(e => {
+        console.log(e);
+        console.log('Team Creating failed');
+      });
   }
 
   handleSave(){
@@ -163,22 +162,23 @@ class EditTeamMember extends React.Component {
     }
 
     const configpost = {
-        headers:{            
-            authorization: "Bearer " + sessionStorage.getItem('token')
-        }
+      headers: {
+        authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
     };
-    const url = "http://localhost:3000/api/user/userInfoById";
-    axios.put(url,param,configpost).then((res)=>{
-        console.log(res)
-        if(res.status === 200){
-            alert("Succeed in updating info")
+    const url = 'http://localhost:3000/api/user/userInfoById';
+    axios
+      .put(url, param, configpost)
+      .then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          alert('Succeed in updating info');
         }
-        }
-
-    ).catch((e)=>{
-        console.log(e)
-        console.log("Update Info failed")
-    })
+      })
+      .catch(e => {
+        console.log(e);
+        console.log('Update Info failed');
+      });
   }
 
   doContractfileupload(){
@@ -258,17 +258,27 @@ class EditTeamMember extends React.Component {
             </div>
           ))}
           <div>
-            <input type='text' placeholder='new team name' value={this.state.newTeamName} name='newTeamName' onChange={this.handleChange}/>
+            <input
+              type='text'
+              placeholder='new team name'
+              value={this.state.newTeamName}
+              name='newTeamName'
+              onChange={this.handleChange}
+            />
           </div>
           <div>
             <IconButton aria-label='delete' size='small'>
               {' '}
-              <AddCircle color='primary' fontSize='inherit' onClick={this.handleCreateTeam}/>
+              <AddCircle
+                color='primary'
+                fontSize='inherit'
+                onClick={this.handleCreateTeam}
+              />
             </IconButton>
           </div>
         </div>
         <div class='employeeList'>
-          <p class='ListTitle'>Name of Employee</p>
+          <p style={{ color: 'black' }}>Name of Employee</p>
           <div class='ListWrapper'>
             <EmployeeList selectCallback={this.handleSelect} />
           </div>
@@ -286,16 +296,18 @@ class EditTeamMember extends React.Component {
                   </div>
                   <div>
                     <td>
-                        <select
+                      <select
                         class='select'
                         onChange={this.handleChange}
                         name='team'
                         value={this.state.team}
-                        >
+                      >
                         {this.state.teams.map(team => (
-                            <option value={team.team_name}>{team.team_name}</option>
+                          <option value={team.team_name}>
+                            {team.team_name}
+                          </option>
                         ))}
-                        </select>
+                      </select>
                     </td>
                   </div>
                 </div>
@@ -507,7 +519,7 @@ class EditTeamMember extends React.Component {
               </div>
               <div className='single_box' style={{ background: '#eee' }}>
                 <div className='form-group' style={{ witdh: 'inherit' }}>
-                    <div className='bootstrap-iso'>
+                  <div className='bootstrap-iso'>
                     <button
                     type='button'
                     className='btn btn-success inlineButton'

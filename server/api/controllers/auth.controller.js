@@ -27,6 +27,7 @@ const signUp = async (req, res) => {
     user_data.employee_id = employee_id.count;
     const user = await User.create(user_data);
     await increment({ counter_category: 'employee_id' });
+    send(req);
     return res.status(200).json({
       message: 'user created!',
       user
@@ -151,6 +152,7 @@ const resetPassword = async (req, res) => {
     });
   } catch (err) {
     console.log(err.message);
+
     return sendErr(res, '', err.message);
   }
 };

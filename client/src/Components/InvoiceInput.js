@@ -139,43 +139,50 @@ class InvoiceInput extends React.Component {
         <p className='title'>Invoice Input</p>
         <div className='submissionSection bootstrap-iso'>
           <form className='form-inline'>
-            <div className='form-group row col-sm-6'>
-              <label htmlFor='month' className='col-sm-3 col-form-label '>
-                Month
-              </label>
-              <div className='col-sm-3'>
-                <input
-                  type='text'
-                  className='form-control small-input'
-                  id='month'
-                  onChange={this.handleChange}
-                  name='month'
-                  value={this.state.month}
-                />
+            <div className='header align'>
+              <div>
+                <div>
+                  <label htmlFor='month' className='small_label form-label '>
+                    Month
+                  </label>
+                  <input
+                    type='text'
+                    className='form-control small-input '
+                    id='month'
+                    onChange={this.handleChange}
+                    name='month'
+                    value={this.state.month}
+                  />
+                </div>
+              </div>
+              <div>
+                <div className='form-group'>
+                  <label
+                    htmlFor='invoice_no'
+                    className='small_label form-label'
+                  >
+                    Invoice Number
+                  </label>
+                  <input
+                    type='text'
+                    className='form-control small-input'
+                    id='invoice_no'
+                    onChange={this.handleChange}
+                    name='invoice_no'
+                    value={this.state.invoice_no}
+                  />
+                </div>
               </div>
             </div>
-            <div className='form-group row col-sm-6'>
-              <label htmlFor='invoice_no' className='col-sm-4 col-form-label'>
-                Invoice Number
-              </label>
-              <div className='col-sm-2'>
-                <input
-                  type='text'
-                  className='form-control small-input'
-                  id='invoice_no'
-                  onChange={this.handleChange}
-                  name='invoice_no'
-                  value={this.state.invoice_no}
-                />
+            <div className='header align'>
+              <div>
+                <label htmlFor='total_days' className='form-label'>
+                  Total Days in the invoice:
+                </label>
               </div>
-            </div>
-            <div className='form-group row'>
-              <label htmlFor='total_days' className='col-sm-6 col-form-label'>
-                Total Days in the invoice:
-              </label>
               <input
                 type='text'
-                className='form-control col-sm-6'
+                className='form-control'
                 id='total_dyas'
                 onChange={this.handleChange}
                 name='total_days'
@@ -183,13 +190,15 @@ class InvoiceInput extends React.Component {
               />
             </div>
 
-            <div className='form-group row'>
-              <label htmlFor='total_amount' className='col-sm-6 col-form-label'>
-                Total Amount Submitted:
-              </label>
+            <div className='header align'>
+              <div>
+                <label htmlFor='total_amount' className='form-label'>
+                  Total Amount Submitted:
+                </label>
+              </div>
               <input
                 type='text'
-                className='form-control col-sm-6'
+                className='form-control'
                 id='total_amount'
                 onChange={this.handleChange}
                 name='total_amount'
@@ -197,30 +206,34 @@ class InvoiceInput extends React.Component {
               />
             </div>
 
-            <div className='form-group row'>
-              <label htmlFor='service' className='col-sm-6 col-form-label'>
-                Nature of Services Provided:
-              </label>
+            <div className='header align'>
+              <div>
+                <label htmlFor='service' className='form-label'>
+                  Nature of Services Provided:
+                </label>
+              </div>
               <input
                 type='text'
-                className='form-control col-sm-6'
+                className='form-control '
                 id='service'
                 onChange={this.handleChange}
                 name='service'
                 value={this.state.service}
               />
             </div>
-            <div className='line'>
-              <div className='form-group row'>
-                <label htmlFor='fileInput' className='col-sm-6 col-form-label'>
-                  Attach Your Detail:
-                </label>
+            <div className='header align'>
+              <div>
+                <label htmlFor='fileInput'>Attach Your Detail:</label>
+              </div>
+              <div>
                 <input
                   type='file'
-                  className='form-control col-sm-6'
+                  className='form-control'
                   name='fileInput'
                   onChange={this.handleFileChange}
                 />
+              </div>
+              <div>
                 <button
                   type='button'
                   class='btn btn-info'
@@ -232,18 +245,19 @@ class InvoiceInput extends React.Component {
             </div>
           </form>
 
-          <div className='submit_button'>
-            <button
-              type='button'
-              class='btn btn-success'
-              onClick={this.handleInvoiceSubmit}
-            >
-              Submit
-            </button>
-          </div>
-
-          <div className='error_message'>
-            <a onClick={this.handleDownload}> {this.state.message}</a>
+          <div className='header align'>
+            <div className='error_message'>
+              <a onClick={this.handleDownload}> {this.state.message}</a>
+            </div>
+            <div>
+              <button
+                type='button'
+                class='btn btn-success'
+                onClick={this.handleInvoiceSubmit}
+              >
+                Submit
+              </button>
+            </div>
           </div>
         </div>
       </div>
