@@ -48,45 +48,42 @@ class EditTeamMember extends React.Component {
     this.handleCreateTeam = this.handleCreateTeam.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const config = {
-        headers:{            
-            authorization: "Bearer " + sessionStorage.getItem('token')
-        }
+      headers: {
+        authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
     };
-    axios.get("http://localhost:3000/api/team/getAll",config)
-    .then(
-        (res) => {
-            let teams = res.data.teams;
-            this.setState({
-                teams: teams
-            });
-
-        },
-        (error) => {
-            console.log(error);
-        }
-        )
+    axios.get('http://localhost:3000/api/team/getAll', config).then(
+      res => {
+        let teams = res.data.teams;
+        this.setState({
+          teams: teams
+        });
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
   handleSelect(item) {
-
     this.setState({
       selectedemployee: item,
       selectedemployeeid: item._id,
-      team: item.team_name,
-    //   work_email: item.email,
-    //   job_title: item.job_title,
-    //   supervisor: item.supervisor,
-    //   start_date: item.start_date,
-    //   phone: item.phone,
-    //   contract_expire_date: item.contract_expiration,
-    //   payment_method: item.payment.method,
-    //   address: item.payment.address,
-    //   address2: item.payment.address2,
-    //   city: item.payment.city,
-    //   state: item.payment.state,
-    //   zip: item.payment.zip,
-    //   rate: item.payment.rate
+      team: item.team_name
+      //   work_email: item.email,
+      //   job_title: item.job_title,
+      //   supervisor: item.supervisor,
+      //   start_date: item.start_date,
+      //   phone: item.phone,
+      //   contract_expire_date: item.contract_expiration,
+      //   payment_method: item.payment.method,
+      //   address: item.payment.address,
+      //   address2: item.payment.address2,
+      //   city: item.payment.city,
+      //   state: item.payment.state,
+      //   zip: item.payment.zip,
+      //   rate: item.payment.rate
     });
   }
 
@@ -116,78 +113,81 @@ class EditTeamMember extends React.Component {
     this.setState({ payment_method: value });
   }
 
-  handleCreateTeam(){
+  handleCreateTeam() {
     const configpost = {
-        headers:{            
-            authorization: "Bearer " + sessionStorage.getItem('token')
-        }
+      headers: {
+        authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
     };
-    if(this.state.newTeamName ===''){
-        alert("You could not create a team with empty name!!!")
-        return
+    if (this.state.newTeamName === '') {
+      alert('You could not create a team with empty name!!!');
+      return;
     }
     const param = {
-        team_name: this.state.newTeamName
-    }
-    let url = "http://localhost:3000/api/team/create"
-    axios.post(url,param,configpost).then((res)=>{
-        console.log(res)
-        if(res.status === 200){
-            alert("Succeeded in Creating a new team!")
-            // this.setState({
-            //     message: this.state.message + fname + "✅",
-            //     encoded_filename: res.data.filename,
-            // })
+      team_name: this.state.newTeamName
+    };
+    let url = 'http://localhost:3000/api/team/create';
+    axios
+      .post(url, param, configpost)
+      .then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          alert('Succeeded in Creating a new team!');
+          // this.setState({
+          //     message: this.state.message + fname + "✅",
+          //     encoded_filename: res.data.filename,
+          // })
         }
-        }
-
-    ).catch((e)=>{
-        console.log(e)
-        console.log("Team Creating failed")
-    })
+      })
+      .catch(e => {
+        console.log(e);
+        console.log('Team Creating failed');
+      });
   }
 
-  handleSave(){
+  handleSave() {
     const temp = {
-        method: this.state.method,
-        address: this.state.address,
-        address2: this.state.address2,
-        supervisor: this.state.supervisor,
-        city: this.state.city,
-        state: this.state.state,
-        zip: this.state.zip,
-        rate: this.state.rate,
-    }
-    let teamid = this.state.teams.filter(team => team.team_name===this.state.team)[0]._id;
-    const param = {
-        _id: this.state.selectedemployeeid,
-        job_title: this.state.job_title,
-        team: teamid,
-        start_date: this.state.start_date,
-        email: this.state.work_email,
-        phone: this.state.phone,
-        payment: temp,
-    }
-    console.log(param)
-    const configpost = {
-        headers:{            
-            authorization: "Bearer " + sessionStorage.getItem('token')
-        }
+      method: this.state.method,
+      address: this.state.address,
+      address2: this.state.address2,
+      supervisor: this.state.supervisor,
+      city: this.state.city,
+      state: this.state.state,
+      zip: this.state.zip,
+      rate: this.state.rate
     };
-    const url = "http://localhost:3000/api/user/userInfoById";
-    axios.put(url,param,configpost).then((res)=>{
-        console.log(res)
-        if(res.status === 200){
-            alert("Succeed in updating info")
+    let teamid = this.state.teams.filter(
+      team => team.team_name === this.state.team
+    )[0]._id;
+    const param = {
+      _id: this.state.selectedemployeeid,
+      job_title: this.state.job_title,
+      team: teamid,
+      start_date: this.state.start_date,
+      email: this.state.work_email,
+      phone: this.state.phone,
+      payment: temp
+    };
+    console.log(param);
+    const configpost = {
+      headers: {
+        authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    };
+    const url = 'http://localhost:3000/api/user/userInfoById';
+    axios
+      .put(url, param, configpost)
+      .then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          alert('Succeed in updating info');
         }
-        }
-
-    ).catch((e)=>{
-        console.log(e)
-        console.log("Update Info failed")
-    })
+      })
+      .catch(e => {
+        console.log(e);
+        console.log('Update Info failed');
+      });
   }
-
 
   render() {
     return (
@@ -205,17 +205,27 @@ class EditTeamMember extends React.Component {
             </div>
           ))}
           <div>
-            <input type='text' placeholder='new team name' value={this.state.newTeamName} name='newTeamName' onChange={this.handleChange}/>
+            <input
+              type='text'
+              placeholder='new team name'
+              value={this.state.newTeamName}
+              name='newTeamName'
+              onChange={this.handleChange}
+            />
           </div>
           <div>
             <IconButton aria-label='delete' size='small'>
               {' '}
-              <AddCircle color='primary' fontSize='inherit' onClick={this.handleCreateTeam}/>
+              <AddCircle
+                color='primary'
+                fontSize='inherit'
+                onClick={this.handleCreateTeam}
+              />
             </IconButton>
           </div>
         </div>
         <div class='employeeList'>
-          <p class='ListTitle'>Name of Employee</p>
+          <p style={{ color: 'black' }}>Name of Employee</p>
           <div class='ListWrapper'>
             <EmployeeList selectCallback={this.handleSelect} />
           </div>
@@ -233,16 +243,18 @@ class EditTeamMember extends React.Component {
                   </div>
                   <div>
                     <td>
-                        <select
+                      <select
                         class='select'
                         onChange={this.handleChange}
                         name='team'
                         value={this.state.team}
-                        >
+                      >
                         {this.state.teams.map(team => (
-                            <option value={team.team_name}>{team.team_name}</option>
+                          <option value={team.team_name}>
+                            {team.team_name}
+                          </option>
                         ))}
-                        </select>
+                      </select>
                     </td>
                   </div>
                 </div>
@@ -454,16 +466,15 @@ class EditTeamMember extends React.Component {
               </div>
               <div className='single_box' style={{ background: '#eee' }}>
                 <div className='form-group' style={{ witdh: 'inherit' }}>
-                    <div className='bootstrap-iso'>
+                  <div className='bootstrap-iso'>
                     <button
-                    type='button'
-                    className='btn btn-success inlineButton'
-                    onClick={this.handleSave}
-                  >
-                    Save
-                  </button>
-                    </div>
-                 
+                      type='button'
+                      className='btn btn-success inlineButton'
+                      onClick={this.handleSave}
+                    >
+                      Save
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
