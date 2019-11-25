@@ -141,7 +141,6 @@ class EditTeamMember extends React.Component {
         method: this.state.method,
         address: this.state.address,
         address2: this.state.address2,
-        supervisor: this.state.supervisor,
         city: this.state.city,
         state: this.state.state,
         zip: this.state.zip,
@@ -158,7 +157,9 @@ class EditTeamMember extends React.Component {
         phone: this.state.phone,
         payment: temp,
         contract_on_file: this.state.contract_encoded_filename,
-        w9_on_file: this.state.w9_encoded_filename,
+        w9: this.state.w9_encoded_filename,
+        supervisor: this.state.supervisor,
+        contract_expiration : this.contract_expire_date,
     }
 
     const configpost = {

@@ -49,7 +49,7 @@ class ProfileInfo extends React.Component {
                 this.setState({
                     first_name: user.first_name,
                     last_name: user.last_name,
-                    email: user.working_email,
+                    email: user.work_email,
                     team: user.team,
                     job_title: user.job_title,
                     supervisor: user.supervisor,
