@@ -147,7 +147,10 @@ class EditTeamMember extends React.Component {
         rate: this.state.rate,
         
     }
-    let teamid = this.state.teams.filter(team => team.team_name===this.state.team)[0]._id;
+    let teamid = null;
+    if(this.state.teams.filter(team => team.team_name===this.state.team).length ===1){
+        teamid = this.state.teams.filter(team => team.team_name===this.state.team)[0]._id;
+    }
     const param = {
         _id: this.state.selectedemployeeid,
         job_title: this.state.job_title,
