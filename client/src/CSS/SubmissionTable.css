@@ -28,6 +28,34 @@ td.date {
   clear: both;
 }
 
+.noSectionBox {
+  border: 3px solid #d0d2ec;
+  width: 280%;
+  height: 150%;
+  text-align: center;
+  margin-top: 6%;
+}
+
+.banner {
+  color: #4651af;
+  margin-top: 30%;
+  margin-bottom: 10%;
+}
+
+.noSectionBox2 {
+  border: 3px solid #d0d2ec;
+  width: 280%;
+  height: 200%;
+  text-align: center;
+  margin-top: 5%;
+}
+
+.banner2 {
+  color: #4651af;
+  margin-top: 35%;
+  margin-bottom: 35%;
+}
+
 .submit_button {
   margin-top: 20px;
   margin-bottom: 20px;

@@ -22,7 +22,7 @@ class OverrideTable extends React.Component {
     this.actionRow = this.actionRow.bind(this)
   }
 
-  valueChangeCallback(projectName, type, submitterId, firstDayofWeek, offsetFromFirstDay, newValue){
+  valueChangeCallback(projectName, type, submitterId, firstDayofWeek, ticketId, offsetFromFirstDay, newValue){
     const dateofChange = moment(firstDayofWeek).add(offsetFromFirstDay, 'day').format('YYYY/MM/DD');
     let oldValue = [...this.state.changeInValues];
 
@@ -62,7 +62,7 @@ class OverrideTable extends React.Component {
             user: submitterId
         })
     }
-    console.log("NewParam: ", oldValue)
+
     this.setState({
         changeInValues: oldValue 
     })
@@ -119,8 +119,8 @@ class OverrideTable extends React.Component {
 
   actionRow(type) {
     return (
-         <div className='return_message'>
-             <div>
+         <div>
+             <span>
              <button
                  type='button'
                  className='btn btn-success col'
@@ -128,8 +128,8 @@ class OverrideTable extends React.Component {
              >
                  Override
              </button>
-             </div>
-             <div className='error_message'>
+             </span>
+             <span className='error_message'>
              {
                  type === "time" && 
                  <p> {this.state.timesheet_message}</p>
@@ -138,14 +138,14 @@ class OverrideTable extends React.Component {
                  type === "expense" &&
                  <p> {this.state.expense_message}</p>
              }
-             </div>
+             </span>
          </div>)
  };
   
 
   render() {
     let submissions = this.props.submissions;
-    console.log("In table: ",  submissions);
+    
     function getWeeklyDateAmount(submittedDateAmount, firstDayofWeek) {
         let weeklyDateAmount = [0, 0, 0, 0, 0, 0, 0];
         submittedDateAmount.forEach(entry => {
@@ -191,10 +191,17 @@ class OverrideTable extends React.Component {
         )
     };
 
+    const noSelection = (
+        
+        <div className='noSectionBox'>
+            <div className='banner'>Select Week And Team Member to Override</div>
+        </div>
+    );
+
     return (
         <div class='right_content'>
             {
-                submissions.length === 0 && <h1 style={{color:'black'}}>Select Week And Team Member to Override</h1>
+                submissions.length === 0 && noSelection
             }
             {
                 submissions.length !== 0 && submissions.map(function(submission){
@@ -235,11 +242,12 @@ class OverrideTable extends React.Component {
                                             ipt.project_name, 
                                             'time',
                                             submitter, // id
-                                            firstDay
+                                            firstDay,
+                                            _id
                                           )}                                       
                                     />
                                 ))}
-                                <tr>
+                                {/* <tr>
                                     <td></td>
                                     <td>Total Hour</td>
                                     <td>{total_amount[0]}</td>
@@ -249,7 +257,7 @@ class OverrideTable extends React.Component {
                                     <td>{total_amount[4]}</td>
                                     <td>{total_amount[5]}</td>
                                     <td>{total_amount[6]}</td>
-                                </tr>
+                                </tr> */}
                                 </tbody>
                             </Table>
                             {status === 'pending' && this.actionRow('time')}
@@ -291,7 +299,7 @@ class OverrideTable extends React.Component {
                                         )}
                                     />
                                   ))}
-                                  <tr>
+                                  {/* <tr>
                                     <td></td>
                                     <td>Total Expense</td>
                                     <td>
@@ -315,7 +323,7 @@ class OverrideTable extends React.Component {
                                     <td>
                                       {total_amount[6] == 0 ? '' : `$${total_amount[6]}`}
                                     </td>
-                                  </tr>
+                                  </tr> */}
                                 </tbody>
                               </Table>
                               {status === 'pending' && this.actionRow('expense')}
