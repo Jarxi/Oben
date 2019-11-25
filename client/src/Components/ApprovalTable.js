@@ -156,201 +156,207 @@ class ApprovalTable extends React.Component {
       </div>
     );
 
+    const noSelection = (
+      <div className='noSectionBox2'>
+          <div className='banner2'>Select Submission to Approve or Return</div>
+      </div>
+    );
+
     return (
-      this.props.selectedSubmission !== 'noselection' && (
-        <div class='right_content'>
-          {tableType === 'time' && (
-            <div className='outer_box'>
-              <span style={{ color: '#4651af' }}>
-                {this.props.page === 'submission' ? `Your Submission on ${moment().format('MMMM DD, YYYY')}`
-                :'Time Sheet Approval'
-                }
-              </span>
+          this.props.selectedSubmission !== 'noselection' ? (
+            <div class='right_content'>
+            {tableType === 'time' && (
+              <div className='outer_box'>
+                <span style={{ color: '#4651af' }}>
+                  {this.props.page === 'submission' ? `Your Submission on ${moment().format('MMMM DD, YYYY')}`
+                  :'Time Sheet Approval'
+                  }
+                </span>
 
-              <div class='submissionSection bootstrap-iso'>
-                <Table bordered>
-                  <thead>
-                    <tr>
-                      <td className='information'>Ticket ID</td>
-                      <td className='information'>Project</td>
-                      {allDays}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {input.map((ipt, idx) => (
-                      <SubmissionRow
-                        ticket_number={idx + 1}
-                        key={idx + 1}
-                        viewOnly={true}
-                        projectName={ipt.project_name}
-                        weeklyDateAmount={this.getWeeklyDateAmount(
-                          ipt.dateAmount,
-                          firstDay
-                        )}
-                      />
-                    ))}
-                    <tr>
-                      <td></td>
-                      <td>Total Hour</td>
-                      <td>{total_amount[0]}</td>
-                      <td>{total_amount[1]}</td>
-                      <td>{total_amount[2]}</td>
-                      <td>{total_amount[3]}</td>
-                      <td>{total_amount[4]}</td>
-                      <td>{total_amount[5]}</td>
-                      <td>{total_amount[6]}</td>
-                    </tr>
-                  </tbody>
-                </Table>
-                {status === 'pending' && this.props.page !== 'submission' && actionRow}
-                {status === 'accepted' && approvedBanner}
-                {status == 'returned' && returnedBanner}
+                <div class='submissionSection bootstrap-iso'>
+                  <Table bordered>
+                    <thead>
+                      <tr>
+                        <td className='information'>Ticket ID</td>
+                        <td className='information'>Project</td>
+                        {allDays}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {input.map((ipt, idx) => (
+                        <SubmissionRow
+                          ticket_number={idx + 1}
+                          key={idx + 1}
+                          viewOnly={true}
+                          projectName={ipt.project_name}
+                          weeklyDateAmount={this.getWeeklyDateAmount(
+                            ipt.dateAmount,
+                            firstDay
+                          )}
+                        />
+                      ))}
+                      <tr>
+                        <td></td>
+                        <td>Total Hour</td>
+                        <td>{total_amount[0]}</td>
+                        <td>{total_amount[1]}</td>
+                        <td>{total_amount[2]}</td>
+                        <td>{total_amount[3]}</td>
+                        <td>{total_amount[4]}</td>
+                        <td>{total_amount[5]}</td>
+                        <td>{total_amount[6]}</td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                  {status === 'pending' && this.props.page !== 'submission' && actionRow}
+                  {status === 'accepted' && approvedBanner}
+                  {status == 'returned' && returnedBanner}
+                </div>
               </div>
-            </div>
-          )}
-          {tableType === 'expense' && (
-            <div className='outer_box'>
-              <span style={{ color: '#4651af' }}>
-                {this.props.page === 'submission' ? `Your Submission on ${moment().format('MMMM DD, YYYY')}`
-                :'Expense Approval'
-                }
-              </span>
+            )}
+            {tableType === 'expense' && (
+              <div className='outer_box'>
+                <span style={{ color: '#4651af' }}>
+                  {this.props.page === 'submission' ? `Your Submission on ${moment().format('MMMM DD, YYYY')}`
+                  :'Expense Approval'
+                  }
+                </span>
 
-              <div className='submissionSection bootstrap-iso'>
-                <Table bordered>
-                  <thead>
-                    <tr>
-                      <td className='information'>Ticket ID</td>
-                      <td className='information'>Project</td>
-                      {allDays}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {input.map((ipt, idx) => (
-                      <SubmissionRow
-                        ticket_number={idx + 1}
-                        key={idx + 1}
-                        viewOnly={true}
-                        projectName={ipt.project_name}
-                        weeklyDateAmount={this.getWeeklyDateAmount(
-                          ipt.dateAmount,
-                          firstDay
-                        )}
-                      />
-                    ))}
-                    <tr>
-                      <td></td>
-                      <td>Total Expense</td>
-                      <td>
-                        {total_amount[0] == 0 ? '' : `$${total_amount[0]}`}
-                      </td>
-                      <td>
-                        {total_amount[1] == 0 ? '' : `$${total_amount[1]}`}
-                      </td>
-                      <td>
-                        {total_amount[2] == 0 ? '' : `$${total_amount[2]}`}
-                      </td>
-                      <td>
-                        {total_amount[3] == 0 ? '' : `$${total_amount[3]}`}
-                      </td>
-                      <td>
-                        {total_amount[4] == 0 ? '' : `$${total_amount[4]}`}
-                      </td>
-                      <td>
-                        {total_amount[5] == 0 ? '' : `$${total_amount[5]}`}
-                      </td>
-                      <td>
-                        {total_amount[6] == 0 ? '' : `$${total_amount[6]}`}
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>
-                {status === 'pending' && this.props.page !== 'submission' && actionRow}
-                {status === 'accepted' && approvedBanner}
-                {status == 'returned' && returnedBanner}
+                <div className='submissionSection bootstrap-iso'>
+                  <Table bordered>
+                    <thead>
+                      <tr>
+                        <td className='information'>Ticket ID</td>
+                        <td className='information'>Project</td>
+                        {allDays}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {input.map((ipt, idx) => (
+                        <SubmissionRow
+                          ticket_number={idx + 1}
+                          key={idx + 1}
+                          viewOnly={true}
+                          projectName={ipt.project_name}
+                          weeklyDateAmount={this.getWeeklyDateAmount(
+                            ipt.dateAmount,
+                            firstDay
+                          )}
+                        />
+                      ))}
+                      <tr>
+                        <td></td>
+                        <td>Total Expense</td>
+                        <td>
+                          {total_amount[0] == 0 ? '' : `$${total_amount[0]}`}
+                        </td>
+                        <td>
+                          {total_amount[1] == 0 ? '' : `$${total_amount[1]}`}
+                        </td>
+                        <td>
+                          {total_amount[2] == 0 ? '' : `$${total_amount[2]}`}
+                        </td>
+                        <td>
+                          {total_amount[3] == 0 ? '' : `$${total_amount[3]}`}
+                        </td>
+                        <td>
+                          {total_amount[4] == 0 ? '' : `$${total_amount[4]}`}
+                        </td>
+                        <td>
+                          {total_amount[5] == 0 ? '' : `$${total_amount[5]}`}
+                        </td>
+                        <td>
+                          {total_amount[6] == 0 ? '' : `$${total_amount[6]}`}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                  {status === 'pending' && this.props.page !== 'submission' && actionRow}
+                  {status === 'accepted' && approvedBanner}
+                  {status == 'returned' && returnedBanner}
+                </div>
               </div>
-            </div>
-          )}
-          {tableType === 'invoice' && (
-            <div className='outer_box'>
-              <span style={{ color: '#4651af' }}>Invoice Approval</span>
-              <div className='submissionSection bootstrap-iso'>
-                <form className='form-inline'>
-                  <div className='form-group row col-sm-6'>
-                    <label htmlFor='month' className='col-sm-3 col-form-label '>
-                      Month
-                    </label>
-                    <div className='col-sm-3'>
+            )}
+            {tableType === 'invoice' && (
+              <div className='outer_box'>
+                <span style={{ color: '#4651af' }}>Invoice Approval</span>
+                <div className='submissionSection bootstrap-iso'>
+                  <form className='form-inline'>
+                    <div className='form-group row col-sm-6'>
+                      <label htmlFor='month' className='col-sm-3 col-form-label '>
+                        Month
+                      </label>
+                      <div className='col-sm-3'>
+                        <input
+                          type='text'
+                          className='form-control small-input'
+                          id='month'
+                        />
+                      </div>
+                    </div>
+                    <div className='form-group row col-sm-6'>
+                      <label
+                        htmlFor='invoice_no'
+                        className='col-sm-4 col-form-label'
+                      >
+                        Invoice Number
+                      </label>
+                      <div className='col-sm-2'>
+                        <input
+                          type='text'
+                          className='form-control small-input'
+                          id='invoice_no'
+                        />
+                      </div>
+                    </div>
+                    <div className='form-group row'>
+                      <label
+                        htmlFor='total_days'
+                        className='col-sm-6 col-form-label'
+                      >
+                        Total Days in the invoice:
+                      </label>
                       <input
                         type='text'
-                        className='form-control small-input'
-                        id='month'
+                        className='form-control col-sm-6'
+                        id='total_dyas'
                       />
                     </div>
-                  </div>
-                  <div className='form-group row col-sm-6'>
-                    <label
-                      htmlFor='invoice_no'
-                      className='col-sm-4 col-form-label'
-                    >
-                      Invoice Number
-                    </label>
-                    <div className='col-sm-2'>
+
+                    <div className='form-group row'>
+                      <label
+                        htmlFor='total_amount'
+                        className='col-sm-6 col-form-label'
+                      >
+                        Total Amount Submitted:
+                      </label>
                       <input
                         type='text'
-                        className='form-control small-input'
-                        id='invoice_no'
+                        className='form-control col-sm-6'
+                        id='total_amount'
                       />
                     </div>
-                  </div>
-                  <div className='form-group row'>
-                    <label
-                      htmlFor='total_days'
-                      className='col-sm-6 col-form-label'
-                    >
-                      Total Days in the invoice:
-                    </label>
-                    <input
-                      type='text'
-                      className='form-control col-sm-6'
-                      id='total_dyas'
-                    />
-                  </div>
 
-                  <div className='form-group row'>
-                    <label
-                      htmlFor='total_amount'
-                      className='col-sm-6 col-form-label'
-                    >
-                      Total Amount Submitted:
-                    </label>
-                    <input
-                      type='text'
-                      className='form-control col-sm-6'
-                      id='total_amount'
-                    />
-                  </div>
-
-                  <div className='form-group row'>
-                    <label
-                      htmlFor='service'
-                      className='col-sm-6 col-form-label'
-                    >
-                      Nature of Services Provided:
-                    </label>
-                    <input
-                      type='text'
-                      className='form-control col-sm-6'
-                      id='service'
-                    />
-                  </div>
-                </form>
-                {actionRow}
+                    <div className='form-group row'>
+                      <label
+                        htmlFor='service'
+                        className='col-sm-6 col-form-label'
+                      >
+                        Nature of Services Provided:
+                      </label>
+                      <input
+                        type='text'
+                        className='form-control col-sm-6'
+                        id='service'
+                      />
+                    </div>
+                  </form>
+                  {actionRow}
+                </div>
               </div>
-            </div>
-          )}
-        </div>
-      )
+            )}
+          </div>
+        ): noSelection
     );
   }
 }

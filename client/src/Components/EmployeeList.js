@@ -55,7 +55,7 @@ class EmployeeList extends React.Component{
 
         return(
             <div id="EmployeeList" class="list-group bootstrap-iso">
-                {this.state.employeeList.map(user => <button type="button" class="list-group-item list-group-item-action" onClick={() => this.handleEmployeeSelect(user)}>{user.first_name + " " + user.last_name}</button>)}
+                {this.state.employeeList.map(user => <button type="button" class="list-group-item list-group-item-action submissionListItem" onClick={() => this.handleEmployeeSelect(user)}>{user.first_name + " " + user.last_name}</button>)}
             </div>
         )
     }

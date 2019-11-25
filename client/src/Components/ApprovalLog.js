@@ -31,7 +31,7 @@ class ApprovalLog extends React.Component {
               </tr>
             </thead>
             <tbody>
-              <ListGroup variant="flush">
+              <ListGroup variant="flush" style={{height:'600px'}}>
                 {submissions.map(submission => (
                   <ApprovalLogRow
                     submissionData={submission}

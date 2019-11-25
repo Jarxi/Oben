@@ -65,7 +65,7 @@ class AddExpenseType extends React.Component {
                                 name="expensename" value={this.state.expensename} onChange={this.handleChange}/>
                     </div>
                     <div className="FormField">
-                        <label className="FormField__Label">The Description</label>
+                        <label className="FormField__Label">Description of this Project</label>
                         <input type="text" id="description" className="FormField__Input" placeholder="Enter the Description" 
                                 name="description" value={this.state.description} onChange={this.handleChange}/>
                     </div>

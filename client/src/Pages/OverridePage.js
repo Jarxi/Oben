@@ -45,7 +45,6 @@ class OverridePage extends React.Component {
   }
 
   getSubmissionBySelectedUser() {
-    alert(this.state.selectedUserName);
     const res = this.state.allSubmissions.filter(
       submission => submission.submitter_name === this.state.selectedUserName
     );
@@ -74,13 +73,11 @@ class OverridePage extends React.Component {
       .get(url, options)
       .then(res => {
         if (res.status === 200) {
-          console.log(res.data.submissions);
           this.setState(
             {
               allSubmissions: res.data.submissions,
               isfetching: false
             },
-            console.log('FETCH COMPLETE', this.state.allSubmissions)
           );
         }
       })
