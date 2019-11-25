@@ -99,7 +99,7 @@ class InviteForm extends React.Component {
       })
       .catch(err => {
         this.setState({ error_message: err.response.data.message });
-        console.log('Sign up user failed');
+        setTimeout(() => this.setState({ error_message: '' }), 5000);
       });
   }
 
@@ -177,8 +177,8 @@ class InviteForm extends React.Component {
             >
               Invite
             </button>
+            <div className='error_message'>{this.state.error_message}</div>
           </div>
-          <div className='error_message'>{this.state.error_message}</div>
         </div>
         <InvitationStatusBox
           className='invitationStatusBox'

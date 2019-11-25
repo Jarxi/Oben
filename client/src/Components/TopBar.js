@@ -46,13 +46,6 @@ class TopBar extends React.Component {
                 </select>
               </div>
             )}
-            <IconContext.Provider value={{ color: 'black', size: '4em' }}>
-              <div className='Setting_Icon'>
-                <NavLink to='/resetPassword'>
-                  <TiCog />
-                </NavLink>
-              </div>
-            </IconContext.Provider>
           </div>
         </div>
       </div>

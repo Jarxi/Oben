@@ -16,7 +16,8 @@ const signUp = async (req, res) => {
     console.log(user_data);
     if (user_data.first_name.length === 0 || user_data.last_name.length === 0) {
       return res.status(400).json({
-        message: 'fullname is required'
+        message:
+          'Fullname is required, separate firstname and lastname by space'
       });
     }
     // let loading = false;
@@ -55,12 +56,12 @@ const signIn = async (req, res) => {
     });
 
     if (!user) {
-      return sendErr(res, 'Email does not exist');
+      return sendErr(res, {}, 'Email does not exist');
     }
 
     const decrypted = await decryptPassword(user_data.password, user.password);
     if (!decrypted.password) {
-      return sendErr(res, '', 'Email and Password do not match');
+      return sendErr(res, {}, 'Email and Password do not match');
     }
 
     // Generate jsonwebtoken
@@ -74,10 +75,7 @@ const signIn = async (req, res) => {
       token
     };
 
-    // const auth = await Auth.findOneAndUpdate({ user: user }, { $set: newAuth });
-    // if (auth === null) {
     const auth = await Auth.create(newAuth);
-    // }
 
     return res.status(200).json({
       message: `User signed in!`,
@@ -85,7 +83,8 @@ const signIn = async (req, res) => {
       user
     });
   } catch (err) {
-    return sendErr(res, err);
+    console.log(err.message);
+    return res.status(500).json({ message: 'Server Error' });
   }
 };
 
