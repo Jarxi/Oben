@@ -42,8 +42,7 @@ const UserSchema = new Schema({
     day: Number
   },
   supervisor: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
+    type: String
   },
   team: {
     type: Schema.Types.ObjectId,
