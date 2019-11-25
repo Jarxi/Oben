@@ -13,19 +13,47 @@ class OverridePage extends React.Component {
     super(props);
     this.state = {
       startDate: new Date(),
-      currUserSubmissions: []
+      currUserSubmissions: [],
+      userList:[],
+      selectedUserName:''
     };
     this.userSelect = this.userSelect.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
   }
 
   componentDidMount(){
     this.fetchSubmissions();
+        const config = {
+            headers:{            
+                authorization: "Bearer " + sessionStorage.getItem('token')
+            }
+        };
+        axios.get("http://localhost:3000/api/user/users",config)
+        .then(
+            (res) => {
+                console.log(res)
+                let user = res.data.users;
+                this.setState({
+                    userList: user
+                });
+
+            },
+            (error) => {
+                console.log(error);
+            }
+            )
   }
 
   userSelect(){
     const res = this.state.allSubmissions.filter(submission => submission.submitter_name === "Good User")
     this.setState({
       currUserSubmissions: [...res]
+    })
+  }
+  
+  handleSelect(e){
+    this.setState({
+        selectedUserName: e.target.value
     })
   }
 
@@ -53,6 +81,12 @@ class OverridePage extends React.Component {
   render() {
     return (
       <div class='row'>
+        <div className='chooseTeamAndMember'>
+                <select onChange={this.handleSelect}>
+                  <option selected='selected'>Select Team Member</option>
+                  {this.state.userList.map(user => <option value={user.first_name + " " + user.last_name}>{user.first_name + " " + user.last_name}</option>)}
+                </select>
+        </div>
         <button onClick={this.userSelect}>select good user</button>
         <div class='datePick'>
           <DatePicker
