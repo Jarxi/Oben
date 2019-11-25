@@ -124,7 +124,6 @@ class SubmissionTable extends React.Component {
     if (type === 'timesheet') {
       const { timesheet_ticket_numbers } = this.state;
       const newTicketNumber = 1;
-      // timesheet_ticket_numbers[timesheet_ticket_numbers.length - 1] + 1;
       let params = this.parseParam(type);
       if (params === null) {
         this.onError('timesheet', 'Submit Unseccessful!');
@@ -132,7 +131,6 @@ class SubmissionTable extends React.Component {
           this.onError('timesheet', '');
         }, 2000);
       } else {
-        console.log(params);
         const url = 'http://localhost:3000/api/submission/submit';
         const config = {
           headers: {
@@ -146,22 +144,23 @@ class SubmissionTable extends React.Component {
             if (res.status === 200) {
               alert('Succeeded in Submit the time!');
               window.location.reload();
+              this.setState({
+                timesheet_ticket_numbers: [newTicketNumber],
+                timesheet_rows: [['', '', '', '', '', '', '']],
+                timesheet_cols: ['', '', '', '', '', '', '']
+              });
+              this.onError('timesheet', ' ✅ Submit successful!');
+              setTimeout(() => {
+                this.onError('timesheet', '');
+              }, 2000);
             }
           })
           .catch(e => {
-            console.log(e);
+            alert(e.response.data.message);
             console.log('Time Sheet Submission failed');
           });
 
-        this.setState({
-          timesheet_ticket_numbers: [newTicketNumber],
-          timesheet_rows: [['', '', '', '', '', '', '']],
-          timesheet_cols: ['', '', '', '', '', '', '']
-        });
-        this.onError('timesheet', ' ✅ Submit successful!');
-        setTimeout(() => {
-          this.onError('timesheet', '');
-        }, 2000);
+
       }
     } else if (type == 'expense') {
       const { expense_ticket_numbers } = this.state;
@@ -186,6 +185,15 @@ class SubmissionTable extends React.Component {
             console.log(res);
             if (res.status === 200) {
               alert('Succeeded in Submit the expense!');
+              this.setState({
+                expense_ticket_numbers: [newTicketNumber],
+                expense_rows: [['', '', '', '', '', '', '']],
+                expense_cols: ['', '', '', '', '', '', '']
+              });
+              this.onError('expense', ' ✅ Submit successful!');
+              setTimeout(() => {
+                this.onError('expense', '');
+              }, 2000);
               window.location.reload();
             }
           })
@@ -193,15 +201,7 @@ class SubmissionTable extends React.Component {
             console.log(e);
             console.log('Expense Submission failed');
           });
-        this.setState({
-          expense_ticket_numbers: [newTicketNumber],
-          expense_rows: [['', '', '', '', '', '', '']],
-          expense_cols: ['', '', '', '', '', '', '']
-        });
-        this.onError('expense', ' ✅ Submit successful!');
-        setTimeout(() => {
-          this.onError('expense', '');
-        }, 2000);
+        
       }
     }
   }
@@ -224,7 +224,6 @@ class SubmissionTable extends React.Component {
             date: moment(timesheetFirstDay.add(j, 'day')).format('YYYY/MM/DD'),
             amount: this.state.timesheet_rows[i][j]
           };
-          console.log(param);
           dailyTime.push(param);
         }
         let inputParam = {

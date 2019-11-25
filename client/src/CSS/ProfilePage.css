@@ -1,56 +1,51 @@
-.LeftCol{
-    width: 48%;
-    height: fit-content;
-    float: left;
-    padding-left: 10px;
+.LeftCol {
+  width: 48%;
+  height: fit-content;
+  float: left;
+  padding-left: 10px;
 }
 
-.RightCol{
-    width: 50%;
-    height: 300px;
-    float: left;
+.RightCol {
+  width: 48%;
+  min-height: 300px;
+  border: 5px solid rgba(101, 107, 195, 0.5);
+  float: right;
+  margin-right: 10px;
+  padding-top: 20px;
 }
 .title {
-    color: #4651af;
-    font-size: 20px;
-    margin-top: 5px;
-    margin-left: 5px;
+  color: #4651af;
+  font-size: 20px;
+  margin-top: 5px;
+  margin-left: 5px;
 }
-.ProfileInfoWrapper{
-    border: 5px solid rgba(101, 107, 195, 0.5);
-    height: fit-content;
-    width: 90%;
-    padding:0px;
-    margin-bottom: 20px;
+.ProfileInfoWrapper {
+  border: 5px solid rgba(101, 107, 195, 0.5);
+  height: fit-content;
+  width: 90%;
+  padding: 0px;
+  margin-bottom: 20px;
 }
-.content{
-    color: black;
-    padding-left: 8px;
-    line-height: 10px;
+.content {
+  color: black;
+  padding-left: 8px;
+  line-height: 10px;
 }
-.bootstrap-iso .ProfileInfoWrapper 
-.table > tbody > tr > th{
-    border-top: none;
-    padding:5px;
-    padding-top: 0;
-    padding-bottom: 2px;
-}
-
-.bootstrap-iso .ProfileInfoWrapper 
-.table > tbody > tr > td{
-    border-top: none;
-    padding: 5px;
-    padding-top: 0;
-    padding-bottom: 2px;
+.bootstrap-iso .ProfileInfoWrapper .table > tbody > tr > th {
+  border-top: none;
+  padding: 5px;
+  padding-top: 0;
+  padding-bottom: 2px;
 }
 
-.bootstrap-iso .paymentInput{
-    border: 1px groove hsla(0, 4%, 95%, 0.584);
-    border-width: thin;
+.bootstrap-iso .ProfileInfoWrapper .table > tbody > tr > td {
+  border-top: none;
+  padding: 5px;
+  padding-top: 0;
+  padding-bottom: 2px;
 }
 
-.Reset_Container{
-    width:100%;
-    border: 5px solid rgba(101, 107, 195, 0.5);
+.bootstrap-iso .paymentInput {
+  border: 1px groove hsla(0, 4%, 95%, 0.584);
+  border-width: thin;
 }
-

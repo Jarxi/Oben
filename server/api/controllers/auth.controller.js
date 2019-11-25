@@ -13,6 +13,12 @@ const signUp = async (req, res) => {
     const exist = await User.findOne({
       email
     });
+    console.log(user_data);
+    if (user_data.first_name.length === 0 || user_data.last_name.length === 0) {
+      return res.status(400).json({
+        message: 'fullname is required'
+      });
+    }
     // let loading = false;
 
     if (exist) {
@@ -27,12 +33,16 @@ const signUp = async (req, res) => {
     user_data.employee_id = employee_id.count;
     const user = await User.create(user_data);
     await increment({ counter_category: 'employee_id' });
+    send(req);
     return res.status(200).json({
       message: 'user created!',
       user
     });
   } catch (err) {
-    return sendErr(res, err);
+    console.log(err.message);
+    return res.status(500).json({
+      message: err.message
+    });
   }
 };
 
@@ -64,10 +74,10 @@ const signIn = async (req, res) => {
       token
     };
 
-    const auth = await Auth.findOneAndUpdate({ user: user }, { $set: newAuth });
-    if (auth === null) {
-      auth = await Auth.create(newAuth);
-    }
+    // const auth = await Auth.findOneAndUpdate({ user: user }, { $set: newAuth });
+    // if (auth === null) {
+    const auth = await Auth.create(newAuth);
+    // }
 
     return res.status(200).json({
       message: `User signed in!`,
@@ -113,12 +123,14 @@ const resetPassword = async (req, res) => {
     });
 
     if (!user) {
-      return sendErr(res, 'Email does not exist');
+      return res.status(400).json({ message: 'Email does not exist' });
     }
 
     const decrypted = await decryptPassword(user_data.password, user.password);
     if (!decrypted.password) {
-      return sendErr(res, '', 'Email and Password do not match');
+      return res
+        .status(400)
+        .json({ message: 'password and email do not match' });
     }
 
     const update = await User.findOneAndUpdate(
@@ -133,7 +145,9 @@ const resetPassword = async (req, res) => {
     );
 
     if (!update) {
-      sendErr(res, '', 'Some error occurred tryint to update password');
+      return res
+        .status(400)
+        .json({ message: 'Some error occurred tryint to update password' });
     }
     const auth = await Auth.findOneAndUpdate(
       { user: user._id },
@@ -146,12 +160,12 @@ const resetPassword = async (req, res) => {
     );
 
     return res.status(200).json({
-      message: `Password Resetted!`,
+      message: `Password reset!`,
       user
     });
   } catch (err) {
     console.log(err.message);
-    return sendErr(res, '', err.message);
+    return res.status(500).json({ message: 'Server Error' });
   }
 };
 

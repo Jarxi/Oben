@@ -17,7 +17,8 @@ class EditTeamMember extends React.Component {
     this.state = {
       selectedemployee: null,
       selectedemployeeid: null,
-      teams: ['engineering', 'marketing'],
+      newTeamName: '',
+      teams: [''],
       team: '',
       job_title: '',
       supervisor: '',
@@ -44,26 +45,36 @@ class EditTeamMember extends React.Component {
     this.handleFileChange = this.handleFileChange.bind(this);
     this.handleRadioSelect = this.handleRadioSelect.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.handleCreateTeam = this.handleCreateTeam.bind(this);
+    this.doContractfileupload = this.doContractfileupload.bind(this);
+    this.dow9fileupload = this.dow9fileupload.bind(this);
+    this.handleDeleteTeam = this.handleDeleteTeam.bind(this);
   }
 
+  componentDidMount() {
+    const config = {
+      headers: {
+        authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    };
+    axios.get('http://localhost:3000/api/team/getAll', config).then(
+      res => {
+        let teams = res.data.teams;
+        this.setState({
+          teams: teams
+        });
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
   handleSelect(item) {
+    console.log(this.state.w9_file);
     this.setState({
       selectedemployee: item,
       selectedemployeeid: item._id,
-    //   team: item.team,
-    //   work_email: item.email,
-    //   job_title: item.job_title,
-    //   supervisor: item.supervisor,
-    //   start_date: item.start_date,
-    //   phone: item.phone,
-    //   contract_expire_date: item.contract_expiration,
-    //   payment_method: item.payment.method,
-    //   address: item.payment.address,
-    //   address2: item.payment.address2,
-    //   city: item.payment.city,
-    //   state: item.payment.state,
-    //   zip: item.payment.zip,
-    //   rate: item.payment.rate
+      team: item.team_name
     });
   }
 
@@ -90,46 +101,205 @@ class EditTeamMember extends React.Component {
   }
 
   handleRadioSelect(value) {
-    this.setState({ method: value });
+    this.setState({ payment_method: value });
   }
 
-  handleSave(){
-    const temp = {
-        method: this.state.method,
-        address: this.state.address,
-        address2: this.state.address2,
-        city: this.state.city,
-        state: this.state.state,
-        zip: this.state.zip,
-        rate: this.state.rate,
+  handleCreateTeam() {
+    const configpost = {
+      headers: {
+        authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    };
+    if (this.state.newTeamName === '') {
+      alert('You could not create a team with empty name!!!');
+      return;
     }
     const param = {
-        _id: this.state.selectedemployeeid,
-        job_title: this.state.job_title,
-        start_date: this.state.start_date,
-        email: this.state.work_email,
-        phone: this.state.phone,
-        payment: temp,
-    }
-    const configpost = {
-        headers:{            
-            authorization: "Bearer " + sessionStorage.getItem('token')
-        }
+      team_name: this.state.newTeamName
     };
-    const url = "http://localhost:3000/api/user/userInfoById";
-    axios.put(url,param,configpost).then((res)=>{
-        console.log(res)
-        if(res.status === 200){
-            alert("Succeed in updating info")
+    let url = 'http://localhost:3000/api/team/create';
+    axios
+      .post(url, param, configpost)
+      .then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          this.setState({ teams: [...this.state.teams, res.data.teamcreated] });
         }
-        }
+      })
+      .catch(e => {
+        console.log(e);
+        console.log('Team Creating failed');
+      });
+  }
+  handleDeleteTeam(team_name) {
+    console.log('teamname', team_name);
+    const config = {
+      headers: {
+        authorization: 'Bearer ' + sessionStorage.getItem('token')
+      },
+      data: {
+        team_name: team_name
+      }
+    };
 
-    ).catch((e)=>{
-        console.log(e)
-        console.log("Update Info failed")
-    })
+    let url = 'http://localhost:3000/api/team/';
+    axios
+      .delete(url, config)
+      .then(res => {
+        if (res.status === 200) {
+          const filteredItems = this.state.teams.filter(
+            team => team.team_name !== team_name
+          );
+          this.setState({ teams: [...filteredItems] });
+        }
+      })
+      .catch(() => {
+        console.log('Team deleting failed');
+      });
   }
 
+  handleSave() {
+    console.log(this.state);
+    const temp = {
+      method: this.state.payment_method,
+      address: this.state.address,
+      address2: this.state.address2,
+      city: this.state.city,
+      state: this.state.state,
+      zip: this.state.zip,
+      rate: this.state.rate
+    };
+    let teamid = null;
+    if (
+      this.state.teams.filter(team => team.team_name === this.state.team)
+        .length === 1
+    ) {
+      teamid = this.state.teams.filter(
+        team => team.team_name === this.state.team
+      )[0]._id;
+    }
+    let param = null;
+    if(this.state.selectedemployee.user_type === 'employee'){
+        param = {
+            _id: this.state.selectedemployeeid,
+            job_title: this.state.job_title,
+            team: teamid,
+            start_date: this.state.start_date,
+            work_email: this.state.work_email,
+            phone: this.state.phone,
+            payment: temp,
+            contract_on_file: this.state.contract_encoded_filename,
+            w4: this.state.w9_encoded_filename,
+            supervisor: this.state.supervisor,
+            contract_expiration: this.state.contract_expire_date
+        };
+    }else{
+        param = {
+            _id: this.state.selectedemployeeid,
+            job_title: this.state.job_title,
+            team: teamid,
+            start_date: this.state.start_date,
+            work_email: this.state.work_email,
+            phone: this.state.phone,
+            payment: temp,
+            contract_on_file: this.state.contract_encoded_filename,
+            w9: this.state.w9_encoded_filename,
+            supervisor: this.state.supervisor,
+            contract_expiration: this.state.contract_expire_date
+        };
+    }
+    
+    console.log('============CHECK!!!!================');
+    console.log(param);
+    console.log('====================================');
+
+    const configpost = {
+      headers: {
+        authorization: 'Bearer ' + sessionStorage.getItem('token')
+      }
+    };
+    const url = 'http://localhost:3000/api/user/userInfoById';
+    axios
+      .put(url, param, configpost)
+      .then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          alert('Succeed in updating info');
+          window.location.reload();
+        }
+      })
+      .catch(e => {
+        console.log(e);
+        console.log('Update Info failed');
+      });
+  }
+
+  doContractfileupload() {
+    if (this.state.contract_file != null) {
+      const configpost = {
+        headers: {
+          authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
+      };
+      const param = new FormData();
+      param.append('file', this.state.contract_file);
+      let fname = this.state.contract_filename;
+      let url = 'http://localhost:3000/api/file/upload';
+      axios
+        .post(url, param, configpost)
+        .then(res => {
+          console.log(res);
+          if (res.status === 200) {
+            alert('Succeeded in Uploading Contract files!');
+            this.setState(
+              {
+                contract_encoded_filename: res.data.filename
+              },
+              () => this.dow9fileupload()
+            );
+          }
+        })
+        .catch(e => {
+          console.log(e);
+          console.log('Upload files failed');
+        });
+    } else {
+      this.dow9fileupload();
+    }
+  }
+
+  dow9fileupload() {
+    if (this.state.w9_file != null) {
+      const configpost = {
+        headers: {
+          authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
+      };
+      const param = new FormData();
+      param.append('file', this.state.w9_file);
+      let fname = this.state.w9_filename;
+      let url = 'http://localhost:3000/api/file/upload';
+      axios
+        .post(url, param, configpost)
+        .then(res => {
+          console.log(res);
+          if (res.status === 200) {
+            alert('Succeeded in Uploading W9 files!');
+            this.setState(
+              {
+                w9_encoded_filename: res.data.filename
+              },
+              () => this.handleSave()
+            );
+          }
+        })
+        .catch(() => {
+          console.log('Upload files failed');
+        });
+    } else {
+      this.handleSave();
+    }
+  }
 
   render() {
     return (
@@ -138,26 +308,40 @@ class EditTeamMember extends React.Component {
         <div className='teams_wrapper'>
           {this.state.teams.map(team => (
             <div>
-              <button className='teamName btn' key={team}>
-                {team}
+              <button className='teamName btn' key={team.team_name}>
+                {team.team_name}
               </button>
               <IconButton aria-label='delete' size='small'>
-                <Delete color='primary' fontSize='inherit' />
+                <Delete
+                  color='primary'
+                  fontSize='inherit'
+                  onClick={this.handleDeleteTeam.bind(this, team.team_name)}
+                />
               </IconButton>
             </div>
           ))}
           <div>
-            <input type='text' placeholder='new team name' />
+            <input
+              type='text'
+              placeholder='new team name'
+              value={this.state.newTeamName}
+              name='newTeamName'
+              onChange={this.handleChange}
+            />
           </div>
           <div>
             <IconButton aria-label='delete' size='small'>
               {' '}
-              <AddCircle color='primary' fontSize='inherit' />
+              <AddCircle
+                color='primary'
+                fontSize='inherit'
+                onClick={this.handleCreateTeam}
+              />
             </IconButton>
           </div>
         </div>
         <div class='employeeList'>
-          <p class='ListTitle'>Name of Employee</p>
+          <p style={{ color: 'black' }}>Name of Employee</p>
           <div class='ListWrapper'>
             <EmployeeList selectCallback={this.handleSelect} />
           </div>
@@ -168,18 +352,26 @@ class EditTeamMember extends React.Component {
           <form>
             <div id='container'>
               <div className='nested'>
-                <div className='title'>{this.state.selectedemployee.name}</div>
+                <div className='title'>{this.state.selectedemployee.first_name + " " + this.state.selectedemployee.last_name +"'s Information"}</div>
                 <div className='input'>
                   <div>
                     <label>Team</label>
                   </div>
                   <div>
-                    <input
-                      type='text'
-                      value={this.state.team}
-                      onChange={this.handleChange}
-                      name='team'
-                    />
+                    <td>
+                      <select
+                        class='select'
+                        onChange={this.handleChange}
+                        name='team'
+                        value={this.state.team}
+                      >
+                        {this.state.teams.map(team => (
+                          <option value={team.team_name}>
+                            {team.team_name}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
                   </div>
                 </div>
                 <div className='input'>
@@ -265,7 +457,7 @@ class EditTeamMember extends React.Component {
                 <div className='title'>Contract Status</div>
                 <div className='input'>
                   <div>
-                    <label>W9 On File</label>
+                        <label>{this.state.selectedemployee.user_type==='employee'?'W4 On File':'W9 On File'}</label>
                   </div>
                   <div>
                     <input
@@ -390,16 +582,15 @@ class EditTeamMember extends React.Component {
               </div>
               <div className='single_box' style={{ background: '#eee' }}>
                 <div className='form-group' style={{ witdh: 'inherit' }}>
-                    <div className='bootstrap-iso'>
+                  <div className='bootstrap-iso'>
                     <button
-                    type='button'
-                    className='btn btn-success inlineButton'
-                    onClick={this.handleSave}
-                  >
-                    Save
-                  </button>
-                    </div>
-                 
+                      type='button'
+                      className='btn btn-success inlineButton'
+                      onClick={this.doContractfileupload}
+                    >
+                      Save
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

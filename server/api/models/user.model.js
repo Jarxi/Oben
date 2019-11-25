@@ -42,8 +42,10 @@ const UserSchema = new Schema({
     day: Number
   },
   supervisor: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
+    type: String
+  },
+  work_email: {
+    type: String
   },
   team: {
     type: Schema.Types.ObjectId,
@@ -85,9 +87,7 @@ const UserSchema = new Schema({
     day: Number
   },
   contract_expiration: {
-    year: Number,
-    month: Number,
-    day: Number
+    type: String
   },
   contract_on_file: {
     type: String

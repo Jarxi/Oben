@@ -1,6 +1,7 @@
 import React from 'react';
 import '../CSS/SignUpForm.css';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class ResetPasswordForm extends React.Component {
   constructor() {
@@ -9,12 +10,20 @@ class ResetPasswordForm extends React.Component {
       email: '',
       oldPassword: '',
       newPassword: '',
-      success: false
+      success: false,
+      error_message: '',
+      redirect: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.renderRedirect = this.renderRedirect.bind(this);
   }
 
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to='/' />;
+    }
+  };
   handleChange(e) {
     let value = e.target.value;
     let name = e.target.name;
@@ -35,17 +44,23 @@ class ResetPasswordForm extends React.Component {
     axios
       .post(url, params)
       .then(res => {
+        console.log(res);
         if (res.status === 200) {
           this.setState({
             success: true
           });
           setTimeout(() => {
-            this.props.history.push('/');
+            this.setState({
+              redirect: true
+            });
           }, 1000);
         }
       })
       .catch(err => {
-        console.log(err);
+        if (err.response !== undefined) {
+          this.setState({ error_message: err.response.data.message });
+          setTimeout(() => this.setState({ error_message: '' }), 5000);
+        }
       });
   }
 
@@ -67,7 +82,7 @@ class ResetPasswordForm extends React.Component {
     }
 
     return (
-      <div className='Reset_Container'>
+      <div>
         <form className='SignUpBox' onSubmit={this.handleSubmit}>
           <div>
             <input
@@ -106,7 +121,9 @@ class ResetPasswordForm extends React.Component {
           </div>
 
           {button}
+          {this.renderRedirect()}
         </form>
+        <span className='error_message'>{this.state.error_message}</span>
       </div>
     );
   }
