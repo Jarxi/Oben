@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Row, Col, Form } from 'react-bootstrap';
-import SubmissionRow from '../Components/SubmissionRow';
+import OverrideRow from '../Components/OverrideRow';
 import moment from 'moment';
 import axios from 'axios';
 import '../CSS/Home.css';
@@ -12,20 +12,140 @@ class OverrideTable extends React.Component {
     super(props);
     this.returnMessage = React.createRef();
     this.state = {
-      
+      changeInValues: [],
+      timesheet_message: '',
+      expense_message: '',
     };
 
+    this.valueChangeCallback = this.valueChangeCallback.bind(this)
     this.override = this.override.bind(this)
+    this.actionRow = this.actionRow.bind(this)
   }
 
-  override(submitterId, type, project_name, date){
-      
+  valueChangeCallback(projectName, type, submitterId, firstDayofWeek, offsetFromFirstDay, newValue){
+    const dateofChange = moment(firstDayofWeek).add(offsetFromFirstDay, 'day').format('YYYY/MM/DD');
+    let oldValue = [...this.state.changeInValues];
+
+    let i;
+    for(i = 0; i < oldValue.length; ++i){
+        if(oldValue[i].type === type && oldValue[i].user === submitterId){
+            let j;
+            for(j = 0; j < oldValue[i].input.length; ++j){
+                // override value already exists for the given date and project 
+                if(oldValue[i].input[j].project_name === projectName && 
+                    oldValue[i].input[j].date === dateofChange){
+                    oldValue[i].input[j].amount = newValue;
+                    break;
+                }
+            }
+            // new date or project override entry
+            if(j === oldValue[i].input.length){
+                oldValue[i].input.push({
+                    project_name: projectName,
+                    date: dateofChange,
+                    amount: newValue
+                })
+                break;
+            }   
+        }
+    }
+    if(i === oldValue.length){
+        oldValue.push({
+            input: [
+                {
+                    project_name: projectName,
+                    date: dateofChange,
+                    amount: newValue
+                }
+            ],
+            type: type,
+            user: submitterId
+        })
+    }
+    console.log("NewParam: ", oldValue)
+    this.setState({
+        changeInValues: oldValue 
+    })
   }
+
+  override(type){
+    let { changeInValues } = this.state;
+    const config = {
+        headers: {
+          authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
+    };
+    const url = "http://localhost:3000/api/submission/update";
+    let removeIdx = 0;
+    for(let i = 0; i < changeInValues.length; ++i){
+        // only submit the requested table i.e. time XOR expense
+        const param = changeInValues[i];
+        if(param.type === type){
+            removeIdx = i;
+            axios
+            .put(url,param,config)
+            .then((res)=>{
+                console.log(res)
+                if(res.status === 200){
+                    if(type==='expense'){
+                        this.setState({
+                            expense_message: '✅ Override successful!'
+                        })
+                        setTimeout(() => {
+                            this.setState({
+                                expense_message: ''
+                            })
+                        }, 2000);
+                    }else if(type === 'time'){
+                        this.setState({
+                            timesheet_message: '✅ Override successful!'
+                        })
+                        setTimeout(() => {
+                            this.setState({
+                                timesheet_message: ''
+                            })
+                        }, 2000);
+                    }
+                }
+            })
+            .catch(e => {
+                console.log(e);
+                console.log('Override failed');
+            });
+        }    
+    }
+    changeInValues.splice(removeIdx,1);
+  }
+
+  actionRow(type) {
+    return (
+         <div className='return_message'>
+             <div>
+             <button
+                 type='button'
+                 className='btn btn-success col'
+                 onClick={() => this.override(type)}
+             >
+                 Override
+             </button>
+             </div>
+             <div className='error_message'>
+             {
+                 type === "time" && 
+                 <p> {this.state.timesheet_message}</p>
+             }
+             {
+                 type === "expense" &&
+                 <p> {this.state.expense_message}</p>
+             }
+             </div>
+         </div>)
+ };
   
 
   render() {
     let submissions = this.props.submissions;
-
+    console.log("In table: ",  submissions);
     function getWeeklyDateAmount(submittedDateAmount, firstDayofWeek) {
         let weeklyDateAmount = [0, 0, 0, 0, 0, 0, 0];
         submittedDateAmount.forEach(entry => {
@@ -44,20 +164,6 @@ class OverrideTable extends React.Component {
         );
         return weeklyTotalAmount;
     }
-
-    const actionRow = (
-      <div className='return_message'>
-        <div>
-          <button
-            type='button'
-            className='btn btn-success col'
-            onClick={() => this.override(id)}
-          >
-            Override
-          </button>
-        </div>
-      </div>
-    );
 
     const approvedBanner = (
         <div className='submit_button'>
@@ -88,14 +194,14 @@ class OverrideTable extends React.Component {
     return (
         <div class='right_content'>
             {
-                submissions.length() === 0 && <h1>No submission found</h1>
+                submissions.length === 0 && <h1 style={{color:'black'}}>Select Week And Team Member to Override</h1>
             }
             {
-                submissions.length() !== 0 && submissions.map(function(submission){
-                    const { type, input, status, _id, total_amount, note, submitter } = submission;
+                submissions.length !== 0 && submissions.map(function(submission){
+                    let { type, input, status, _id, total_amount, note, submitter } = submission;
                     const firstDay = moment(input[0].dateAmount[0].date).startOf('week');
                     let currDay = moment(firstDay);
-                    allDays = [<td className='date'>{currDay.date()}</td>];
+                    let allDays = [<td className='date'>{currDay.date()}</td>];
                     for (let i = 0; i < 6; ++i) {
                         allDays.push(<td className='date'>{currDay.add(1, 'day').date()}</td>);
                     }
@@ -119,12 +225,18 @@ class OverrideTable extends React.Component {
                                 </thead>
                                 <tbody>
                                 {input.map((ipt, idx) => (
-                                    <SubmissionRow
+                                    <OverrideRow
                                         ticket_number={idx + 1}
                                         key={idx + 1}
-                                        viewOnly={false}
                                         projectName={ipt.project_name}
                                         weeklyDateAmount={getWeeklyDateAmount(ipt.dateAmount,firstDay)}
+                                        onCellChange={this.valueChangeCallback.bind(
+                                            this,
+                                            ipt.project_name, 
+                                            'time',
+                                            submitter, // id
+                                            firstDay
+                                          )}                                       
                                     />
                                 ))}
                                 <tr>
@@ -140,7 +252,7 @@ class OverrideTable extends React.Component {
                                 </tr>
                                 </tbody>
                             </Table>
-                            {status === 'pending' && actionRow}
+                            {status === 'pending' && this.actionRow('time')}
                             {status === 'accepted' && approvedBanner}
                             {status == 'returned' && returnedBanner(note)}
                             </div>
@@ -165,19 +277,18 @@ class OverrideTable extends React.Component {
                                 </thead>
                                 <tbody>
                                   {input.map((ipt, idx) => (
-                                    <SubmissionRow
+                                    <OverrideRow
                                       ticket_number={idx + 1}
                                       key={idx + 1}
-                                      viewOnly={false}
                                       projectName={ipt.project_name}
                                       weeklyDateAmount={getWeeklyDateAmount(ipt.dateAmount,firstDay)}
                                       onCellChange={this.valueChangeCallback.bind(
                                           this,
                                           ipt.project_name, 
-                                          type,
-                                          submitter // id
-
-                                          )}
+                                          'expense',
+                                          submitter, // id
+                                          firstDay
+                                        )}
                                     />
                                   ))}
                                   <tr>
@@ -207,17 +318,16 @@ class OverrideTable extends React.Component {
                                   </tr>
                                 </tbody>
                               </Table>
-                              {status === 'pending' && actionRow}
+                              {status === 'pending' && this.actionRow('expense')}
                               {status === 'accepted' && approvedBanner}
                               {status == 'returned' && returnedBanner(note)}
                             </div>
                         </div>
                         )
                     }
-                })
+                }, this)
             }
         </div>
-      )
     );
   }
 }

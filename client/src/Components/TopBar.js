@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { IconContext } from 'react-icons';
 import { TiCog } from 'react-icons/ti';
 import { NavLink, Link, Switch, Route, withRouter } from 'react-router-dom';
@@ -23,7 +24,6 @@ class TopBar extends React.Component {
                   : sessionStorage.getItem('user_type')}
               </p>
             </div>
-
             {this.props.location.pathname === '/home/override' && (
               <div className='chooseTeamAndMember'>
                 <select>

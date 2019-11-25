@@ -178,20 +178,38 @@ class EditTeamMember extends React.Component {
         team => team.team_name === this.state.team
       )[0]._id;
     }
-    const param = {
-      _id: this.state.selectedemployeeid,
-      job_title: this.state.job_title,
-      team: teamid,
-      start_date: this.state.start_date,
-      work_email: this.state.work_email,
-      phone: this.state.phone,
-      payment: temp,
-      contract_on_file: this.state.contract_encoded_filename,
-      w9: this.state.w9_encoded_filename,
-      supervisor: this.state.supervisor,
-      contract_expiration: this.state.contract_expire_date
-    };
-    console.log('====================================');
+    let param = null;
+    if(this.state.selectedemployee.user_type === 'employee'){
+        param = {
+            _id: this.state.selectedemployeeid,
+            job_title: this.state.job_title,
+            team: teamid,
+            start_date: this.state.start_date,
+            work_email: this.state.work_email,
+            phone: this.state.phone,
+            payment: temp,
+            contract_on_file: this.state.contract_encoded_filename,
+            w4: this.state.w9_encoded_filename,
+            supervisor: this.state.supervisor,
+            contract_expiration: this.state.contract_expire_date
+        };
+    }else{
+        param = {
+            _id: this.state.selectedemployeeid,
+            job_title: this.state.job_title,
+            team: teamid,
+            start_date: this.state.start_date,
+            work_email: this.state.work_email,
+            phone: this.state.phone,
+            payment: temp,
+            contract_on_file: this.state.contract_encoded_filename,
+            w9: this.state.w9_encoded_filename,
+            supervisor: this.state.supervisor,
+            contract_expiration: this.state.contract_expire_date
+        };
+    }
+    
+    console.log('============CHECK!!!!================');
     console.log(param);
     console.log('====================================');
 
@@ -439,7 +457,7 @@ class EditTeamMember extends React.Component {
                 <div className='title'>Contract Status</div>
                 <div className='input'>
                   <div>
-                    <label>W9 On File</label>
+                        <label>{this.state.selectedemployee.user_type==='employee'?'W4 On File':'W9 On File'}</label>
                   </div>
                   <div>
                     <input
