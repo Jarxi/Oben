@@ -18,7 +18,7 @@ const generateEmailBody = async data => {
   }
 };
 
-const send = async (req) => {
+const send = async req => {
   try {
     const data = {
       toName: req.body.first_name + ' ' + req.body.last_name,
@@ -26,7 +26,6 @@ const send = async (req) => {
       password: req.body.tempPassword
     };
 
-    console.log(data);
     const emailBody = await generateEmailBody(data);
     const msg = {
       to: data.email,
@@ -35,7 +34,7 @@ const send = async (req) => {
       html: emailBody.toString()
     };
     sgMail.send(msg);
-  } catch(err) {
+  } catch (err) {
     // return res.status(500).json(err);
     console.log(err);
   }

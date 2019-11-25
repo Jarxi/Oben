@@ -48,6 +48,7 @@ class EditTeamMember extends React.Component {
     this.handleCreateTeam = this.handleCreateTeam.bind(this);
     this.doContractfileupload = this.doContractfileupload.bind(this);
     this.dow9fileupload = this.dow9fileupload.bind(this);
+    this.handleDeleteTeam = this.handleDeleteTeam.bind(this);
   }
 
   componentDidMount() {
@@ -69,11 +70,11 @@ class EditTeamMember extends React.Component {
     );
   }
   handleSelect(item) {
-    console.log(this.state.w9_file)
+    console.log(this.state.w9_file);
     this.setState({
       selectedemployee: item,
       selectedemployeeid: item._id,
-      team: item.team_name,
+      team: item.team_name
     });
   }
 
@@ -122,11 +123,7 @@ class EditTeamMember extends React.Component {
       .then(res => {
         console.log(res);
         if (res.status === 200) {
-          alert('Succeeded in Creating a new team!');
-          // this.setState({
-          //     message: this.state.message + fname + "✅",
-          //     encoded_filename: res.data.filename,
-          // })
+          this.setState({ teams: [...this.state.teams, res.data.teamcreated] });
         }
       })
       .catch(e => {
@@ -134,33 +131,60 @@ class EditTeamMember extends React.Component {
         console.log('Team Creating failed');
       });
   }
+  handleDeleteTeam(team_name) {
+    console.log('teamname', team_name);
+    const config = {
+      headers: {
+        authorization: 'Bearer ' + sessionStorage.getItem('token')
+      },
+      data: {
+        team_name: team_name
+      }
+    };
 
-  handleSave(){
+    let url = 'http://localhost:3000/api/team/';
+    axios
+      .delete(url, config)
+      .then(res => {
+        if (res.status === 200) {
+          const filteredItems = this.state.teams.filter(
+            team => team.team_name !== team_name
+          );
+          this.setState({ teams: [...filteredItems] });
+        }
+      })
+      .catch(() => {
+        console.log('Team deleting failed');
+      });
+  }
+
+  handleSave() {
     console.log(this.state);
     const temp = {
-        method: this.state.payment_method,
-        address: this.state.address,
-        address2: this.state.address2,
-        city: this.state.city,
-        state: this.state.state,
-        zip: this.state.zip,
-        rate: this.state.rate,
-        
-    }
-    let teamid = this.state.teams.filter(team => team.team_name===this.state.team)[0]._id;
+      method: this.state.payment_method,
+      address: this.state.address,
+      address2: this.state.address2,
+      city: this.state.city,
+      state: this.state.state,
+      zip: this.state.zip,
+      rate: this.state.rate
+    };
+    let teamid = this.state.teams.filter(
+      team => team.team_name === this.state.team
+    )[0]._id;
     const param = {
-        _id: this.state.selectedemployeeid,
-        job_title: this.state.job_title,
-        team: teamid,
-        start_date: this.state.start_date,
-        work_email: this.state.work_email,
-        phone: this.state.phone,
-        payment: temp,
-        contract_on_file: this.state.contract_encoded_filename,
-        w9: this.state.w9_encoded_filename,
-        supervisor: this.state.supervisor,
-        contract_expiration : this.state.contract_expire_date,
-    }
+      _id: this.state.selectedemployeeid,
+      job_title: this.state.job_title,
+      team: teamid,
+      start_date: this.state.start_date,
+      work_email: this.state.work_email,
+      phone: this.state.phone,
+      payment: temp,
+      contract_on_file: this.state.contract_encoded_filename,
+      w9: this.state.w9_encoded_filename,
+      supervisor: this.state.supervisor,
+      contract_expiration: this.state.contract_expire_date
+    };
     console.log('====================================');
     console.log(param);
     console.log('====================================');
@@ -185,66 +209,72 @@ class EditTeamMember extends React.Component {
       });
   }
 
-  doContractfileupload(){
-    if (this.state.contract_file != null){
-        const configpost = {
-            headers:{            
-                authorization: "Bearer " + sessionStorage.getItem('token')
-            }
-        };
-        const param = new FormData();
-        param.append('file', this.state.contract_file)
-        let fname = this.state.contract_filename;
-        let url = "http://localhost:3000/api/file/upload"
-        axios.post(url,param,configpost).then((res)=>{
-            console.log(res)
-            if(res.status === 200){
-                alert("Succeeded in Uploading Contract files!")
-                this.setState({
-                    contract_encoded_filename: res.data.filename,
-                },()=>this.dow9fileupload())
-            }
-            }
-
-        ).catch((e)=>{
-            console.log(e)
-            console.log("Upload files failed")
+  doContractfileupload() {
+    if (this.state.contract_file != null) {
+      const configpost = {
+        headers: {
+          authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
+      };
+      const param = new FormData();
+      param.append('file', this.state.contract_file);
+      let fname = this.state.contract_filename;
+      let url = 'http://localhost:3000/api/file/upload';
+      axios
+        .post(url, param, configpost)
+        .then(res => {
+          console.log(res);
+          if (res.status === 200) {
+            alert('Succeeded in Uploading Contract files!');
+            this.setState(
+              {
+                contract_encoded_filename: res.data.filename
+              },
+              () => this.dow9fileupload()
+            );
+          }
         })
-    }else{
-        this.dow9fileupload();
+        .catch(e => {
+          console.log(e);
+          console.log('Upload files failed');
+        });
+    } else {
+      this.dow9fileupload();
     }
   }
 
-  dow9fileupload(){
-    if (this.state.w9_file != null){
-        const configpost = {
-            headers:{            
-                authorization: "Bearer " + sessionStorage.getItem('token')
-            }
-        };
-        const param = new FormData();
-        param.append('file', this.state.w9_file)
-        let fname = this.state.w9_filename;
-        let url = "http://localhost:3000/api/file/upload"
-        axios.post(url,param,configpost).then((res)=>{
-            console.log(res)
-            if(res.status === 200){
-                alert("Succeeded in Uploading W9 files!")
-                this.setState({
-                    w9_encoded_filename: res.data.filename,
-                },()=>this.handleSave())
-            }
-            }
-
-        ).catch((e)=>{
-            console.log(e)
-            console.log("Upload files failed")
+  dow9fileupload() {
+    if (this.state.w9_file != null) {
+      const configpost = {
+        headers: {
+          authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
+      };
+      const param = new FormData();
+      param.append('file', this.state.w9_file);
+      let fname = this.state.w9_filename;
+      let url = 'http://localhost:3000/api/file/upload';
+      axios
+        .post(url, param, configpost)
+        .then(res => {
+          console.log(res);
+          if (res.status === 200) {
+            alert('Succeeded in Uploading W9 files!');
+            this.setState(
+              {
+                w9_encoded_filename: res.data.filename
+              },
+              () => this.handleSave()
+            );
+          }
         })
-    }else{
-        this.handleSave();
+        .catch(() => {
+          console.log('Upload files failed');
+        });
+    } else {
+      this.handleSave();
     }
   }
-
 
   render() {
     return (
@@ -257,7 +287,11 @@ class EditTeamMember extends React.Component {
                 {team.team_name}
               </button>
               <IconButton aria-label='delete' size='small'>
-                <Delete color='primary' fontSize='inherit' />
+                <Delete
+                  color='primary'
+                  fontSize='inherit'
+                  onClick={this.handleDeleteTeam.bind(this, team.team_name)}
+                />
               </IconButton>
             </div>
           ))}
@@ -525,14 +559,13 @@ class EditTeamMember extends React.Component {
                 <div className='form-group' style={{ witdh: 'inherit' }}>
                   <div className='bootstrap-iso'>
                     <button
-                    type='button'
-                    className='btn btn-success inlineButton'
-                    onClick={this.doContractfileupload}
-                  >
-                    Save
-                  </button>
-                    </div>
-                 
+                      type='button'
+                      className='btn btn-success inlineButton'
+                      onClick={this.doContractfileupload}
+                    >
+                      Save
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
