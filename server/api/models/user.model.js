@@ -87,9 +87,7 @@ const UserSchema = new Schema({
     day: Number
   },
   contract_expiration: {
-    year: Number,
-    month: Number,
-    day: Number
+    type: String
   },
   contract_on_file: {
     type: String
