@@ -1,11 +1,12 @@
 .row {
-    width: 100%;
-    display: flex;
-  }
-  
+  width: 100%;
+  display: flex;
+}
+
 .sidebar {
   padding: 2%;
   width: 20%;
+  height: 100%;
   background-color: #211656;
 }
 
@@ -15,43 +16,51 @@
   margin: 10px;
 }
 
-.container{
+.container {
   background-color: white;
   column-count: 2;
   column-gap: 200px;
   display: block;
-  margin-top: 100px;
-  margin-left: 270px;
+  margin: 0px auto;
   width: fit-content;
+  margin-top: 100px;
 }
 
 .TopRow {
-  height: 8em;
+  height: 8em !important;
 }
 .main {
-    width: 75%;
-    padding: 10px;
-    margin: 10px;
+  width: 75%;
+  padding: 10px;
+  margin: 10px;
 }
 .Setting_Icon {
   float: right;
 }
-  
+
 .missionBox {
-    break-inside: avoid;
-    text-align: center;
-    page-break-inside: avoid;
-    background-color: rgb(207, 232, 220);
-    border: 2px solid rgb(79, 185, 227);
-    padding: 10px;
-    margin-bottom: 4em;
-    width: 250px;
-    display:block;
+  break-inside: avoid;
+  text-align: center;
+  page-break-inside: avoid;
+  background-color: white;
+  border: 2px solid #4651af;
+  padding: 10px;
+  margin-bottom: 4em;
+  width: 250px;
+  display: block;
+}
+
+.missionIcon {
+  margin: 20px 0px;
 }
 .HARD_CODE_SHADE {
   background: #4a3f80;
 }
 
-.title{
-    color: blue;
+.title {
+  color: blue;
+}
+
+a {
+  text-decoration: none !important;
 }

@@ -11,14 +11,13 @@ class ExpenseDealer extends React.Component {
         this.state = {
             selectedAction: "ADD"
         }
+        this.handleUpdate = this.handleUpdate.bind(this)
     }
 
-    // handleSelect(item) {
-    //     this.setState({
-    //         selected: item
-    //     })
-    //     this.props.selectCallback(item)
-    // }
+    handleUpdate(){
+        console.log("In Handle Update of ExpenseDealer")
+        this.props.triggerUpdate()
+    }
 
     componentWillReceiveProps(props) {
         this.setState({
@@ -27,12 +26,18 @@ class ExpenseDealer extends React.Component {
     }
 
     render(){
-
+        let component;
+        if(this.state.selectedAction === "ADD"){
+            component = <AddExpenseType triggerUpdate={this.handleUpdate}/>
+        } else {
+            component = <EditExpenseType selectedCategory={this.state.selectedAction} triggerUpdate={this.handleUpdate}/>
+        }
         return (
             <div className="ExpenseDetail">
                 <div>
-                    {this.state.selectedAction === "ADD" && <AddExpenseType/>}
-                    {this.state.selectedAction === "EDIT" && <EditExpenseType/>}
+                    {/* {this.state.selectedAction === "ADD" && <AddExpenseType triggerUpdate={this.handleUpdate}/>}
+                    {this.state.selectedAction === "EDIT" && <EditExpenseType/>} */}
+                    {component}
                 </div>
             </div>
         )

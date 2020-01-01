@@ -6,7 +6,7 @@ const createCategory = async (req, res) => {
   try {
     const category = req.body;
     const exist = await ExpenseCategory.findOne({category_name: category.category_name});
-    if (exist.length !== 0){
+    if (exist){
       return res.status(500).json({
         message: "Category already exists!"
       });
@@ -17,13 +17,14 @@ const createCategory = async (req, res) => {
       createdCategory
     });
   }catch (err){
+    console.log(err);
     return sendErr(res, err);
   }
 };
 
 const getCategories = async (req, res) => {
   try {
-    const categories = await ExpenseCategory.find({}, {category_name: 1});
+    const categories = await ExpenseCategory.find({});
     return res.status(200).json({
       message: "Categories Found!",
       categories
@@ -33,9 +34,29 @@ const getCategories = async (req, res) => {
   }
 };
 
+const deleteCategory = async (req, res) => {
+  try {
+    const category = req.body;
+    const exist = await ExpenseCategory.findOne(category);
+    if (!exist){
+      return res.status(500).json({
+        message: 'Category does not exist',
+      });
+    }
+    await ExpenseCategory.findOneAndDelete(category);
+    return res.status(200).json({
+      message: 'Successfully deleted'
+    })
+  }catch(err){
+    return sendErr(res, err);
+  }
+};
+
+
 
 // if you add functions above, add it here too
 module.exports = {
   createCategory,
-  getCategories
+  getCategories,
+  deleteCategory
 };

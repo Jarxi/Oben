@@ -28,6 +28,9 @@ const SubmissionSchema = new Schema({
     ref: 'User',
     required: true
   },
+  submitter_name: {
+    type: String,
+  },
   status: {
     type: String,
     default: 'pending',
@@ -39,6 +42,9 @@ const SubmissionSchema = new Schema({
   attached_filename: {
     type: String
   },
+  attached_encoded_filename : {
+    type: String
+  }
 });
 
 const Submission = mongoose.model('Submission', SubmissionSchema);

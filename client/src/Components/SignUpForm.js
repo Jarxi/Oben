@@ -6,7 +6,7 @@ import axios from 'axios';
 class SignInForm extends React.Component {
     constructor(){
         super();
-        
+
         this.state = {
             username:'',
             firstname:'',
@@ -30,7 +30,7 @@ class SignInForm extends React.Component {
 
     handleSubmit(e){
         e.preventDefault();
-        const url = "http://localhost:3000/api/user/signup";
+        const url = "http://localhost:3000/api/auth/signup";
         console.log(this.state.email)
         const params = {
             email: this.state.username,
@@ -47,12 +47,12 @@ class SignInForm extends React.Component {
                 setTimeout(()=>{
                     this.props.history.push("/");
                 }, 1000)
-                
+
             }
         }).catch((err)=>{
             console.log("failed")
         })
-        
+
     }
 
     render(){
@@ -71,38 +71,38 @@ class SignInForm extends React.Component {
             )
         }
         return (
-            
+
             <div className="Container">
-                
+
                 <form className="SignUpBox" onSubmit={this.handleSubmit}>
                     <div>
-                        <input type="text" id="username" className="SignUpField__Input" placeholder="Email" 
+                        <input type="text" id="username" className="SignUpField__Input" placeholder="Email"
                         name="username" value={this.state.username} onChange={this.handleChange}/>
                     </div>
 
                     <div>
-                        <input type="text" id="firstname" className="SignUpField__Input" placeholder="First Name" 
+                        <input type="text" id="firstname" className="SignUpField__Input" placeholder="First Name"
                         name="firstname" value={this.state.firstname} onChange={this.handleChange}/>
                     </div>
 
                     <div>
-                        <input type="text" id="lastname" className="SignUpField__Input" placeholder="Last Name" 
+                        <input type="text" id="lastname" className="SignUpField__Input" placeholder="Last Name"
                         name="lastname" value={this.state.lastname} onChange={this.handleChange}/>
                     </div>
 
                     <div>
-                        <input type="password" id="password" className="SignUpField__Input" placeholder="Pasword" 
+                        <input type="password" id="password" className="SignUpField__Input" placeholder="Pasword"
                         name="password" value={this.state.password} onChange={this.handleChange}/>
                     </div>
 
                     <div>
-                        <input type="password" id="confirmPassword" className="SignUpField__Input" placeholder="Retype pasword" 
+                        <input type="password" id="confirmPassword" className="SignUpField__Input" placeholder="Retype pasword"
                         name="confirmPassword" value={this.state.confirmPassword} onChange={this.handleChange}/>
-                    </div> 
-                    
-                    
+                    </div>
+
+
                     {button}
-                
+
                 </form>
             </div>
         );

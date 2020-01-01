@@ -5,8 +5,11 @@ const dbURL = process.env.dbURL || 'mongodb+srv://ruoxijia:oben@cluster0-pahm8.m
 const options = {
     reconnectTries: Number.MAX_VALUE,
     reconnectInterval: 500, // Reconnect every 500ms
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 };
+
+mongoose.set('useFindAndModify', false);
 
 mongoose.connect(dbURL, options);
 
@@ -29,3 +32,72 @@ process.on('SIGINT', () => {
         process.exit(0);
     });
 });
+
+
+const express = require('express');
+const path = require('path');
+const crypto = require('crypto');
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+// const devEnv = require('./development.config');
+
+const conn = mongoose.connection;
+// init gfs
+let gfs;
+mongoose.connection.once('open', () => {
+    // init stream
+    gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+        bucketName: 'uploads'
+    });
+});
+
+
+
+const URL = 'mongodb+srv://ruoxijia:oben@cluster0-pahm8.mongodb.net/test?retryWrites=true&w=majority';
+// console.log(process.env.dbURL);
+// Create storage engine
+const storage = new GridFsStorage({
+
+    url: URL,
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(16, (err, buf) => {
+                if (err) {
+                    return reject(err);
+                }
+                const filename = buf.toString('hex') + path.extname(file.originalname);
+                const fileInfo = {
+                    filename: filename,
+                    bucketName: 'uploads'
+                };
+                resolve(fileInfo);
+            });
+        });
+    }
+});
+const upload = multer({ storage });
+
+const getFile = (req, res) => {
+    // console.log(req.body);
+    const filename = req.query.filename;
+    // console.log(filename);
+    // const filename = req.body.filename;
+    const file = gfs.find({filename : filename});
+    file.count(function(err, count) {
+        if (count < 1) {
+            // console.log ("success");
+            return res.status(500).json({
+                message: "Cannot find " + filename + " on server."
+            });
+        }
+    });
+    const readstream = gfs.openDownloadStreamByName(filename);
+    readstream.pipe(res);
+};
+
+module.exports = {
+    upload,
+    conn,
+    getFile
+};
+

@@ -5,7 +5,7 @@ const Submission = require('./submission.model');
 const Counter = require('./counter.model');
 const Invoice = require('./invoice.model');
 const Team = require('./team.model');
-
+const Auth = require('./auth.model');
 module.exports = {
     User,
     Project,
@@ -13,5 +13,6 @@ module.exports = {
     Submission,
     Counter,
     Invoice,
-    Team
+    Team,
+    Auth
 };

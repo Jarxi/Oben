@@ -1,0 +1,32 @@
+.topBar {
+  height: 150px;
+  width: 100%;
+}
+.row {
+  position: relative;
+}
+.info {
+  height: 150px;
+  width: 100%;
+  text-align: center;
+}
+.identity {
+  color: #4651af !important;
+  font-size: 20px;
+  width: 100%;
+  height: 100%;
+  line-height: 150px;
+  text-align: center;
+}
+
+.chooseTeamAndMember {
+  margin-top: 20px;
+  color: #4651af !important;
+  font-size: 20px;
+  width: 25%;
+  line-height: 150px;
+}
+.Setting_Icon {
+  position: absolute;
+  right: 0px;
+}
