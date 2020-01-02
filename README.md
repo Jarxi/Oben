@@ -22,7 +22,7 @@ cd server
 nodemon start
 ```
 ### Tech Stack
-Frontend: [Create React App](https://create-react-app.dev/docs/deployment)
+Frontend: [Create React App](https://create-react-app.dev/docs/deployment) (API_ENDPOINT set in .env)
 Backend: [Node.js](https://nodejs.org/en/download/) + [Express.js](https://expressjs.com/en/starter/installing.html)
 Database: [MongoDB Atlas](https://docs.atlas.mongodb.com/getting-started/)
 
