@@ -16,13 +16,13 @@ npm install
 cd client
 npm start
 ```
-3. Run backend server (set to localhost:3000 in config file: server/development.config.js)
+3. Run backend server (set to localhost:3000 in server/development.config.js)
 ```
 cd server
 nodemon start
 ```
 ### Tech Stack
-Frontend: [Create React App](https://create-react-app.dev/docs/deployment) (API_ENDPOINT set in .env)
+Frontend: [Create React App](https://create-react-app.dev/docs/deployment) (API_ENDPOINT set in client/.env)
 Backend: [Node.js](https://nodejs.org/en/download/) + [Express.js](https://expressjs.com/en/starter/installing.html)
 Database: [MongoDB Atlas](https://docs.atlas.mongodb.com/getting-started/)
 
