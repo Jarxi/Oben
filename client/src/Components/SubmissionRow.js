@@ -30,7 +30,8 @@ class SubmissionRow extends React.Component {
         authorization: 'Bearer ' + sessionStorage.getItem('token')
       }
     };
-    axios.get('http://localhost:3000/api/project/projects', config).then(
+    const url = process.env.REACT_APP_API_ENDPOINT + '/api/project/projects';
+    axios.get(url, config).then(
       res => {
         const projectname = [''];
         for (var i = 0; i < res.data.projects.length; i++) {

@@ -35,7 +35,7 @@ class ApprovalPage extends React.Component {
 
   fetchSubmissions(){
     
-    const url = "http://localhost:3000/api/submission/getAll";
+    const url = process.env.REACT_APP_API_ENDPOINT + "/api/submission/getAll";
     const options = {headers: { authorization: 'Bearer ' + sessionStorage.getItem('token') }};
     axios.get(url, options).then((res)=>{
         console.log(res);

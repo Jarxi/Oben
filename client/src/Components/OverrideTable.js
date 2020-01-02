@@ -82,7 +82,7 @@ class OverrideTable extends React.Component {
           authorization: 'Bearer ' + sessionStorage.getItem('token')
         }
     };
-    const url = "http://localhost:3000/api/submission/update";
+    const url = process.env.REACT_APP_API_ENDPOINT + "/api/submission/update";
     let removeIdx = 0;
     for(let i = 0; i < changeInValues.length; ++i){
         // only submit the requested table i.e. time XOR expense

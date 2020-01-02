@@ -34,7 +34,7 @@ class EditExpenseType extends React.Component {
   
   handleDelete(e){
     e.preventDefault();
-    const url = "http://localhost:3000/api/expense/category";
+    const url = process.env.REACT_APP_API_ENDPOINT + "/api/expense/category";
     const config = {
         headers:{            
           authorization: "Bearer " + sessionStorage.getItem('token')
@@ -60,7 +60,7 @@ class EditExpenseType extends React.Component {
 
   handleSubmit(e){
     e.preventDefault();
-    const url = "http://localhost:3000/api/expense/category";
+    const url = process.env.REACT_APP_API_ENDPOINT + "/api/expense/category";
     const config = {
         headers:{            
           authorization: "Bearer " + sessionStorage.getItem('token')

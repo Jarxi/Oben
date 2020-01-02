@@ -32,7 +32,8 @@ class ExpenseTypeList extends React.Component{
                 authorization: "Bearer " + sessionStorage.getItem('token')
             }
         };
-        axios.get("http://localhost:3000/api/expense/category",config)
+        const url = process.env.REACT_APP_API_ENDPOINT + '/api/expense/category';
+        axios.get(url,config)
         .then(
             (res) => {
                 this.setState({

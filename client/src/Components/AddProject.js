@@ -30,7 +30,7 @@ class AddProject extends React.Component {
 
     handleSubmit(e){
         e.preventDefault();
-        const url = "http://localhost:3000/api/project/create";
+        const url = process.env.REACT_APP_API_ENDPOINT + "/api/project/create";
         const params = {
             project_name: this.state.projectname,
             project_manager: this.state.description,

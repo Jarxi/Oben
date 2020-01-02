@@ -30,7 +30,7 @@ class AddExpenseType extends React.Component {
 
     handleSubmit(e){
         e.preventDefault();
-        const url = "http://localhost:3000/api/expense/category";
+        const url = process.env.REACT_APP_API_ENDPOINT + "/api/expense/category";
         const params = {
             category_name: this.state.expensename,
             description: this.state.description,

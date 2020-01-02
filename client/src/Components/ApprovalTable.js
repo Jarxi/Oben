@@ -27,7 +27,7 @@ class ApprovalTable extends React.Component {
         authorization: 'Bearer ' + sessionStorage.getItem('token')
       }
     };
-    const url = "http://localhost:3000/api/submission/approve";
+    const url = process.env.REACT_APP_API_ENDPOINT + "/api/submission/approve";
     axios
       .put(url,param,config)
       .then((res)=>{
@@ -54,7 +54,7 @@ class ApprovalTable extends React.Component {
         authorization: 'Bearer ' + sessionStorage.getItem('token')
       }
     };
-    const url = "http://localhost:3000/api/submission/return";
+    const url = process.env.REACT_APP_API_ENDPOINT + "/api/submission/return";
     axios
       .put(url,param,config)
       .then((res)=>{

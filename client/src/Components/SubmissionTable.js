@@ -131,7 +131,7 @@ class SubmissionTable extends React.Component {
           this.onError('timesheet', '');
         }, 2000);
       } else {
-        const url = 'http://localhost:3000/api/submission/submit';
+        const url = process.env.REACT_APP_API_ENDPOINT + '/api/submission/submit';
         const config = {
           headers: {
             authorization: 'Bearer ' + sessionStorage.getItem('token')
@@ -173,7 +173,7 @@ class SubmissionTable extends React.Component {
           this.onError('expense', '');
         }, 2000);
       } else {
-        const url = 'http://localhost:3000/api/submission/submit';
+        const url = process.env.REACT_APP_API_ENDPOINT + '/api/submission/submit';
         const config = {
           headers: {
             authorization: 'Bearer ' + sessionStorage.getItem('token')

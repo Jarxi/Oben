@@ -26,7 +26,8 @@ class EmployeeList extends React.Component{
                 authorization: "Bearer " + sessionStorage.getItem('token')
             }
         };
-        axios.get("http://localhost:3000/api/user/users",config)
+        const url = process.env.REACT_APP_API_ENDPOINT + '/api/user/users';
+        axios.get(url,config)
         .then(
             (res) => {
                 console.log(res)

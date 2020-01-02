@@ -37,7 +37,7 @@ class InvoiceInput extends React.Component {
         authorization: 'Bearer ' + sessionStorage.getItem('token')
       }
     };
-    let url = 'http://localhost:3000/api/submission/submit';
+    let url = process.env.REACT_APP_API_ENDPOINT + '/api/submission/submit';
     axios
       .post(url, param, configpost)
       .then(res => {
@@ -61,7 +61,7 @@ class InvoiceInput extends React.Component {
     const param = new FormData();
     param.append('file', this.state.fileUpload);
     let fname = this.state.fileUpload.name;
-    let url = 'http://localhost:3000/api/file/upload';
+    let url = process.env.REACT_APP_API_ENDPOINT + '/api/file/upload';
     axios
       .post(url, param, configpost)
       .then(res => {
@@ -106,7 +106,7 @@ class InvoiceInput extends React.Component {
     };
     console.log(param);
     axios({
-      url: 'http://localhost:3000/api/download',
+      url: process.env.REACT_APP_API_ENDPOINT + '/api/download',
       method: 'GET',
       responseType: 'blob',
       params: param
