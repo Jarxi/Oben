@@ -9,7 +9,7 @@ import '../CSS/bootstrap/css/bootstrap-iso.css';
 class TopBar extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props.location.pathname);
+    // console.log(this.props.location.pathname);
   }
 
   render() {

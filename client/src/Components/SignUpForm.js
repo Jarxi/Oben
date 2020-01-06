@@ -31,7 +31,6 @@ class SignInForm extends React.Component {
     handleSubmit(e){
         e.preventDefault();
         const url = process.env.REACT_APP_API_ENDPOINT + "/api/auth/signup";
-        console.log(this.state.email)
         const params = {
             email: this.state.username,
             password: this.state.password,
