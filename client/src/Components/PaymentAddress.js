@@ -8,7 +8,7 @@ import { log } from 'util';
 class PaymentAddress extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {  
+        this.state = {
             method: "check",
             address: "",
             address2:"",
@@ -24,18 +24,18 @@ class PaymentAddress extends React.Component {
 
     componentDidMount(){
         const config = {
-            headers:{            
+            headers:{
                 authorization: "Bearer " + sessionStorage.getItem('token')
             }
         };
-        axios.get("http://localhost:3000/api/user",config)
+        axios.get("http://54.183.248.17:3000/api/user",config)
         .then(
             (res) => {
                 let user = res.data.user[0];
                 if(typeof user.payment =='undefined'){
                     return
                 }
- 
+
                 this.setState({
                     method: user.payment.method,
                     address: user.payment.address,
@@ -53,7 +53,7 @@ class PaymentAddress extends React.Component {
         )
     }
 
-    handleSelect(value){       
+    handleSelect(value){
          this.setState({method: value});
     }
 
@@ -80,18 +80,18 @@ class PaymentAddress extends React.Component {
         }
 
         const configpost = {
-            headers:{            
+            headers:{
                 authorization: "Bearer " + sessionStorage.getItem('token')
             }
         };
 
-        const url = "http://localhost:3000/api/user/userInfo";
+        const url = "http://54.183.248.17:3000/api/user/userInfo";
         axios.put(url,param,configpost).then((res)=>{
             if(res.status === 200){
                 alert("Succeed in Payment info")
             }
             }
-    
+
         ).catch((e)=>{
             console.log(e)
             console.log("Update Payment failed")
@@ -146,7 +146,7 @@ class PaymentAddress extends React.Component {
                         name="rate" value={this.state.rate} onChange={this.handleChange}/></td>
                             </tr>
 
-                            
+
                         </tbody>
                     </table>
                     <button type="button" className="btn btn-success inlineButton" onClick={this.handlePaymentSubmit}>Update</button>
