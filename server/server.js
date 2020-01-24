@@ -1,7 +1,7 @@
 const express = require('express');
 const devEnv = require('./development.config');
 const mongoose = require('mongoose');
-const morgan = require('morgan');
+// const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const app = express();
@@ -41,7 +41,7 @@ app.use(
 app.use(bodyParser.json());
 
 // Use Morgan middleware for logging every request status on console
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 
 //Passport middleware
 app.use(passport.initialize());
