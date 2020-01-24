@@ -44,7 +44,8 @@ class ProfileInfo extends React.Component {
         authorization: 'Bearer ' + sessionStorage.getItem('token')
       }
     };
-    axios.get('http://localhost:3000/api/user', config).then(
+    const url = process.env.REACT_APP_API_ENDPOINT + '/api/user';
+    axios.get(url, config).then(
       res => {
         console.log(res);
         let user = res.data.user[0];
@@ -95,7 +96,7 @@ class ProfileInfo extends React.Component {
       };
 
       axios({
-        url: 'http://localhost:3000/api/download',
+        url: process.env.REACT_APP_API_ENDPOINT + '/api/download',
         method: 'GET',
         responseType: 'blob',
         params: param
@@ -120,7 +121,7 @@ class ProfileInfo extends React.Component {
       };
 
       axios({
-        url: 'http://localhost:3000/api/download',
+        url: process.env.REACT_APP_API_ENDPOINT + '/api/download',
         method: 'GET',
         responseType: 'blob',
         params: param
@@ -145,7 +146,7 @@ class ProfileInfo extends React.Component {
       };
 
       axios({
-        url: 'http://localhost:3000/api/download',
+        url: process.env.REACT_APP_API_ENDPOINT + '/api/download',
         method: 'GET',
         responseType: 'blob',
         params: param

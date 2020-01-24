@@ -56,7 +56,8 @@ class EditTeamMember extends React.Component {
         authorization: 'Bearer ' + sessionStorage.getItem('token')
       }
     };
-    axios.get('http://localhost:3000/api/team/getAll', config).then(
+    const url = process.env.REACT_APP_API_ENDPOINT + '/api/team/getAll';
+    axios.get(url, config).then(
       res => {
         let teams = res.data.teams;
         this.setState({
@@ -116,7 +117,7 @@ class EditTeamMember extends React.Component {
     const param = {
       team_name: this.state.newTeamName
     };
-    let url = 'http://localhost:3000/api/team/create';
+    let url = process.env.REACT_APP_API_ENDPOINT + '/api/team/create';
     axios
       .post(url, param, configpost)
       .then(res => {
@@ -141,7 +142,7 @@ class EditTeamMember extends React.Component {
       }
     };
 
-    let url = 'http://localhost:3000/api/team/';
+    let url = process.env.REACT_APP_API_ENDPOINT + '/api/team/';
     axios
       .delete(url, config)
       .then(res => {
@@ -217,7 +218,7 @@ class EditTeamMember extends React.Component {
         authorization: 'Bearer ' + sessionStorage.getItem('token')
       }
     };
-    const url = 'http://localhost:3000/api/user/userInfoById';
+    const url = process.env.REACT_APP_API_ENDPOINT + '/api/user/userInfoById';
     axios
       .put(url, param, configpost)
       .then(res => {
@@ -243,7 +244,7 @@ class EditTeamMember extends React.Component {
       const param = new FormData();
       param.append('file', this.state.contract_file);
       let fname = this.state.contract_filename;
-      let url = 'http://localhost:3000/api/file/upload';
+      let url = process.env.REACT_APP_API_ENDPOINT + '/api/file/upload';
       axios
         .post(url, param, configpost)
         .then(res => {
@@ -277,7 +278,7 @@ class EditTeamMember extends React.Component {
       const param = new FormData();
       param.append('file', this.state.w9_file);
       let fname = this.state.w9_filename;
-      let url = 'http://localhost:3000/api/file/upload';
+      let url = process.env.REACT_APP_API_ENDPOINT + '/api/file/upload';
       axios
         .post(url, param, configpost)
         .then(res => {

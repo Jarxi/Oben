@@ -131,7 +131,7 @@ class SubmissionTable extends React.Component {
           this.onError('timesheet', '');
         }, 2000);
       } else {
-        const url = 'http://localhost:3000/api/submission/submit';
+        const url = process.env.REACT_APP_API_ENDPOINT + '/api/submission/submit';
         const config = {
           headers: {
             authorization: 'Bearer ' + sessionStorage.getItem('token')
@@ -173,7 +173,7 @@ class SubmissionTable extends React.Component {
           this.onError('expense', '');
         }, 2000);
       } else {
-        const url = 'http://localhost:3000/api/submission/submit';
+        const url = process.env.REACT_APP_API_ENDPOINT + '/api/submission/submit';
         const config = {
           headers: {
             authorization: 'Bearer ' + sessionStorage.getItem('token')
@@ -215,10 +215,8 @@ class SubmissionTable extends React.Component {
         for (let j = 0; j < this.state.timesheet_rows[i].length; ++j) {
           const timesheetFirstDay = moment(firstDay);
           if (
-            this.state.timesheet_rows[i][j] === '' ||
-            this.state.timesheet_rows[i][j] === 0
-          ) {
-            continue;
+            this.state.timesheet_rows[i][j] === '') {
+            this.state.timesheet_rows[i][j] = 0
           }
           let param = {
             date: moment(timesheetFirstDay.add(j, 'day')).format('YYYY/MM/DD'),
@@ -249,11 +247,8 @@ class SubmissionTable extends React.Component {
         let dailyTime = [];
         for (let j = 0; j < this.state.expense_rows[i].length; ++j) {
           const timesheetFirstDay = moment(firstDay);
-          if (
-            this.state.expense_rows[i][j] === '' ||
-            this.state.expense_rows[i][j] === 0
-          ) {
-            continue;
+          if (this.state.expense_rows[i][j] === '') {
+            this.state.timesheet_rows[i][j] = 0;
           }
           let param = {
             date: moment(timesheetFirstDay.add(j, 'day')).format('YYYY/MM/DD'),

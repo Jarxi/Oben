@@ -28,7 +28,8 @@ class PaymentAddress extends React.Component {
                 authorization: "Bearer " + sessionStorage.getItem('token')
             }
         };
-        axios.get("http://54.183.248.17:3000/api/user",config)
+        const url = process.env.REACT_APP_API_ENDPOINT + '/api/user';
+        axios.get(url,config)
         .then(
             (res) => {
                 let user = res.data.user[0];
@@ -85,7 +86,7 @@ class PaymentAddress extends React.Component {
             }
         };
 
-        const url = "http://54.183.248.17:3000/api/user/userInfo";
+        const url = process.env.REACT_APP_API_ENDPOINT + "/api/user/userInfo";
         axios.put(url,param,configpost).then((res)=>{
             if(res.status === 200){
                 alert("Succeed in Payment info")

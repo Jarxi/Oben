@@ -25,7 +25,7 @@ class InviteForm extends React.Component {
 
   fetchUsers() {
     let userList = {};
-    const url = 'http://localhost:3000/api/user/users';
+    const url = process.env.REACT_APP_API_ENDPOINT + '/api/user/users';
     const options = {
       headers: { authorization: 'Bearer ' + sessionStorage.getItem('token') }
     };
@@ -65,7 +65,7 @@ class InviteForm extends React.Component {
   }
 
   handleSubmit() {
-    const url = 'http://localhost:3000/api/auth/signup';
+    const url = process.env.REACT_APP_API_ENDPOINT + '/api/auth/signup';
     const nameSplit = this.state.name.split(/(\s+)/);
     console.log(nameSplit);
     const firstName = nameSplit[0];

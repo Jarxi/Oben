@@ -35,7 +35,10 @@ class OverrideTable extends React.Component {
                 if(oldValue[i].input[j].project_name === projectName && 
                     oldValue[i].input[j].date === dateofChange){
                     oldValue[i].input[j].amount = newValue;
-                    break;
+                    this.setState({
+                        changeInValues: oldValue 
+                    },function(){console.log(this.state.changeInValues);})
+                    return;
                 }
             }
             // new date or project override entry
@@ -45,7 +48,10 @@ class OverrideTable extends React.Component {
                     date: dateofChange,
                     amount: newValue
                 })
-                break;
+                this.setState({
+                    changeInValues: oldValue 
+                },function(){console.log(this.state.changeInValues);});
+                return;
             }   
         }
     }
@@ -65,7 +71,8 @@ class OverrideTable extends React.Component {
 
     this.setState({
         changeInValues: oldValue 
-    })
+    },function(){console.log(this.state.changeInValues);})
+    
   }
 
   override(type){
@@ -75,7 +82,7 @@ class OverrideTable extends React.Component {
           authorization: 'Bearer ' + sessionStorage.getItem('token')
         }
     };
-    const url = "http://localhost:3000/api/submission/update";
+    const url = process.env.REACT_APP_API_ENDPOINT + "/api/submission/update";
     let removeIdx = 0;
     for(let i = 0; i < changeInValues.length; ++i){
         // only submit the requested table i.e. time XOR expense
@@ -145,6 +152,8 @@ class OverrideTable extends React.Component {
 
   render() {
     let submissions = this.props.submissions;
+
+    submissions = submissions.filter(s => s.input[0].dateAmount[0].date === this.props.firstDay.format('YYYY/MM/DD'))
     
     function getWeeklyDateAmount(submittedDateAmount, firstDayofWeek) {
         let weeklyDateAmount = [0, 0, 0, 0, 0, 0, 0];
@@ -295,7 +304,8 @@ class OverrideTable extends React.Component {
                                           ipt.project_name, 
                                           'expense',
                                           submitter, // id
-                                          firstDay
+                                          firstDay,
+                                          _id
                                         )}
                                     />
                                   ))}

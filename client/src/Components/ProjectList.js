@@ -32,7 +32,8 @@ class ProjectList extends React.Component{
                 authorization: "Bearer " + sessionStorage.getItem('token')
             }
         };
-        axios.get("http://localhost:3000/api/project/projects",config)
+        const url = process.env.REACT_APP_API_ENDPOINT + '/api/project/projects';
+        axios.get(url,config)
         .then(
             (res) => {
                 console.log(res)

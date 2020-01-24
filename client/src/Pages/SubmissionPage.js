@@ -38,7 +38,7 @@ class SubmissionPage extends React.Component {
   fetchSubmissions() {
     const userId = sessionStorage.getItem('user_id');
     let userSubmission;
-    const url = 'http://localhost:3000/api/submission/getAll';
+    const url = process.env.REACT_APP_API_ENDPOINT + '/api/submission/getAll';
     const options = {
       headers: { authorization: 'Bearer ' + sessionStorage.getItem('token') }
     };

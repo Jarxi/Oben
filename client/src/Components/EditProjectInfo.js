@@ -34,7 +34,7 @@ class EditProjectInfo extends React.Component {
       
       handleDelete(e){
         e.preventDefault();
-        const url = "http://localhost:3000/api/project";
+        const url = process.env.REACT_APP_API_ENDPOINT + "/api/project";
         const config = {
             headers:{            
               authorization: "Bearer " + sessionStorage.getItem('token')
@@ -60,7 +60,7 @@ class EditProjectInfo extends React.Component {
     
       handleSubmit(e){
         e.preventDefault();
-        const url = "http://localhost:3000/api/project";
+        const url = process.env.REACT_APP_API_ENDPOINT + "/api/project";
         const config = {
             headers:{            
               authorization: "Bearer " + sessionStorage.getItem('token')
@@ -82,7 +82,7 @@ class EditProjectInfo extends React.Component {
             console.log("delete project failed")
         })
         
-        const url2 = "http://localhost:3000/api/project/create";
+        const url2 = process.env.REACT_APP_API_ENDPOINT + "/api/project/create";
         const params = {
             project_name: this.state.newprojectname,
             project_manager: this.state.newmanager,
