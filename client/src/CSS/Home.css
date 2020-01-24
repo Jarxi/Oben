@@ -1,11 +1,12 @@
 .row {
-    width: 100%;
-    display: flex;
-  }
-  
+  width: 100%;
+  display: flex;
+}
+
 .sidebar {
   padding: 2%;
   width: 25%;
+  min-height: 100vh;
   background-color: #211656;
 }
 
@@ -40,7 +41,7 @@
   border: none;
 }
 
-.sidebar button:focus{
+.sidebar button:focus {
   outline: none;
   font-weight: 700;
 }

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const moment = require('moment');
 const { Schema } = mongoose;
 
 const ProjectSchema = new Schema({
@@ -12,9 +12,7 @@ const ProjectSchema = new Schema({
     required: true
   },
   start_date:{
-    year: Number,
-    month: Number,
-    day: Number,
+    year: Date,
   },
   project_file: {
     type: String

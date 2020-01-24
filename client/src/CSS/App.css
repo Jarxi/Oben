@@ -1,5 +1,10 @@
 .App {
-  height: 100vh;
+  height: 100%;
   display: flex;
   color: white;
+}
+
+html,
+body {
+  height: 100%;
 }

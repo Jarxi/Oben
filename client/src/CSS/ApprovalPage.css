@@ -1,0 +1,26 @@
+.outside_box {
+  padding: 20px;
+  color: black;
+  clear: both;
+}
+
+.box {
+  margin-top: 20px;
+  border: 3px solid #d0d2ec;
+  width: 300px;
+  color: black;
+  clear: both;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.box :hover {
+  border-color: #4651af;
+  clear: both;
+}
+
+.right_content {
+  padding: 20px;
+}
